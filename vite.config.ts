@@ -8,6 +8,12 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  ssr: {
+    noExternal: ["tslib"],
+  },
+  optimizeDeps: {
+    include: ["tslib"],
+  },
   plugins: [
     ...tanstackStart(),
     react(),
