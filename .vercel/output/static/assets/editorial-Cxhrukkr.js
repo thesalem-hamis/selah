@@ -1,1 +1,0 @@
-var e=`/assets/editorial-fDMjGyVg.jpg`;export{e as t};

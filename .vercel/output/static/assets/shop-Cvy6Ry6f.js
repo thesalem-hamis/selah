@@ -1,1 +1,0 @@
-import{c as e}from"./utils-DH0nY8Po.js";import{t}from"./StoreLayout-By4-fJZL.js";import{t as n}from"./CatalogPage-CQ8aLKN0.js";var r=e();function i(){return(0,r.jsx)(t,{children:(0,r.jsx)(n,{eyebrow:`The collection`,title:`Shop all`,description:`Considered silhouettes in natural fabrics, cut for coverage and made in small runs.`})})}export{i as component};

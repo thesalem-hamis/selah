@@ -1,1 +1,0 @@
-var e=`/assets/promo-X08MceP7.jpg`;export{e as t};

@@ -8,16 +8,22 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
-  ssr: {
-    noExternal: ["tslib"],
-  },
-  optimizeDeps: {
-    include: ["tslib"],
-  },
   plugins: [
     ...tanstackStart(),
     react(),
     tailwindcss(),
-    nitro({ preset: "vercel" }),
+    nitro({
+      preset: "vercel",
+      esbuild: {
+        options: {
+          target: "es2022",
+        },
+      },
+      rollupConfig: {
+        external: [],
+      },
+      moduleSideEffects: ["tslib"],
+      noExternals: true,
+    }),
   ],
 });
