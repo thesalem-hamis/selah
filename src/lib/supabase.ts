@@ -1,12 +1,18 @@
 // src/lib/supabase.ts
 import { createClient } from "@supabase/supabase-js";
 
-const url = import.meta.env["VITE_SUPABASE_URL"];
-const anonKey = import.meta.env["VITE_SUPABASE_ANON_KEY"];
+const url =
+  import.meta.env["VITE_SUPABASE_URL"] ??
+  process.env.SUPABASE_URL ??
+  process.env.VITE_SUPABASE_URL;
+const anonKey =
+  import.meta.env["VITE_SUPABASE_ANON_KEY"] ??
+  process.env.SUPABASE_ANON_KEY ??
+  process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!url || !anonKey) {
   throw new Error(
-    "Missing Supabase environment variables. Please check your .env file and make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set."
+    "Missing Supabase environment variables. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY (and SUPABASE_URL / SUPABASE_ANON_KEY for the server runtime)."
   );
 }
 
