@@ -1011,7 +1011,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 <input
                   name="sku"
                   placeholder="Auto-generated if left empty"
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  className="w-full h-11 px-4 rounded-lg bincrease the logo maturedlyorder border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
                 />
               </div>
 

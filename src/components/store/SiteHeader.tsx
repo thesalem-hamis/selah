@@ -82,8 +82,12 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
               >
                 {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
               </button>
-              <Link to="/" className="font-display text-2xl tracking-tight md:text-[1.75rem]">
-                Selah
+              <Link to="/" className="flex items-center">
+                <img
+                  src="/selah-girls-logo.png"
+                  alt="Selah"
+                  className="h-12 w-auto md:h-16 object-contain"
+                />
               </Link>
               <nav aria-label="Main" className="hidden items-center gap-8 lg:flex">
                 {navLinks.map((link) => {

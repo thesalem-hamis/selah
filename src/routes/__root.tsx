@@ -88,7 +88,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Considered modest clothing, made in small batches and shipped across Nigeria.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content: "https://selahgirls.vercel.app/selah-girls-logo-2.png",
+      },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content: "https://selahgirls.vercel.app/selah-girls-logo-2.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -98,7 +108,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/selah-girls-logo.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/selah-girls-logo.png" },
     ],
   }),
   shellComponent: RootShell,
