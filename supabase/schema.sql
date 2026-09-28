@@ -92,6 +92,11 @@ create table if not exists public.products (
   updated_at timestamptz default now() not null
 );
 
+create index if not exists idx_products_sizes on public.products using gin (sizes);
+create index if not exists idx_products_category_status on public.products (category, status);
+create index if not exists idx_orders_created_at on public.orders (created_at);
+create index if not exists idx_orders_status_paid on public.orders (status, payment_status);
+
 alter table public.products enable row level security;
 
 drop policy if exists "Products viewable by everyone" on public.products;
@@ -216,6 +221,51 @@ create policy "Admins manage reviews"
     exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' )
   );
 
+-- Allow authenticated users to insert reviews for their purchased orders
+drop policy if exists "Users can insert reviews" on public.reviews;
+create policy "Users can insert reviews"
+  on public.reviews for insert with check ( auth.uid() is not null );
+
+-- Trigger to auto-update product rating when reviews change
+create or replace function public.update_product_rating()
+returns trigger as $$
+begin
+  update public.products
+  set rating = subquery.avg_rating,
+      reviews_count = subquery.review_count,
+      updated_at = now()
+  from (
+    select
+      coalesce(avg(r.rating), 0) as avg_rating,
+      count(*) as review_count
+    from public.reviews r
+    where r.product_id = (
+      select coalesce(new.product_id, old.product_id)
+    )
+  ) as subquery
+   where products.id = (
+     select coalesce(new.product_id, old.product_id)
+   );
+   return coalesce(new, old);
+end;
+$$ language plpgsql security definer;
+
+drop trigger if exists update_product_rating on public.reviews;
+create trigger update_product_rating
+  after insert or update or delete on public.reviews
+  for each row execute function public.update_product_rating();
+
+-- Add reviews to realtime publication
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'reviews'
+  ) then
+    alter publication supabase_realtime add table public.reviews;
+  end if;
+end $$;
+
 create table if not exists public.testimonials (
   id text primary key,
   name text not null,
@@ -293,3 +343,29 @@ from auth.users au
 left join public.profiles p on p.id = au.id
 where p.id is null
 on conflict (id) do nothing;
+
+-- ============================================================
+-- DASHBOARD METRICS (pre-calculated stats for admin dashboard)
+-- ============================================================
+create table if not exists public.dashboard_metrics (
+  id text primary key,
+  label text not null,
+  "value" numeric not null default 0,
+  change_pct numeric not null default 0,
+  trend text not null check (trend in ('up', 'down')),
+  period text not null default '30d',
+  updated_at timestamptz default now() not null
+);
+
+create index if not exists idx_dashboard_metrics_period on public.dashboard_metrics (period);
+
+-- Enable realtime on dashboard_metrics
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'dashboard_metrics'
+  ) then
+    alter publication supabase_realtime add table public.dashboard_metrics;
+  end if;
+end $$;

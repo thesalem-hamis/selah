@@ -834,7 +834,25 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
       const id = `prd-${Date.now()}`;
-      const sku = String(formData.get("sku") || `SLH-${Date.now().toString(36).toUpperCase()}`);
+      const SKU = String(formData.get("sku") || `SLH-${Date.now().toString(36).toUpperCase()}`);
+
+      const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
+      const sizeRangeRaw = String(formData.get("sizeRange") || "").trim();
+      let sizes: string[];
+      if (sizeRangeRaw) {
+        if (sizeRangeRaw.includes("-") && !sizeRangeRaw.includes(",")) {
+          const [from, to] = sizeRangeRaw.split("-").map((s) => s.trim().toUpperCase());
+          const fromIdx = sizeOrder.indexOf(from);
+          const toIdx = sizeOrder.indexOf(to);
+          sizes = fromIdx >= 0 && toIdx >= 0 && fromIdx <= toIdx
+            ? sizeOrder.slice(fromIdx, toIdx + 1)
+            : sizeOrder;
+        } else {
+          sizes = sizeRangeRaw.split(",").map((s) => s.trim().toUpperCase()).filter(Boolean);
+        }
+      } else {
+        sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+      }
 
       let imageUrls: string[] = [];
       try {
@@ -856,9 +874,9 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         subcategory: "New release",
         price: Math.round(priceRaw * 100),
         oldPrice: undefined,
-        sku,
+        sku: SKU,
         stock: Number(formData.get("stock") ?? 0),
-        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+        sizes: sizes,
         colors: [
           { name: "Olive", hex: "#6E7A50" },
           { name: "Cream", hex: "#F1E9D9" },
@@ -983,6 +1001,22 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   placeholder="0"
                   className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
                 />
+              </div>
+
+              {/* Size Range */}
+              <div className="sm:col-span-2">
+                <label className="text-sm font-medium mb-2 block">
+                  Size Range
+                </label>
+                <input
+                  name="sizeRange"
+                  type="text"
+                  placeholder="e.g. XS-XL or XS, S, M, L, XL"
+                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                />
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Enter a range (XS-XL) or comma-separated sizes (XS, S, M, L, XL). Defaults to XS-XXL if left empty.
+                </p>
               </div>
 
               {/* Category - Dynamic Dropdown */}

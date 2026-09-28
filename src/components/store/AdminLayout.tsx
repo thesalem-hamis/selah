@@ -257,11 +257,11 @@ export function AdminLayout({ children }: { children: ReactNode }) {
       </motion.header>
 
       {/* Main Content */}
-      <div className="container-page grid gap-8 py-6 lg:grid-cols-[250px_1fr] lg:gap-10 lg:py-8">
+      <div className="container-page grid gap-5 py-4 lg:grid-cols-[240px_1fr] lg:gap-6 lg:py-6">
         {/* Sidebar */}
-        <aside className="min-w-0 lg:sticky lg:top-[6.5rem] lg:flex lg:h-[calc(100vh-8rem)] lg:flex-col lg:justify-between">
-          <div className="mb-3 hidden items-center gap-2 px-3 text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground lg:flex">
-            <Package className="size-3.5" />
+        <aside className="min-w-0 lg:sticky lg:top-[4.5rem] lg:flex lg:h-[calc(100vh-5rem)] lg:flex-col lg:justify-between">
+          <div className="mb-2 hidden items-center gap-2 px-3 text-[9px] font-bold uppercase tracking-[0.22em] text-muted-foreground lg:flex">
+            <Package className="size-3" />
             Workspace
           </div>
 
@@ -274,7 +274,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                 exit={{ opacity: 0, height: 0 }}
                 className="lg:hidden"
               >
-                <div className="space-y-1 rounded-2xl border border-border bg-card p-3 shadow-lg">
+                <div className="space-y-1 rounded-xl border border-border bg-card p-2.5 shadow-sm">
                   {links.map(({ to, label, icon: Icon, description }) => {
                     const active = pathname === to || (to !== "/admin" && pathname.startsWith(to));
                     return (
@@ -282,7 +282,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                         key={to}
                         to={to}
                         className={cn(
-                          "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all",
+                          "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                           active
                             ? "bg-primary text-primary-foreground shadow-md"
                             : "hover:bg-muted",
@@ -304,7 +304,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:block">
-            <div className="space-y-1 rounded-2xl border border-border bg-card p-3 shadow-lg">
+            <div className="space-y-1 rounded-xl border border-border bg-card p-2.5 shadow-sm">
               {links.map(({ to, label, icon: Icon, description }) => {
                 const active = pathname === to || (to !== "/admin" && pathname.startsWith(to));
                 return (
@@ -312,7 +312,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                     key={to}
                     to={to}
                     className={cn(
-                      "group relative flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-medium transition-all",
+                      "group relative flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                       active
                         ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -320,7 +320,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                   >
                     <Icon
                       className={cn(
-                        "size-[1.1rem] transition-transform group-hover:scale-110",
+                        "size-4 transition-transform group-hover:scale-110",
                         active && "text-primary-foreground",
                       )}
                     />
@@ -347,19 +347,19 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Studio Status */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mt-6 rounded-2xl border border-border bg-gradient-to-br from-card to-muted/50 p-4"
-            >
+               <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mt-4 rounded-xl border border-border bg-gradient-to-br from-card to-muted/50 p-3"
+              >
               <div className="flex items-center justify-between">
                 <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                   Studio status
                 </p>
                 <Sparkles className="size-4 text-primary" />
               </div>
-              <div className="mt-3 space-y-2">
+              <div className="mt-2 space-y-1.5">
                 <div className="flex items-center gap-2 text-xs">
                   <span className="relative flex size-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -376,10 +376,10 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
             <motion.button
               type="button"
-              whileHover={{ y: -2 }}
+              whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}
               onClick={logout}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-red-200/70 bg-red-50/70 px-4 py-3 text-sm font-semibold text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200/70 bg-red-50/70 px-3.5 py-2.5 text-sm font-semibold text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40"
             >
               <LogOut className="size-4" />
               Sign out of Studio

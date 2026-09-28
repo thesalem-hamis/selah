@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface ProductGridProps {
   products: Product[];
+  reviews?: Record<string, { rating: number; reviewsCount: number }>;
   loading?: boolean;
   showRating?: boolean | undefined;
   columns?: 3 | 4;
@@ -34,6 +35,7 @@ export function ProductGridSkeleton({ count = 8, columns = 4 }: { count?: number
 
 export function ProductGrid({
   products,
+  reviews,
   loading,
   showRating,
   columns = 4,
@@ -57,6 +59,7 @@ export function ProductGrid({
           product={product}
           showRating={Boolean(showRating)}
           listView={viewMode === "list"}
+          review={reviews?.[product.id]}
         />
       ))}
     </div>

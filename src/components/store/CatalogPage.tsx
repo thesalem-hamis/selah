@@ -6,6 +6,7 @@ import { FilterPanel } from "./FilterPanel";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { EmptyState, ErrorState } from "@/components/shared/states";
 import { productService } from "@/services/productService";
+import { useProductReviewSummary } from "@/hooks/useProductReviews";
 import type { ProductFilters, SortKey } from "@/types";
 
 const sortOptions: Array<{ value: SortKey; label: string }> = [
@@ -39,6 +40,9 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
     queryFn: () => productService.list(merged),
   });
 
+  const productIds = query.data?.map((p) => p.id) ?? [];
+  const reviewsQuery = useProductReviewSummary(productIds);
+
   const change = (patch: Partial<ProductFilters>) =>
     setFilters((current) => ({ ...current, ...patch }));
   const reset = () => setFilters({ sort: filters.sort ?? "featured" });
@@ -56,7 +60,12 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
     <div className="container-page py-8 md:py-14">
       <header className="max-w-2xl">
         {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-        <h1 className="font-display text-3xl md:text-5xl">{title}</h1>
+        <h1
+          className="text-3xl md:text-5xl"
+          style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+        >
+          {title}
+        </h1>
         {description && <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>}
       </header>
 
@@ -67,7 +76,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
               <SlidersHorizontal className="size-4" />
               Filters
               {activeCount > 0 && (
-                <span className="grid size-5 place-items-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                <span className="grid size-5 place-items-center rounded-full bg-foreground text-[10px] text-background">
                   {activeCount}
                 </span>
               )}
@@ -79,7 +88,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
             </SheetContent>
           </Sheet>
           <p className="text-xs text-muted-foreground">
-            {query.data ? `${query.data.length} pieces` : "Loading pieces"}
+            {query.data ? `${query.data.length} pieces` : ""}
           </p>
         </div>
 
@@ -88,7 +97,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
           <select
             value={filters.sort ?? "featured"}
             onChange={(event) => change({ sort: event.target.value as SortKey })}
-            className="h-10 rounded-full border border-border bg-surface px-4 text-xs font-medium text-foreground"
+            className="h-10 rounded-none border-0 border-b border-border bg-transparent px-1 text-xs font-medium text-foreground outline-none"
             aria-label="Sort products"
           >
             {sortOptions.map((option) => (
@@ -121,7 +130,8 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
           ) : (
             <ProductGrid
               products={query.data ?? []}
-              loading={query.isLoading}
+              reviews={reviewsQuery.data ?? {}}
+              loading={query.isLoading || reviewsQuery.isLoading}
               columns={3}
               showRating
               viewMode={viewMode}

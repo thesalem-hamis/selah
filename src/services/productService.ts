@@ -209,6 +209,38 @@ export const productService = {
     })) as Review[];
   },
 
+  async addReview(
+    productId: string,
+    payload: { author: string; rating: number; title: string; body: string },
+  ) {
+    const client = supabase;
+    if (!client) throw new Error("Supabase is not configured");
+    const review = {
+      id: `rev-${Date.now()}`,
+      product_id: productId,
+      author: payload.author,
+      rating: payload.rating,
+      title: payload.title,
+      body: payload.body,
+      date: new Date().toISOString().split("T")[0],
+    };
+    const { data, error } = await client
+      .from("reviews")
+      .insert(review)
+      .select("*")
+      .single();
+    if (error) throw new ApiError(error.message, 400);
+    return {
+      id: String(data["id"]),
+      productId: String(data["product_id"]),
+      author: String(data["author"]),
+      rating: Number(data["rating"]),
+      title: String(data["title"]),
+      body: String(data["body"]),
+      date: String(data["date"]),
+    } as Review;
+  },
+
   async testimonials() {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");

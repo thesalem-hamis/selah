@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { 
-  ArrowLeft, 
-  ShoppingBag, 
-  Heart, 
-  Share2, 
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  ArrowLeft,
+  ShoppingBag,
+  Heart,
+  Share2,
   Check,
   Star,
   Truck,
@@ -14,7 +14,11 @@ import {
   Sparkles,
   Minus,
   Plus,
-  ZoomIn
+  ZoomIn,
+  Send,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -25,7 +29,7 @@ import { Button } from "@/components/ui/button";
 import { productService } from "@/services/productService";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
-import type { Product } from "@/types";
+import type { Product, Review } from "@/types";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/product/$slug")({ 
@@ -41,14 +45,81 @@ function ProductPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [hoveredStar, setHoveredStar] = useState(0);
+  const [rating, setRating] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewBody, setReviewBody] = useState("");
+  const [reviewAuthor, setReviewAuthor] = useState("");
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewError, setReviewError] = useState<string | null>(null);
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const productQuery = useQuery({ 
     queryKey: ["product", slug], 
     queryFn: () => productService.bySlug(slug) 
   });
-  
+
   const product = productQuery.data;
   const { add } = useCart();
+
+  const reviewsQuery = useQuery({
+    queryKey: ["reviews", product?.id],
+    queryFn: () => product && productService.reviews(product.id),
+    enabled: Boolean(product),
+  });
+
+  const reviews = reviewsQuery.data ?? [];
+
+  const addReviewMutation = useMutation({
+    mutationFn: (payload: { author: string; rating: number; title: string; body: string }) =>
+      product ? productService.addReview(product.id, payload) : Promise.reject("No product"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["product", slug] });
+      queryClient.invalidateQueries({ queryKey: ["reviews", product?.id] });
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+      setReviewSuccess(true);
+      setRating(0);
+      setReviewTitle("");
+      setReviewBody("");
+      setReviewAuthor("");
+      setTimeout(() => setReviewSuccess(false), 3000);
+    },
+    onError: (err: Error) => {
+      setReviewError(err.message);
+    },
+  });
+
+  const handleSubmitReview = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setReviewError(null);
+    setReviewSuccess(false);
+
+    if (rating === 0) {
+      setReviewError("Please select a star rating.");
+      return;
+    }
+    if (!reviewTitle.trim()) {
+      setReviewError("Please enter a review title.");
+      return;
+    }
+    if (!reviewBody.trim()) {
+      setReviewError("Please enter a review body.");
+      return;
+    }
+    if (!reviewAuthor.trim()) {
+      setReviewError("Please enter your name.");
+      return;
+    }
+
+    addReviewMutation.mutate({
+      author: reviewAuthor.trim(),
+      rating,
+      title: reviewTitle.trim(),
+      body: reviewBody.trim(),
+    });
+  };
 
   const handleAddToCart = (product: Product) => {
     for (let i = 0; i < quantity; i++) {
@@ -478,6 +549,26 @@ function ProductPage() {
           </motion.div>
         </motion.div>
 
+        {/* Reviews Section */}
+        <ReviewSection
+          product={product}
+          reviews={reviews}
+          rating={rating}
+          hoveredStar={hoveredStar}
+          reviewTitle={reviewTitle}
+          reviewBody={reviewBody}
+          reviewAuthor={reviewAuthor}
+          isSubmittingReview={isSubmittingReview || addReviewMutation.isPending}
+          reviewError={reviewError}
+          reviewSuccess={reviewSuccess}
+          setRating={setRating}
+          setHoveredStar={setHoveredStar}
+          setReviewTitle={setReviewTitle}
+          setReviewBody={setReviewBody}
+          setReviewAuthor={setReviewAuthor}
+          handleSubmitReview={handleSubmitReview}
+        />
+
         {/* Related Products */}
         <Related product={product} />
       </div>
@@ -517,6 +608,197 @@ function Related({ product }: { product: Product }) {
       <div className="mt-4">
         <ProductGrid products={query.data ?? []} />
       </div>
+    </motion.section>
+  );
+}
+
+function ReviewSection({
+  product,
+  reviews,
+  rating,
+  hoveredStar,
+  reviewTitle,
+  reviewBody,
+  reviewAuthor,
+  isSubmittingReview,
+  reviewError,
+  reviewSuccess,
+  setRating,
+  setHoveredStar,
+  setReviewTitle,
+  setReviewBody,
+  setReviewAuthor,
+  handleSubmitReview,
+}: {
+  product: Product | undefined;
+  reviews: Review[];
+  rating: number;
+  hoveredStar: number;
+  reviewTitle: string;
+  reviewBody: string;
+  reviewAuthor: string;
+  isSubmittingReview: boolean;
+  reviewError: string | null;
+  reviewSuccess: boolean;
+  setRating: (v: number) => void;
+  setHoveredStar: (v: number) => void;
+  setReviewTitle: (v: string) => void;
+  setReviewBody: (v: string) => void;
+  setReviewAuthor: (v: string) => void;
+  handleSubmitReview: (e: React.FormEvent<HTMLFormElement>) => void;
+}) {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5 }}
+      className="mt-12 border-t border-border pt-12"
+      id="reviews"
+    >
+      <div className="mb-8">
+        <h2 className="font-display text-3xl md:text-4xl">Customer reviews</h2>
+        {product && (
+          <div className="mt-3 flex items-center gap-4">
+            <Rating value={product.rating} count={product.reviewsCount} size="md" />
+          </div>
+        )}
+      </div>
+
+      {/* Write a Review */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="rounded-xl border border-border bg-muted/20 p-6 mb-8"
+      >
+        <h3 className="font-display text-xl mb-4">Write a review</h3>
+        {reviewSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 p-3 text-emerald-800 dark:text-emerald-400 text-sm"
+          >
+            <CheckCircle2 className="size-4 shrink-0" />
+            Your review was submitted successfully!
+          </motion.div>
+        )}
+        {reviewError && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 flex items-center gap-2 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 p-3 text-red-800 dark:text-red-400 text-sm"
+          >
+            <AlertCircle className="size-4 shrink-0" />
+            {reviewError}
+          </motion.div>
+        )}
+        <form onSubmit={handleSubmitReview} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Your rating</label>
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoveredStar(star)}
+                  onMouseLeave={() => setHoveredStar(0)}
+                  className="p-1 transition-transform hover:scale-110"
+                >
+                  <Star
+                    className={cn(
+                      "size-5 transition-colors",
+                      star <= (hoveredStar || rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted-foreground",
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Name</label>
+            <input
+              type="text"
+              value={reviewAuthor}
+              onChange={(e) => setReviewAuthor(e.target.value)}
+              placeholder="Your name"
+              className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Title</label>
+            <input
+              type="text"
+              value={reviewTitle}
+              onChange={(e) => setReviewTitle(e.target.value)}
+              placeholder="Review title"
+              className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Review</label>
+            <textarea
+              value={reviewBody}
+              onChange={(e) => setReviewBody(e.target.value)}
+              placeholder="Tell us what you think..."
+              rows={4}
+              className="w-full px-4 py-3 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all resize-none"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            disabled={isSubmittingReview}
+            className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/20 transition-all"
+          >
+            {isSubmittingReview ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                Submit review
+                <Send className="size-4" />
+              </>
+            )}
+          </Button>
+        </form>
+      </motion.div>
+
+      {/* Reviews List */}
+      {reviews.length > 0 ? (
+        <div className="space-y-6">
+          {reviews.map((review) => (
+            <motion.div
+              key={review.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="border-b border-border pb-6"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">{review.author}</span>
+                  <div className="flex items-center gap-1">
+                    <Rating value={review.rating} />
+                  </div>
+                  <span className="text-xs text-muted-foreground">{review.date}</span>
+                </div>
+                <h4 className="font-medium">{review.title}</h4>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{review.body}</p>
+            </motion.div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 text-muted-foreground">
+          <Star className="size-12 mx-auto mb-4 opacity-20" />
+          <p>No reviews yet. Be the first to review this product.</p>
+        </div>
+      )}
     </motion.section>
   );
 }

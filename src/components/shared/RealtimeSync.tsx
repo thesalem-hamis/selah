@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import type { Product, Order, Address } from "@/types";
 
-const tables = ["products", "orders", "customers"] as const;
+const tables = ["products", "orders", "customers", "reviews"] as const;
 
 export function RealtimeSync() {
   const queryClient = useQueryClient();
@@ -38,19 +38,28 @@ export function RealtimeSync() {
         if (!newRow) return;
 
         if (table === "products") {
+          const mapped = mapSupabaseProduct(newRow);
           queryClient.setQueriesData<Product[]>({ queryKey: ["admin-products"] }, (prev) => {
             const list = prev ?? [];
             const index = list.findIndex((item) => item.id === recordId);
             if (index >= 0) {
               const updated = [...list];
-              updated[index] = mapSupabaseProduct(newRow);
+              updated[index] = mapped;
               return updated;
             }
             return list;
           });
-          queryClient.setQueriesData<Product>({ queryKey: ["product"] }, () =>
-            mapSupabaseProduct(newRow),
-          );
+          queryClient.setQueriesData<Product>({ queryKey: ["product"] }, () => mapped);
+          queryClient.setQueriesData<Product[]>({ queryKey: ["products"] }, (prev) => {
+            if (!prev) return prev;
+            const index = prev.findIndex((item) => item.id === recordId);
+            if (index >= 0) {
+              const updated = [...prev];
+              updated[index] = mapped;
+              return updated;
+            }
+            return prev;
+          });
         }
 
         if (table === "orders") {

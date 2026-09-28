@@ -31,7 +31,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wider">Filters</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Filters</h2>
         <button
           type="button"
           onClick={onReset}
@@ -42,7 +42,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </div>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Size
         </legend>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -55,10 +55,10 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 aria-pressed={active}
                 onClick={() => onChange({ sizes: toggle(filters.sizes, size) })}
                 className={cn(
-                  "h-9 min-w-11 rounded-full border px-3 text-xs font-medium transition-colors",
+                  "h-9 min-w-11 border px-3 text-xs font-medium transition-colors",
                   active
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-surface hover:border-primary/40",
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border bg-transparent hover:border-foreground/50",
                 )}
               >
                 {size}
@@ -69,7 +69,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Colour
         </legend>
         <div className="mt-3 flex flex-wrap gap-2.5">
@@ -84,7 +84,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 onClick={() => onChange({ colors: toggle(filters.colors, color.name) })}
                 className={cn(
                   "size-8 rounded-full border-2 transition-transform",
-                  active ? "border-primary scale-110" : "border-border",
+                  active ? "border-foreground scale-110" : "border-border",
                 )}
                 style={{ backgroundColor: color.hex }}
               />
@@ -94,7 +94,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Max price
         </legend>
         <input
@@ -104,7 +104,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
           step={5000}
           value={filters.maxPrice ?? PRICE_MAX}
           onChange={(event) => onChange({ maxPrice: Number(event.target.value) })}
-          className="mt-4 w-full accent-primary"
+          className="mt-4 w-full accent-foreground"
           aria-label="Maximum price"
         />
         <p className="mt-2 text-xs text-muted-foreground">
@@ -113,7 +113,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset className="space-y-3">
-        <legend className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Availability
         </legend>
         {[
@@ -125,7 +125,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
               type="checkbox"
               checked={Boolean(filters[option.key])}
               onChange={(event) => onChange({ [option.key]: event.target.checked })}
-              className="size-4 rounded border-border accent-primary"
+              className="size-4 border-border accent-foreground"
             />
             {option.label}
           </label>
@@ -133,7 +133,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           Rating
         </legend>
         <div className="mt-3 flex gap-2">
@@ -146,10 +146,10 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 onChange({ minRating: filters.minRating === rating ? undefined : rating })
               }
               className={cn(
-                "h-9 rounded-full border px-3 text-xs font-medium transition-colors",
+                "h-9 border px-3 text-xs font-medium transition-colors",
                 filters.minRating === rating
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-surface hover:border-primary/40",
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border bg-transparent hover:border-foreground/50",
               )}
             >
               {rating}+ stars

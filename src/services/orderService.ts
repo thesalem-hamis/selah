@@ -135,10 +135,11 @@ export const orderService = {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");
 
-    const [ordersResult, productsResult, customersResult] = await Promise.all([
+    const [ordersResult, productsResult, customersResult, metricsResult] = await Promise.all([
       client.from("orders").select("*").order("created_at", { ascending: false }),
       client.from("products").select("id, name, stock, status, price, reviews_count"),
       client.from("customers").select("id, joined_at"),
+      client.from("dashboard_metrics").select("*").eq("period", range),
     ]);
 
     const rows = (ordersResult.data ?? []).map((row) =>
@@ -147,6 +148,41 @@ export const orderService = {
     const paidOrders = rows.filter((order) => order.paymentStatus === "paid");
     const revenue = paidOrders.reduce((sum, order) => sum + order.total, 0);
     const orderCount = rows.length;
+
+    const metricsMap: Record<string, { value: number; change_pct: number; trend: string }> = {};
+    (metricsResult.data ?? []).forEach((m: Record<string, unknown>) => {
+      metricsMap[String(m.label).toLowerCase().replace(/\s/g, "_")] = {
+        value: Number(m.value),
+        change_pct: Number(m.change_pct),
+        trend: String(m.trend),
+      };
+    });
+
+    const prevFrom = new Date(from);
+    if (range === "today") prevFrom.setDate(today.getDate() - 1);
+    else if (range === "7d") prevFrom.setDate(today.getDate() - 14);
+    else if (range === "30d") prevFrom.setDate(today.getDate() - 60);
+    else if (range === "3m") prevFrom.setMonth(today.getMonth() - 6);
+    else prevFrom.setFullYear(today.getFullYear() - 2);
+
+    const prevPaidOrders = rows.filter(
+      (order) => new Date(order.createdAt) < from,
+    );
+    const prevRevenue = prevPaidOrders
+      .filter((order) => order.paymentStatus === "paid")
+      .reduce((sum, order) => sum + order.total, 0);
+    const prevOrderCount = prevPaidOrders.length;
+    const prevUnitsSold = prevPaidOrders.reduce(
+      (sum, order) => sum + order.items.reduce((count, item) => count + item.quantity, 0),
+      0,
+    );
+    const prevAov = prevOrderCount ? Math.round(prevRevenue / prevOrderCount) : 0;
+
+    function pctChange(current: number, previous: number): string {
+      if (previous === 0) return current === 0 ? "+0%" : "+100%";
+      const pct = ((current - previous) / previous) * 100;
+      return pct >= 0 ? `+${pct.toFixed(1)}%` : `${pct.toFixed(1)}%`;
+    }
 
     const today = new Date();
     const from = new Date(today);
@@ -201,6 +237,24 @@ export const orderService = {
         0,
       ),
       averageOrderValue: orderCount ? Math.round(revenue / orderCount) : 0,
+      revenueChange: metricsMap["revenue"]
+        ? `${metricsMap["revenue"].change_pct >= 0 ? "+" : ""}${metricsMap["revenue"].change_pct.toFixed(1)}%`
+        : pctChange(revenue, prevRevenue),
+      ordersChange: metricsMap["orders"]
+        ? `${metricsMap["orders"].change_pct >= 0 ? "+" : ""}${metricsMap["orders"].change_pct.toFixed(1)}%`
+        : pctChange(orderCount, prevOrderCount),
+      unitsSoldChange: metricsMap["units_sold"]
+        ? `${metricsMap["units_sold"].change_pct >= 0 ? "+" : ""}${metricsMap["units_sold"].change_pct.toFixed(1)}%`
+        : pctChange(
+            rows.reduce((sum, order) => sum + order.items.reduce((count, item) => count + item.quantity, 0), 0),
+            prevUnitsSold,
+          ),
+      aovChange: metricsMap["avg_order_value"]
+        ? `${metricsMap["avg_order_value"].change_pct >= 0 ? "+" : ""}${metricsMap["avg_order_value"].change_pct.toFixed(1)}%`
+        : pctChange(
+            orderCount ? Math.round(revenue / orderCount) : 0,
+            prevAov,
+          ),
       conversionRate: 3.4,
       pendingOrders: rows.filter((order) => order.status === "pending").length,
       paidRevenue: paidOrders.reduce((sum, order) => sum + order.total, 0),

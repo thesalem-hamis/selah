@@ -12,13 +12,17 @@ interface ProductCardProps {
   showRating?: boolean;
   className?: string;
   listView?: boolean;
+  review?: { rating: number; reviewsCount: number };
 }
 
-export function ProductCard({ product, showRating = false, className, listView = false }: ProductCardProps) {
+export function ProductCard({ product, showRating = false, className, listView = false, review }: ProductCardProps) {
   const { add } = useCart();
   const discount = discountPercent(product.price, product.oldPrice);
   const soldOut = product.stock === 0;
   const secondary = product.images[1];
+
+  const rating = review?.rating ?? product.rating;
+  const reviewsCount = review?.reviewsCount ?? product.reviewsCount;
 
   return (
     <article className={cn("group relative", listView && "md:grid md:grid-cols-[minmax(9rem,14rem)_1fr] md:gap-x-6", className)}>
@@ -30,7 +34,7 @@ export function ProductCard({ product, showRating = false, className, listView =
           listView && "md:row-span-2",
         )}
       >
-        <div className="relative overflow-hidden rounded-2xl bg-muted">
+        <div className="relative overflow-hidden bg-muted">
           <img
             src={product.images[0]}
             alt={product.name}
@@ -58,18 +62,18 @@ export function ProductCard({ product, showRating = false, className, listView =
           <div className="pointer-events-none absolute inset-x-3 top-3 flex items-start justify-between gap-2">
             <span className="flex flex-col items-start gap-1.5">
               {soldOut ? (
-                <span className="rounded-full bg-foreground/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-background">
+                <span className="bg-foreground/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-background">
                   Sold out
                 </span>
               ) : (
                 <>
                   {discount > 0 && (
-                    <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent-foreground">
+                    <span className="bg-foreground px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-background">
                       −{discount}%
                     </span>
                   )}
                   {product.newArrival && discount === 0 && (
-                    <span className="rounded-full bg-surface/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">
+                    <span className="bg-background/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider">
                       New
                     </span>
                   )}
@@ -90,7 +94,7 @@ export function ProductCard({ product, showRating = false, className, listView =
         <button
           type="button"
           onClick={() => add(product)}
-          className="absolute inset-x-3 bottom-[5.5rem] hidden h-11 items-center justify-center gap-2 rounded-full bg-primary text-sm font-medium text-primary-foreground opacity-0 shadow-soft transition-all duration-300 group-hover:opacity-100 group-focus-within:opacity-100 md:flex"
+          className="absolute inset-x-3 bottom-[5.5rem] hidden h-11 items-center justify-center gap-2 bg-foreground text-sm font-medium text-background opacity-0 transition-all duration-300 group-hover:opacity-100 group-focus-within:opacity-100 md:flex"
         >
           <ShoppingBag className="size-4" strokeWidth={1.75} />
           Quick add
@@ -104,8 +108,17 @@ export function ProductCard({ product, showRating = false, className, listView =
               {product.name}
             </Link>
           </h3>
-          <p className="mt-0.5 text-xs capitalize text-muted-foreground">{product.subcategory}</p>
-          {showRating && <Rating value={product.rating} count={product.reviewsCount} className="mt-1.5" />}
+           <p className="mt-0.5 text-xs capitalize text-muted-foreground">{product.subcategory}</p>
+          {showRating && (
+            <div className="mt-1.5 flex items-center gap-2">
+              <Rating value={rating} count={reviewsCount} />
+              {reviewsCount > 0 && (
+                <span className="text-xs text-muted-foreground">
+                  {reviewsCount} review{reviewsCount !== 1 ? "s" : ""}
+                </span>
+              )}
+            </div>
+          )}
           <div className="mt-1.5 flex items-baseline gap-2">
             <span className="text-sm font-medium">{formatPrice(product.price)}</span>
             {product.oldPrice && (
@@ -120,7 +133,7 @@ export function ProductCard({ product, showRating = false, className, listView =
             type="button"
             onClick={() => add(product)}
             aria-label={`Add ${product.name} to bag`}
-            className="grid size-11 shrink-0 place-items-center rounded-full border border-primary/20 bg-primary text-primary-foreground shadow-soft transition-all active:scale-95 md:hidden"
+            className="grid size-11 shrink-0 place-items-center border border-foreground/20 bg-foreground text-background transition-all active:scale-95 md:hidden"
           >
             <ShoppingBag className="size-[1.05rem]" strokeWidth={1.8} />
           </button>

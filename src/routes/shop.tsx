@@ -27,9 +27,8 @@ function ShopPage() {
   return (
     <StoreLayout>
       <CatalogPage
-        eyebrow="The collection"
-        title="Shop all"
-        description="Considered silhouettes in natural fabrics, cut for coverage and made in small runs."
+        title="All pieces"
+        baseFilters={{}}
       />
     </StoreLayout>
   );
