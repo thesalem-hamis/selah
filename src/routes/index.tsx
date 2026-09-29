@@ -34,57 +34,85 @@ function Home() {
     <StoreLayout>
 
       {/* Hero */}
-      <section className="relative flex flex-col md:grid md:grid-cols-2 min-h-[70vh] md:min-h-[80vh]">
-        {/* Image side */}
-        <div className="relative w-full md:order-1">
-          <div className="aspect-video md:aspect-auto md:h-full">
-            <img
-              src="/h1.jpg"
-              alt="Selah Girl Society"
-              className="h-full w-full object-cover object-center object-[center_top]"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent md:hidden" />
+      <section className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-6rem)] flex items-center overflow-hidden">
+        {/* Background Image with Parallax Effect */}
+        <div className="absolute inset-0 -z-10">
+          <img
+            src="/h1.jpg"
+            alt="Selah Girl Society"
+            className="h-full w-full object-cover object-center"
+            style={{ transform: "translateZ(0)" }}
+          />
+          {/* Layered gradient overlays for depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.15)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/5 to-transparent md:hidden" />
         </div>
 
-        {/* Text side */}
-        <div className="flex flex-col items-center justify-center gap-6 px-6 py-12 text-center md:items-stretch md:text-left md:px-8 md:py-16 lg:px-20">
-          <p className="eyebrow text-xs tracking-wider">The First Drop · 2026</p>
-          <h1
-            className="text-3xl leading-tight sm:text-4xl md:text-5xl lg:text-6xl"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.01em" }}
-          >
-            Dressed in faith,<br />worn with grace.
-          </h1>
-          <p
-            className="max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-base"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300, fontStyle: "italic" }}
-          >
-            Modest silhouettes for the woman who moves with quiet confidence.
-          </p>
-          <div className="flex w-full flex-wrap justify-center gap-3 sm:justify-start">
-            <Link
-              to="/shop"
-              className="inline-flex h-12 w-full sm:w-auto items-center justify-center gap-2 bg-foreground px-7 text-sm font-medium text-background transition-opacity hover:opacity-80"
+        {/* Floating decorative elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/4 left-10 w-72 h-72 bg-foreground/5 rounded-full blur-3xl animate-pulse-slow" />
+          <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-foreground/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "2s" }} />
+        </div>
+
+        {/* Content */}
+        <div className="relative w-full container-page px-6 pt-6 md:pt-10 lg:pt-16 pb-16 md:pb-20 lg:pb-24">
+          <div className="max-w-3xl mx-auto text-center md:text-left">
+            {/* Eyebrow with animated underline */}
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="eyebrow text-xs tracking-widest uppercase relative">
+                The First Drop · 2026
+                <span className="absolute bottom-[-4px] left-0 w-full h-[1px] bg-foreground/40" />
+              </span>
+            </div>
+
+            {/* Main Headline with staggered animation */}
+            <h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight mb-6"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.02em" }}
             >
-              Shop the drop
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              to="/new-arrivals"
-              className="inline-flex h-12 w-full sm:w-auto items-center justify-center border border-foreground/25 px-7 text-sm font-medium transition-colors hover:border-foreground"
+              <span className="block animate-fade-up">Dressed in faith,</span>
+              <span className="block animate-fade-up" style={{ animationDelay: "100ms" }}>worn with grace.</span>
+            </h1>
+
+            {/* Subheadline */}
+            <p
+              className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-muted-foreground/90 max-w-xl mb-10 animate-fade-up"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, fontStyle: "italic", animationDelay: "200ms" }}
             >
-              New arrivals
-            </Link>
+              Modest silhouettes for the woman who moves with quiet confidence.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-4 mb-12 animate-fade-up" style={{ animationDelay: "300ms" }}>
+              <Link
+                to="/shop"
+                className="group inline-flex h-14 px-8 items-center justify-center gap-3 bg-foreground text-background text-sm font-medium tracking-wide relative overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
+              >
+                <span className="relative z-10">Shop the drop</span>
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                <span className="absolute inset-0 bg-white/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" aria-hidden="true" />
+              </Link>
+              <Link
+                to="/new-arrivals"
+                className="inline-flex h-14 px-8 items-center justify-center gap-3 border border-foreground/30 text-sm font-medium tracking-wide text-foreground transition-all duration-300 hover:bg-foreground/5 hover:border-foreground/50 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
+              >
+                New arrivals
+              </Link>
+            </div>
+
+            {/* Brand mark with subtle animation */}
+            <div className="flex items-center justify-center gap-4 animate-fade-up pb-6 md:pb-0" style={{ animationDelay: "400ms" }}>
+              <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground/70 font-medium">
+                Selah Girl Society
+              </p>
+            </div>
           </div>
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">
-            Selah Girl Society
-          </p>
         </div>
       </section>
 
       {/* Small writeup */}
-      <section className="container-page py-12 md:py-20 max-w-3xl mx-auto text-center">
+      <section className="container-page pt-4 md:py-20 max-w-3xl mx-auto text-center">
         <p className="eyebrow mb-3">Who we are</p>
         <h2
           className="text-2xl md:text-4xl leading-snug"
