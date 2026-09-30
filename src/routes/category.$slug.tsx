@@ -14,7 +14,7 @@ import {
 import { useState, useEffect } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { CatalogPage } from "@/components/store/CatalogPage";
-import { categoryService } from "@/services/categoryService";
+import { categoryService, isCatchAllCategory } from "@/services/categoryService";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -240,7 +240,7 @@ function CategoryRoute() {
         eyebrow="Collection"
         title={category.data?.name ?? slug.replace(/-/g, " ")}
         description={category.data?.description ?? ""}
-        baseFilters={{ category: slug }}
+        baseFilters={isCatchAllCategory(slug) ? {} : { category: slug }}
         viewMode={viewMode}
       />
 

@@ -15,53 +15,17 @@ import p6 from "@/assets/p6.jpg";
 import p7 from "@/assets/p7.jpg";
 import p8 from "@/assets/p8.jpg";
 
+/** The storefront runs a single category; individual types live on `product.subcategory`. */
+export const WOMEN_CLOTHING_SLUG = "women-clothing";
+
 export const categories: Category[] = [
   {
     id: "cat-1",
-    slug: "dresses",
-    name: "Dresses",
-    description: "Flowing satin and linen silhouettes for every occasion.",
+    slug: WOMEN_CLOTHING_SLUG,
+    name: "Women Clothing",
+    description:
+      "Modest dresses, abayas, co-ords and everyday layers — everything we make, in one wardrobe.",
     image: catDresses,
-    active: true,
-  },
-  {
-    id: "cat-2",
-    slug: "tops",
-    name: "Tops",
-    description: "Blouses, tunics and layering pieces cut generously.",
-    image: catTops,
-    active: true,
-  },
-  {
-    id: "cat-3",
-    slug: "bottoms",
-    name: "Bottoms",
-    description: "Wide-leg trousers, palazzos and softly pleated skirts.",
-    image: catBottoms,
-    active: true,
-  },
-  {
-    id: "cat-4",
-    slug: "accessories",
-    name: "Accessories",
-    description: "Scarves, wraps and quiet gold jewellery.",
-    image: catAccessories,
-    active: true,
-  },
-  {
-    id: "cat-5",
-    slug: "shoes",
-    name: "Shoes",
-    description: "Block heels, mules and flats made for long days.",
-    image: catShoes,
-    active: true,
-  },
-  {
-    id: "cat-6",
-    slug: "bags",
-    name: "Bags",
-    description: "Structured leather totes and everyday crossbodies.",
-    image: catBags,
     active: true,
   },
 ];

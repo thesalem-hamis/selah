@@ -1,177 +1,178 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { ArrowRight, Clock, Globe2, PackageCheck, ShieldCheck, Truck } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import p1 from "@/assets/p1.jpg";
-import p2 from "@/assets/p2.jpg";
-import p3 from "@/assets/p3.jpg";
+import { ProductCard } from "@/components/product/ProductCard";
+import { ErrorState } from "@/components/shared/states";
+import { Skeleton } from "@/components/ui/skeleton";
+import { productService } from "@/services/productService";
+import { useProductReviewSummary } from "@/hooks/useProductReviews";
+import { products } from "@/data/catalog";
 import p4 from "@/assets/p4.jpg";
 import p5 from "@/assets/p5.jpg";
 import p6 from "@/assets/p6.jpg";
 import p7 from "@/assets/p7.jpg";
-import p8 from "@/assets/p8.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Selah Girl Society - Modest Fashion" },
-      { name: "description", content: "Faith-led modest fashion for women choosing to live intentionally." },
+      {
+        name: "description",
+        content: "Faith-led modest fashion for women choosing to live intentionally.",
+      },
     ],
   }),
   component: Home,
 });
 
-const firstDrop = [
-  { name: "Amara Satin Maxi Dress", price: "£68,500", image: p1, slug: "amara-satin-maxi-dress" },
-  { name: "Noor Pleated Open Abaya", price: "£74,000", image: p2, slug: "noor-pleated-open-abaya" },
-  { name: "Zahra Balloon-Sleeve Blouse", price: "£32,500", image: p3, slug: "zahra-balloon-sleeve-blouse" },
-  { name: "Amina Linen Two-Piece Set", price: "£59,000", image: p8, slug: "amina-linen-two-piece-set" },
+/** Shares react-query's cache with /shop, so the drop is whatever the shop page returns. */
+const firstDropFilters = { sort: "featured" as const };
+
+const moreCollection = [p4, p5, p6, p7].map((image, index) => ({
+  image,
+  ...products[index + 3],
+}));
+
+const shippingStandards = [
+  { icon: Globe2, title: "Worldwide delivery", copy: "Tracked courier to 40+ countries, Pakistan included." },
+  { icon: Clock, title: "5–7 working days", copy: "Lagos next day, Karachi, Lahore and Islamabad in a week." },
+  { icon: ShieldCheck, title: "Duties at checkout", copy: "No surprise fees on delivery — calculated before you pay." },
+  { icon: PackageCheck, title: "14-day returns", copy: "Unworn, tags on, return shipping on us within 14 days." },
 ];
 
-const galleryImages = [p4, p5, p6, p7, p3, p2];
-
 function Home() {
+  const firstDropQuery = useQuery({
+    queryKey: ["products", firstDropFilters],
+    queryFn: () => productService.list(firstDropFilters),
+  });
+
+  const firstDrop = useMemo(
+    () => (firstDropQuery.data ?? []).slice(0, 4),
+    [firstDropQuery.data],
+  );
+  const firstDropReviews = useProductReviewSummary(firstDrop.map((product) => product.id));
+
   return (
     <StoreLayout>
-
       {/* Hero */}
-      <section className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-6rem)] flex items-center overflow-hidden">
-        {/* Background Image with Parallax Effect */}
-        <div className="absolute inset-0 -z-10">
-          <img
-            src="/h1.jpg"
-            alt="Selah Girl Society"
-            className="h-full w-full object-cover object-center"
-            style={{ transform: "translateZ(0)" }}
+      <section className="relative isolate flex min-h-[calc(100vh-4rem)] items-center overflow-hidden bg-foreground md:min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-6rem)]">
+        <div className="absolute inset-0">
+          <video
+            className="size-full object-cover object-center"
+            src="/selah-vid.mp4"
+            poster="/h1.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Selah Girl Society campaign film"
           />
-          {/* Layered gradient overlays for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.15)_100%)]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/5 to-transparent md:hidden" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-black/55" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.35)_100%)]" />
         </div>
 
-        {/* Floating decorative elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/4 left-10 w-72 h-72 bg-foreground/5 rounded-full blur-3xl animate-pulse-slow" />
-          <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-foreground/5 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "2s" }} />
-        </div>
-
-        {/* Content */}
-        <div className="relative w-full container-page px-6 pt-6 md:pt-10 lg:pt-16 pb-16 md:pb-20 lg:pb-24">
-          <div className="max-w-3xl mx-auto text-center md:text-left">
-            {/* Eyebrow with animated underline */}
-            <div className="inline-flex items-center gap-3 mb-6">
-              <span className="eyebrow text-xs tracking-widest uppercase relative">
+        <div className="container-page relative px-6 py-16 md:py-24">
+          <div className="max-w-3xl text-white">
+            <div className="animate-fade-up mb-6 inline-flex items-center gap-3">
+              <span className="relative text-xs uppercase tracking-widest text-white/85">
                 The First Drop · 2026
-                <span className="absolute bottom-[-4px] left-0 w-full h-[1px] bg-foreground/40" />
+                <span className="absolute bottom-[-4px] left-0 h-px w-full bg-white/40" />
               </span>
             </div>
 
-            {/* Main Headline with staggered animation */}
             <h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight mb-6"
-              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.02em" }}
+              className="animate-fade-up mb-6 text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.02em", animationDelay: "100ms" }}
             >
-              <span className="block animate-fade-up">Dressed in faith,</span>
-              <span className="block animate-fade-up" style={{ animationDelay: "100ms" }}>worn with grace.</span>
+              <span className="block">Dressed in faith,</span>
+              <span className="block">worn with grace.</span>
             </h1>
 
-            {/* Subheadline */}
             <p
-              className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-muted-foreground/90 max-w-xl mb-10 animate-fade-up"
-              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, fontStyle: "italic", animationDelay: "200ms" }}
+              className="animate-fade-up mb-10 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg md:text-xl"
+              style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300, animationDelay: "200ms" }}
             >
               Modest silhouettes for the woman who moves with quiet confidence.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-4 mb-12 animate-fade-up" style={{ animationDelay: "300ms" }}>
+            <div
+              className="animate-fade-up flex flex-col items-center gap-4 sm:flex-row"
+              style={{ animationDelay: "300ms" }}
+            >
               <Link
                 to="/shop"
-                className="group inline-flex h-14 px-8 items-center justify-center gap-3 bg-foreground text-background text-sm font-medium tracking-wide relative overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
+                className="group inline-flex h-14 items-center justify-center gap-3 bg-white px-8 text-sm font-medium tracking-wide text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90"
               >
-                <span className="relative z-10">Shop the drop</span>
+                <span>Shop the drop</span>
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                <span className="absolute inset-0 bg-white/10 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" aria-hidden="true" />
               </Link>
               <Link
                 to="/new-arrivals"
-                className="inline-flex h-14 px-8 items-center justify-center gap-3 border border-foreground/30 text-sm font-medium tracking-wide text-foreground transition-all duration-300 hover:bg-foreground/5 hover:border-foreground/50 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
+                className="inline-flex h-14 items-center justify-center gap-3 border border-white/45 px-8 text-sm font-medium tracking-wide text-white transition-all duration-300 hover:border-white hover:bg-white/10"
               >
                 New arrivals
               </Link>
             </div>
-
-            {/* Brand mark with subtle animation */}
-            <div className="flex items-center justify-center gap-4 animate-fade-up pb-6 md:pb-0" style={{ animationDelay: "400ms" }}>
-              <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground/70 font-medium">
-                Selah Girl Society
-              </p>
-            </div>
           </div>
         </div>
-      </section>
 
-      {/* Small writeup */}
-      <section className="container-page pt-4 md:py-20 max-w-3xl mx-auto text-center">
-        <p className="eyebrow mb-3">Who we are</p>
-        <h2
-          className="text-2xl md:text-4xl leading-snug"
-          style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+        <a
+          href="#first-drop"
+          className="absolute inset-x-0 bottom-6 mx-auto hidden w-fit flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-white md:flex"
         >
-          We believe modesty is not a limitation - it is a language.
-        </h2>
-        <p
-          className="mt-4 text-base md:text-lg leading-relaxed text-muted-foreground"
-          style={{ fontFamily: "var(--font-selah)", fontStyle: "italic" }}
-        >
-          Selah Girl Society was born for women who choose to dress with intention,
-          crafting pieces that honour your values without compromising on beauty.
-        </p>
+          Scroll
+          <span className="animate-bounce-slow block h-8 w-px bg-white/50" aria-hidden="true" />
+        </a>
       </section>
 
       {/* First Drop */}
-      <section className="container-page pb-16">
-        <div className="flex items-end justify-between mb-6">
+      <section id="first-drop" className="container-page scroll-mt-24 py-16 md:py-24">
+        <div className="mb-8 flex items-end justify-between gap-6 md:mb-10">
           <div>
             <p className="eyebrow mb-2">Exclusive</p>
-            <h2
-              className="text-2xl md:text-3xl"
-              style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
-            >
+            <h2 className="text-2xl md:text-3xl" style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}>
               The First Drop
             </h2>
+            <p className="mt-2 max-w-md text-sm text-muted-foreground">
+              Four pieces, cut once and never repeated. When a size goes, it is gone for good.
+            </p>
           </div>
-          <Link to="/shop" className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4">
+          <Link
+            to="/shop"
+            className="hidden shrink-0 items-center gap-1.5 text-sm font-medium underline underline-offset-4 md:inline-flex"
+          >
             View all <ArrowRight className="size-3.5" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-          {firstDrop.map((item) => (
-            <Link
-              key={item.slug}
-              to="/product/$slug"
-              params={{ slug: item.slug }}
-              className="group"
-            >
-              <div className="overflow-hidden rounded-2xl bg-sand/30">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+
+        {firstDropQuery.isError ? (
+          <ErrorState onRetry={() => void firstDropQuery.refetch()} />
+        ) : firstDropQuery.isLoading ? (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index}>
+                <Skeleton className="aspect-4/5 w-full" />
+                <Skeleton className="mt-3.5 h-4 w-3/4" />
+                <Skeleton className="mt-2 h-3 w-1/3" />
               </div>
-              <div className="mt-3 px-1">
-                <p
-                  className="text-xs md:text-sm leading-snug"
-                  style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
-                >
-                  {item.name}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">{item.price}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {firstDrop.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                showRating
+                review={firstDropReviews.data?.[product.id]}
+              />
+            ))}
+          </div>
+        )}
+
         <div className="mt-8 text-center md:hidden">
           <Link to="/shop" className="inline-flex items-center gap-1.5 text-sm font-medium underline underline-offset-4">
             View all <ArrowRight className="size-3.5" />
@@ -179,60 +180,155 @@ function Home() {
         </div>
       </section>
 
-      {/* Freedom Mission */}
+      {/* Selah Girl Society */}
       <section className="bg-sand/40 py-16 md:py-24">
-        <div className="container-page max-w-2xl mx-auto text-center">
-          <p className="eyebrow mb-4">Our Mission</p>
-          <h2
-            className="text-3xl md:text-5xl leading-tight"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.01em" }}
-          >
-            Freedom looks like this.
-          </h2>
-          <p
-            className="mt-4 text-lg md:text-xl leading-relaxed text-foreground/75"
-            style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300 }}
-          >
-            To dress modestly is to choose yourself - your values, your story, your freedom.
-            We exist to make that choice beautiful.
-          </p>
-          <Link
-            to="/about"
-            className="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
-          >
-            Read our story
-            <ArrowRight className="size-4" />
-          </Link>
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="relative order-2 lg:order-1">
+            <div className="overflow-hidden rounded-2xl">
+              <img
+                src="/s1.jpg"
+                alt="The Selah Girl Society studio"
+                loading="lazy"
+                className="aspect-4/5 w-full object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-5 -right-5 hidden rounded-2xl border border-border bg-surface px-6 py-5 shadow-lift sm:block">
+              <p className="text-2xl font-display" style={{ fontFamily: "var(--font-selah)" }}>
+                Lagos
+              </p>
+              <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Designed &amp; made
+              </p>
+            </div>
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <p className="eyebrow mb-4">Selah Girl Society</p>
+            <h2
+              className="text-3xl leading-tight md:text-5xl"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.01em" }}
+            >
+              Modesty is not a limitation. It is a language.
+            </h2>
+            <p
+              className="mt-5 text-base leading-relaxed text-foreground/75 md:text-lg"
+              style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300 }}
+            >
+              Selah Girl Society was born for women who choose to dress with intention — pieces
+              that honour your values without compromising on beauty.
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+              Every piece is cut generously, finished by hand and produced in small batches. No
+              restocks, no shortcuts, no trend-chasing. Just clothing that lets you move through
+              the world the way you actually live in it.
+            </p>
+
+            <dl className="mt-8 grid grid-cols-3 gap-6 border-t border-border pt-6">
+              {[
+                { value: "40+", label: "Countries served" },
+                { value: "16", label: "Sizes per style" },
+                { value: "100%", label: "Small batch" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <dt className="text-2xl md:text-3xl" style={{ fontFamily: "var(--font-selah)" }}>
+                    {stat.value}
+                  </dt>
+                  <dd className="mt-1 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                    {stat.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <Link
+              to="/about"
+              className="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
+            >
+              Read our story
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Product gallery */}
-      <section className="container-page py-12 md:py-20">
-        <p className="eyebrow mb-2 text-center">The Collection</p>
-        <h2
-          className="text-center text-2xl md:text-4xl mb-8"
-          style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-        >
-          Worn with intention
-        </h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-          {galleryImages.map((img, i) => (
-            <div
-              key={i}
-              className={`overflow-hidden rounded-2xl ${i === 0 || i === 3 ? "row-span-2" : ""}`}
+      {/* Worldwide shipping */}
+      <section className="container-page py-16 md:py-24">
+        <div className="grid items-center gap-8 rounded-3xl bg-foreground px-6 py-12 text-background md:px-14 md:py-16 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <p className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-background/70">
+              <Truck className="size-4" aria-hidden="true" />
+              Worldwide shipping
+            </p>
+            <h2
+              className="text-3xl leading-tight md:text-4xl"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300, letterSpacing: "-0.01em" }}
             >
-              <img
-                src={img}
-                alt={`Selah collection ${i + 1}`}
-                loading="lazy"
-                className={`w-full object-cover transition-transform duration-700 hover:scale-105 ${
-                  i === 0 || i === 3 ? "h-full" : "aspect-square"
-                }`}
-              />
+              Now delivering to Pakistan.
+            </h2>
+            <p
+              className="mt-4 max-w-lg text-base leading-relaxed text-background/75"
+              style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300 }}
+            >
+              From our studio in Lagos to Karachi, Lahore and Islamabad — tracked, duty-cleared and
+              packed the same way we pack every order that leaves the door.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+              <Link
+                to="/shop"
+                className="group inline-flex h-12 items-center justify-center gap-2 bg-background px-7 text-sm font-medium text-foreground transition-colors hover:bg-background/90"
+              >
+                Shop from Pakistan
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+              <p className="text-xs uppercase tracking-[0.18em] text-background/60">
+                Duties &amp; taxes shown at checkout
+              </p>
             </div>
+          </div>
+
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {shippingStandards.map(({ icon: Icon, title, copy }) => (
+              <li key={title} className="rounded-2xl border border-background/15 bg-background/5 p-5">
+                <Icon className="size-5 text-background/80" strokeWidth={1.6} aria-hidden="true" />
+                <h3 className="mt-3 text-sm font-medium">{title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-background/65">{copy}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* More collection */}
+      <section className="container-page pb-16 pt-4 md:pb-24">
+        <div className="mb-8 text-center">
+          <p className="eyebrow mb-2">More from the collection</p>
+          <h2 className="text-2xl md:text-4xl" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
+            Worn with intention
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          {moreCollection.map((item) => (
+            <Link key={item.slug} to="/product/$slug" params={{ slug: item.slug }} className="group">
+              <div className="overflow-hidden rounded-2xl bg-sand/30">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  loading="lazy"
+                  className="aspect-3/4 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              <p
+                className="mt-3 px-1 text-xs leading-snug md:text-sm"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
+              >
+                {item.name}
+              </p>
+            </Link>
           ))}
         </div>
-        <div className="mt-8 text-center">
+
+        <div className="mt-10 text-center">
           <Link
             to="/shop"
             className="inline-flex h-12 items-center gap-2 rounded-full border border-foreground/20 px-8 text-sm font-medium transition-colors hover:bg-foreground hover:text-background"

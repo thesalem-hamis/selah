@@ -112,6 +112,7 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                     </Link>
                   );
                 })}
+                {categories.length > 1 && (
                 <div className="group relative">
                   <button className="py-1 text-[13px] font-medium tracking-wide text-muted-foreground transition-colors hover:text-foreground">
                     Categories
@@ -132,6 +133,7 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                     ))}
                   </div>
                 </div>
+                )}
               </nav>
             </div>
 
@@ -206,22 +208,26 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                Categories
-              </p>
-              <ul className="mt-2 grid grid-cols-2 gap-2">
-                {categories.map((category) => (
-                  <li key={category.id}>
-                    <Link
-                      to="/category/$slug"
-                      params={{ slug: category.slug }}
-                      className="block rounded-xl border border-border px-3 py-2.5 text-sm"
-                    >
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {categories.length > 1 && (
+                <>
+                  <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Categories
+                  </p>
+                  <ul className="mt-2 grid grid-cols-2 gap-2">
+                    {categories.map((category) => (
+                      <li key={category.id}>
+                        <Link
+                          to="/category/$slug"
+                          params={{ slug: category.slug }}
+                          className="block rounded-xl border border-border px-3 py-2.5 text-sm"
+                        >
+                          {category.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </nav>
           </div>
         )}

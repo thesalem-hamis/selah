@@ -1,8 +1,13 @@
-import { categories, products } from "@/data/catalog";
+import { categories, products, WOMEN_CLOTHING_SLUG } from "@/data/catalog";
 import type { Category } from "@/types";
 import { ApiError, request } from "./http";
 
 let list: Category[] = [...categories];
+
+/** The single storefront category holds every product, so it never filters by `category`. */
+export function isCatchAllCategory(slug: string) {
+  return slug === WOMEN_CLOTHING_SLUG;
+}
 
 export const categoryService = {
   list() {
@@ -19,7 +24,9 @@ export const categoryService = {
     return request<Array<Category & { count: number }>>("/categories?counts=1", () =>
       list.map((category) => ({
         ...category,
-        count: products.filter((product) => product.category === category.slug).length,
+        count: isCatchAllCategory(category.slug)
+          ? products.length
+          : products.filter((product) => product.category === category.slug).length,
       })),
     );
   },
