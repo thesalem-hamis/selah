@@ -179,7 +179,7 @@ function CheckoutPage() {
           country: "Nigeria" 
         },
         deliveryMethod: "Express (1–3 days)",
-        paymentMethod: paymentMethod === 'card' ? "Paystack — Card" : 
+        paymentMethod: paymentMethod === 'card' ? "Paystack - Card" : 
                       paymentMethod === 'bank' ? "Bank Transfer" : "USSD",
         items: cart.items,
         subtotal: cart.subtotal,

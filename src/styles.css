@@ -79,7 +79,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* Selah Girl Society — cloud white / pink / sky / chrome palette */
+  /* Selah Girl Society - cloud white / pink / sky / chrome palette */
   --background: oklch(0.997 0.003 20);
   --foreground: oklch(0.2 0.015 330);
   --surface: oklch(0.997 0.003 20);
@@ -120,7 +120,7 @@
   --sidebar-ring: oklch(0.55 0.11 350);
 }
 
-/* Admin surface: deliberately cool, neutral SaaS look — not the storefront */
+/* Admin surface: deliberately cool, neutral SaaS look - not the storefront */
 .theme-admin {
   --radius: 0.625rem;
   --background: oklch(0.978 0.004 250);

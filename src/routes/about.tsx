@@ -6,7 +6,7 @@ import promo from "@/assets/promo.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Selah Girl Society — Faith, Fashion and Community" },
+      { title: "About Selah Girl Society - Faith, Fashion and Community" },
       {
         name: "description",
         content:
@@ -58,7 +58,7 @@ function About() {
       </section>
 
       <section className="container-page grid gap-6 pb-6 md:grid-cols-2">
-        <img src={editorial} alt="Selah studio in Lagos" loading="lazy" className="rounded-3xl" />
+        <img src={editorial} alt="Selah studio in UK" loading="lazy" className="rounded-3xl" />
         <img src={promo} alt="Selah campaign imagery" loading="lazy" className="rounded-3xl" />
       </section>
 

@@ -10,13 +10,13 @@ import editorial from "@/assets/editorial.jpg";
 export const Route = createFileRoute("/collections")({
   head: () => ({
     meta: [
-      { title: "Collections — Selah Modest Fashion" },
+      { title: "Collections - Selah Modest Fashion" },
       {
         name: "description",
         content:
           "Explore Selah by collection: dresses, tops, bottoms, shoes, bags and accessories, each cut for modest everyday elegance.",
       },
-      { property: "og:title", content: "Collections — Selah Modest Fashion" },
+      { property: "og:title", content: "Collections - Selah Modest Fashion" },
       {
         property: "og:description",
         content: "Six edits, one quiet wardrobe. Explore Selah collections.",
@@ -85,7 +85,7 @@ function Collections() {
             <p className="eyebrow mb-3">Made slowly</p>
             <h2 className="font-display text-3xl md:text-4xl">Small runs, natural fibres</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Every Selah collection begins with fabric — crepe, linen, silk-touch viscose — chosen
+              Every Selah collection begins with fabric - crepe, linen, silk-touch viscose - chosen
               to drape rather than cling. We cut in limited quantities so each piece keeps its
               character.
             </p>

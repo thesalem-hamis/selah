@@ -63,7 +63,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
     {
       id: 1,
       title: "New order received",
-      description: "Order #1234 from Lagos",
+      description: "Order #1234 from UK",
       time: "2 min ago",
       unread: true,
     },

@@ -21,11 +21,11 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/category/$slug")({
   head: ({ params }) => {
     const name = params.slug.replace(/-/g, " ");
-    const title = `${name.replace(/\b\w/g, (c) => c.toUpperCase())} — Selah`;
+    const title = `${name.replace(/\b\w/g, (c) => c.toUpperCase())} - Selah`;
     return {
       meta: [
         { title },
-        { name: "description", content: `Shop Selah ${name}: modest, drape-first pieces cut in small runs in Lagos.` },
+        { name: "description", content: `Shop Selah ${name}: modest, drape-first pieces cut in small runs in UK.` },
         { property: "og:title", content: title },
         { property: "og:description", content: `Shop the Selah ${name} edit.` },
         { property: "og:type", content: "website" },
@@ -136,7 +136,7 @@ function CategoryRoute() {
               {[
                 { label: 'Pieces', value: '45+' },
                 { label: 'Avg. Rating', value: '4.8' },
-                { label: 'Ships From', value: 'Lagos' },
+                { label: 'Ships From', value: 'UK' },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}

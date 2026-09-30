@@ -14,7 +14,7 @@ A modern modest fashion e-commerce platform built with **TanStack Start**, **Rea
 ### Admin
 - Secure admin sign-in with role-based access (`profiles.role = 'admin'`)
 - Products, orders, customers, and analytics dashboards
-- Live updates — every change in the database is reflected in the admin UI in real time
+- Live updates - every change in the database is reflected in the admin UI in real time
 - Create, edit, duplicate, and delete products
 - Update order status and payment status
 
@@ -27,7 +27,7 @@ A modern modest fashion e-commerce platform built with **TanStack Start**, **Rea
 - [TanStack Start](https://tanstack.com/start) + [TanStack Router](https://tanstack.com/router)
 - [React 19](https://react.dev) + [TypeScript 5](https://www.typescriptlang.org)
 - [TanStack Query 5](https://tanstack.com/query)
-- [Supabase](https://supabase.com) — Auth, Postgres, Realtime
+- [Supabase](https://supabase.com) - Auth, Postgres, Realtime
 - [Tailwind CSS 4](https://tailwindcss.com) + [Radix UI](https://www.radix-ui.com)
 - [Framer Motion](https://www.framer.com/motion), [Lucide](https://lucide.dev), [Sonner](https://sonner.emilkowal.ski)
 
@@ -55,7 +55,7 @@ If you want the original demo products, categories, orders, and customers, run t
 ```bash
 npx tsx supabase/seed.ts
 ```
-This is entirely optional — you can start with an empty database and add everything through the admin panel.
+This is entirely optional - you can start with an empty database and add everything through the admin panel.
 
 ### 5. Create an admin user
 1. Sign up through the app or Supabase Auth dashboard

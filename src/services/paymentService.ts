@@ -14,7 +14,7 @@ export interface PaymentIntent {
 /**
  * Payment is intentionally isolated here. Connecting Paystack later means
  * replacing `initialise` with a call that returns an authorization URL and
- * verifying the reference server-side — no UI changes required.
+ * verifying the reference server-side - no UI changes required.
  */
 export const paymentService = {
   async initialise(amount: number, email: string): Promise<PaymentIntent> {

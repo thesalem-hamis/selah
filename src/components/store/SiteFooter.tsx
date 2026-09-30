@@ -70,7 +70,7 @@ export function SiteFooter() {
               Selah
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Modest clothing made in small batches in Lagos — considered cuts, natural fabrics and
+              Modest clothing made in small batches in UK - considered cuts, natural fabrics and
               finishing you can feel.
             </p>
             <div className="mt-6 flex items-center gap-2">

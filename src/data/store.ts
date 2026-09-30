@@ -23,9 +23,9 @@ const baseAddress = {
   fullName: "Aisha Olabode",
   phone: "+234 802 555 0114",
   street: "14 Bourdillon Road, Ikoyi",
-  city: "Lagos",
-  state: "Lagos",
-  country: "Nigeria",
+  city: "UK",
+  state: "UK",
+  country: "UK",
 };
 
 const orderSeeds: Array<{
@@ -135,7 +135,7 @@ export const orders: Order[] = orderSeeds.map((seed) => {
     ...totals,
     status: seed.status,
     paymentStatus: seed.paymentStatus,
-    paymentMethod: "Paystack — Card",
+    paymentMethod: "Paystack - Card",
     deliveryMethod: "Express (1–3 days)",
     address: { ...baseAddress, fullName: seed.customerName },
     estimatedDelivery: new Date(

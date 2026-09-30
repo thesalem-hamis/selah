@@ -76,13 +76,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Selah — Modern Modest Fashion" },
+      { title: "Selah - Modern Modest Fashion" },
       {
         name: "description",
         content:
-          "Selah is a premium modest fashion house: satin dresses, linen sets, scarves, bags and shoes, made in small batches in Lagos.",
+          "Selah is a premium modest fashion house: satin dresses, linen sets, scarves, bags and shoes, made in small batches in UK.",
       },
-      { property: "og:title", content: "Selah — Modern Modest Fashion" },
+      { property: "og:title", content: "Selah - Modern Modest Fashion" },
       {
         property: "og:description",
         content: "Considered modest clothing, made in small batches and shipped across Nigeria.",

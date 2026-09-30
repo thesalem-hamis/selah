@@ -24,7 +24,7 @@ export const categories: Category[] = [
     slug: WOMEN_CLOTHING_SLUG,
     name: "Women Clothing",
     description:
-      "Modest dresses, abayas, co-ords and everyday layers — everything we make, in one wardrobe.",
+      "Modest dresses, abayas, co-ords and everyday layers - everything we make, in one wardrobe.",
     image: catDresses,
     active: true,
   },
@@ -81,7 +81,7 @@ const seeds: Seed[] = [
     bestSeller: true,
     newArrival: true,
     description:
-      "A fluid satin maxi with a gathered waist and generous sweep — cut to move quietly with you from evening dinners to garden ceremonies.",
+      "A fluid satin maxi with a gathered waist and generous sweep - cut to move quietly with you from evening dinners to garden ceremonies.",
     tags: ["satin", "maxi", "occasion", "modest"],
   },
   {
@@ -151,7 +151,7 @@ const seeds: Seed[] = [
     bestSeller: true,
     newArrival: true,
     description:
-      "Featherweight chiffon with a hand-finished edge — the wrap our customers repurchase in every shade.",
+      "Featherweight chiffon with a hand-finished edge - the wrap our customers repurchase in every shade.",
     tags: ["scarf", "hijab", "chiffon"],
   },
   {
@@ -202,7 +202,7 @@ const seeds: Seed[] = [
     bestSeller: true,
     newArrival: true,
     description:
-      "Relaxed boxy top and drawstring wide trouser in washed linen — sold together, worn apart just as easily.",
+      "Relaxed boxy top and drawstring wide trouser in washed linen - sold together, worn apart just as easily.",
     tags: ["set", "linen", "co-ord"],
   },
   {
@@ -266,7 +266,7 @@ const seeds: Seed[] = [
     bestSeller: true,
     featured: true,
     description:
-      "Holds a laptop, a water bottle and everything else — in leather that softens with each week of use.",
+      "Holds a laptop, a water bottle and everything else - in leather that softens with each week of use.",
     tags: ["bag", "tote", "leather", "work"],
   },
   {
@@ -344,7 +344,7 @@ export const products: Product[] = seeds.map((seed, index) => {
     name: seed.name,
     description: seed.description,
     details: [
-      "Designed in Lagos, made in small batches",
+      "Designed in UK, made in small batches",
       "Modest cut with full-length sleeves or coverage as shown",
       "Dry clean or cold hand wash",
       "Model is 5'9\" and wears a size S",
@@ -402,7 +402,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t-1",
     name: "Aisha Olabode",
-    location: "Lagos",
+    location: "UK",
     rating: 5,
     quote:
       "Everything arrives folded in tissue with a handwritten note. It genuinely feels like a gift, even when I'm buying for myself.",

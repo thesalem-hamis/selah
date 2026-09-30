@@ -8,13 +8,13 @@ import { productService } from "@/services/productService";
 export const Route = createFileRoute("/new-arrivals")({
   head: () => ({
     meta: [
-      { title: "New Arrivals — Selah" },
+      { title: "New Arrivals - Selah" },
       {
         name: "description",
         content:
           "The latest Selah drops: fresh modest dresses, sets and accessories added to the atelier this season.",
       },
-      { property: "og:title", content: "New Arrivals — Selah" },
+      { property: "og:title", content: "New Arrivals - Selah" },
       { property: "og:description", content: "Fresh modest pieces, added weekly in small runs." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -37,8 +37,8 @@ const moreCollection = [p4, p5, p6, p7].map((image, index) => ({
 
 const shippingStandards = [
   { icon: Globe2, title: "Worldwide delivery", copy: "Tracked courier to 40+ countries, Pakistan included." },
-  { icon: Clock, title: "5–7 working days", copy: "Lagos next day, Karachi, Lahore and Islamabad in a week." },
-  { icon: ShieldCheck, title: "Duties at checkout", copy: "No surprise fees on delivery — calculated before you pay." },
+  { icon: Clock, title: "5–7 working days", copy: "UK next day, Karachi, Lahore and Islamabad in a week." },
+  { icon: ShieldCheck, title: "Duties at checkout", copy: "No surprise fees on delivery - calculated before you pay." },
   { icon: PackageCheck, title: "14-day returns", copy: "Unworn, tags on, return shipping on us within 14 days." },
 ];
 
@@ -162,14 +162,17 @@ function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-            {firstDrop.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                showRating
-                review={firstDropReviews.data?.[product.id]}
-              />
-            ))}
+            {firstDrop.map((product) => {
+              const review = firstDropReviews.data?.[product.id];
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  showRating
+                  {...(review && { review })}
+                />
+              );
+            })}
           </div>
         )}
 
@@ -186,7 +189,7 @@ function Home() {
           <div className="relative order-2 lg:order-1">
             <div className="overflow-hidden rounded-2xl">
               <img
-                src="/s1.jpg"
+                src="/sg1.jpeg"
                 alt="The Selah Girl Society studio"
                 loading="lazy"
                 className="aspect-4/5 w-full object-cover"
@@ -194,7 +197,7 @@ function Home() {
             </div>
             <div className="absolute -bottom-5 -right-5 hidden rounded-2xl border border-border bg-surface px-6 py-5 shadow-lift sm:block">
               <p className="text-2xl font-display" style={{ fontFamily: "var(--font-selah)" }}>
-                Lagos
+                UK
               </p>
               <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Designed &amp; made
@@ -214,7 +217,7 @@ function Home() {
               className="mt-5 text-base leading-relaxed text-foreground/75 md:text-lg"
               style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300 }}
             >
-              Selah Girl Society was born for women who choose to dress with intention — pieces
+              Selah Girl Society was born for women who choose to dress with intention - pieces
               that honour your values without compromising on beauty.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -269,7 +272,7 @@ function Home() {
               className="mt-4 max-w-lg text-base leading-relaxed text-background/75"
               style={{ fontFamily: "var(--font-selah)", fontStyle: "italic", fontWeight: 300 }}
             >
-              From our studio in Lagos to Karachi, Lahore and Islamabad — tracked, duty-cleared and
+              From our studio in UK to Karachi, Lahore and Islamabad - tracked, duty-cleared and
               packed the same way we pack every order that leaves the door.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
@@ -309,22 +312,24 @@ function Home() {
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           {moreCollection.map((item) => (
-            <Link key={item.slug} to="/product/$slug" params={{ slug: item.slug }} className="group">
-              <div className="overflow-hidden rounded-2xl bg-sand/30">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  loading="lazy"
-                  className="aspect-3/4 w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <p
-                className="mt-3 px-1 text-xs leading-snug md:text-sm"
-                style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
-              >
-                {item.name}
-              </p>
-            </Link>
+            item.slug ? (
+              <Link key={item.slug} to="/product/$slug" params={{ slug: item.slug }} className="group">
+                <div className="overflow-hidden rounded-2xl bg-sand/30">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    className="aspect-3/4 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <p
+                  className="mt-3 px-1 text-xs leading-snug md:text-sm"
+                  style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
+                >
+                  {item.name}
+                </p>
+              </Link>
+            ) : null
           ))}
         </div>
 

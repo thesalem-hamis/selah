@@ -12,9 +12,9 @@ export const Route = createFileRoute("/search")({
   }),
   head: () => ({
     meta: [
-      { title: "Search — Selah" },
+      { title: "Search - Selah" },
       { name: "description", content: "Search the Selah catalogue by piece, fabric, colour or collection." },
-      { property: "og:title", content: "Search — Selah" },
+      { property: "og:title", content: "Search - Selah" },
       { property: "og:description", content: "Find your next Selah piece." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

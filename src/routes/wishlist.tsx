@@ -10,9 +10,9 @@ import { useWishlist } from "@/context/WishlistContext";
 export const Route = createFileRoute("/wishlist")({
   head: () => ({
     meta: [
-      { title: "Your Wishlist — Selah" },
+      { title: "Your Wishlist - Selah" },
       { name: "description", content: "The Selah pieces you've saved for later, kept on this device." },
-      { property: "og:title", content: "Your Wishlist — Selah" },
+      { property: "og:title", content: "Your Wishlist - Selah" },
       { property: "og:description", content: "Saved Selah pieces, ready when you are." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
