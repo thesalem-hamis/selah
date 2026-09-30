@@ -62,7 +62,6 @@ function Home() {
           <video
             className="size-full object-cover object-center"
             src="/selah-vid.mp4"
-            poster="/h1.jpg"
             autoPlay
             muted
             loop
@@ -123,8 +122,7 @@ function Home() {
           href="#first-drop"
           className="absolute inset-x-0 bottom-6 mx-auto hidden w-fit flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-white md:flex"
         >
-          Scroll
-          <span className="animate-bounce-slow block h-8 w-px bg-white/50" aria-hidden="true" />
+         
         </a>
       </section>
 
