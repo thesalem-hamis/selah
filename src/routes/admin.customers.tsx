@@ -142,349 +142,354 @@ function CustomersAdmin() {
   };
 
   return (
-      <div className="space-y-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap items-end justify-between gap-4"
-        >
-          <div>
-            <p className="eyebrow text-primary flex items-center gap-2">
-              <Users className="size-4" />
-              Community
-            </p>
-            <h1 className="mt-2 font-display text-4xl">Customers</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Manage and understand your customer base
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
-              <Download className="size-4" />
-              Export
-            </Button>
-            <Button className="gap-2">
-              <UserPlus className="size-4" />
-              Add customer
-            </Button>
-          </div>
-        </motion.div>
+    <div className="space-y-12 pb-20">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-[#E5E5E5] pb-8"
+      >
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A] flex items-center gap-2">
+            <Users className="size-4" />
+            Community
+          </p>
+          <h1
+            className="mt-4 text-4xl text-[#1A1A1A] md:text-6xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Customers
+          </h1>
+          <p className="mt-4 text-[13px] text-[#777777] uppercase tracking-[0.1em]">
+            Manage and understand your customer base.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <button className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9]">
+            <Download className="size-4" />
+            Export
+          </button>
+          <button className="flex items-center justify-center gap-2 border border-[#1A1A1A] bg-[#1A1A1A] px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-black/80 hover:border-black/80">
+            <UserPlus className="size-4" />
+            Add customer
+          </button>
+        </div>
+      </motion.div>
 
-        {/* Stats Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {[
-            { label: 'Total Customers', value: stats.total, icon: Users, color: 'from-blue-500 to-cyan-500' },
-            { label: 'Active', value: stats.active, icon: CheckCircle2, color: 'from-emerald-500 to-green-500' },
-            { label: 'Blocked', value: stats.blocked, icon: XCircle, color: 'from-red-500 to-pink-500' },
-            { label: 'Avg. Customer Value', value: formatPrice(stats.avgCustomerValue), icon: DollarSign, color: 'from-orange-500 to-amber-500' },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15 + index * 0.05 }}
-              className="p-5 rounded-xl border border-border bg-background"
-            >
-              <div className="flex items-center justify-between">
-                <div className={cn(
-                  "size-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
-                  stat.color
-                )}>
-                  <stat.icon className="size-5 text-white" />
+      {/* Stats Cards */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {[
+          { label: 'Total Customers', value: stats.total, icon: Users },
+          { label: 'Active', value: stats.active, icon: CheckCircle2 },
+          { label: 'Blocked', value: stats.blocked, icon: XCircle },
+          { label: 'Avg. Customer Value', value: formatPrice(stats.avgCustomerValue), icon: DollarSign },
+        ].map((stat, index) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="relative border border-[#E5E5E5] bg-white p-6 transition-all hover:border-[#1A1A1A]"
+          >
+            <div className="relative">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center justify-center">
+                  <stat.icon className="size-5 text-[#1A1A1A]" />
                 </div>
-                {index === 0 && <TrendingUp className="size-4 text-emerald-500" />}
+                {index === 0 && <TrendingUp className="size-4 text-emerald-600" />}
               </div>
-              <p className="mt-3 text-2xl font-semibold">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
 
-        {/* Toolbar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
-        >
-          {/* Search */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-            <input
-              type="search"
-              placeholder="Search customers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-10 pl-9 pr-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
-            />
-          </div>
-
-          {/* Filters & View Mode */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className="size-4" />
-              Filters
-            </Button>
-            
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="h-10 px-3 rounded-lg border border-input bg-background text-sm focus:border-primary focus:outline-none"
-            >
-              <option value="orders">Most Orders</option>
-              <option value="name">Name</option>
-              <option value="spent">Highest Spent</option>
-            </select>
-
-            {/* View Mode Toggle */}
-            <div className="hidden md:flex items-center gap-1 rounded-lg border border-border p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={cn(
-                  "p-2 rounded-md transition-all",
-                  viewMode === 'grid' 
-                    ? 'bg-primary text-primary-foreground shadow-sm' 
-                    : 'hover:bg-muted'
-                )}
+              <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                {stat.label}
+              </p>
+              <p
+                className="mt-2 text-3xl md:text-4xl text-[#1A1A1A]"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
               >
-                <BarChart3 className="size-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={cn(
-                  "p-2 rounded-md transition-all",
-                  viewMode === 'list' 
-                    ? 'bg-primary text-primary-foreground shadow-sm' 
-                    : 'hover:bg-muted'
-                )}
-              >
-                <Users className="size-4" />
-              </button>
+                {stat.value}
+              </p>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
 
-        {/* Filters Panel */}
-        <AnimatePresence>
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
+      {/* Toolbar */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
+      >
+        {/* Search */}
+        <div className="relative flex-1 max-w-md w-full">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#777777]" />
+          <input
+            type="search"
+            placeholder="SEARCH CUSTOMERS..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full h-12 pl-12 pr-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+          />
+        </div>
+
+        {/* Filters & View Mode */}
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9] flex-1 sm:flex-none"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <Filter className="size-4" />
+            Filters
+          </button>
+          
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none flex-1 sm:flex-none appearance-none"
+          >
+            <option value="orders">MOST ORDERS</option>
+            <option value="name">NAME</option>
+            <option value="spent">HIGHEST SPENT</option>
+          </select>
+
+          {/* View Mode Toggle */}
+          <div className="hidden md:flex items-center border border-[#E5E5E5] bg-white">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={cn(
+                "p-3 h-12 transition-all",
+                viewMode === 'grid' 
+                  ? 'bg-[#1A1A1A] text-white' 
+                  : 'text-[#777777] hover:bg-[#F9F9F9]'
+              )}
             >
-              <div className="p-4 rounded-lg border border-border bg-muted/30">
-                <div>
-                  <label className="text-sm font-medium">Customer Status</label>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {(['all', 'active', 'blocked'] as const).map(status => (
-                      <button
-                        key={status}
-                        onClick={() => setStatusFilter(status)}
-                        className={cn(
-                          "px-3 py-1.5 text-xs font-medium rounded-full capitalize transition-all",
-                          statusFilter === status
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-background border border-border hover:bg-muted'
-                        )}
-                      >
-                        {status}
-                      </button>
-                    ))}
-                  </div>
+              <BarChart3 className="size-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={cn(
+                "p-3 h-12 transition-all border-l border-[#E5E5E5]",
+                viewMode === 'list' 
+                  ? 'bg-[#1A1A1A] text-white' 
+                  : 'text-[#777777] hover:bg-[#F9F9F9]'
+              )}
+            >
+              <Users className="size-4" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Filters Panel */}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="p-6 border border-[#E5E5E5] bg-[#F9F9F9]">
+              <div>
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">Customer Status</label>
+                <div className="flex flex-wrap gap-2">
+                  {(['all', 'active', 'blocked'] as const).map(status => (
+                    <button
+                      key={status}
+                      onClick={() => setStatusFilter(status)}
+                      className={cn(
+                        "px-4 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors border",
+                        statusFilter === status
+                          ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                          : 'bg-white text-[#777777] border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]'
+                      )}
+                    >
+                      {status}
+                    </button>
+                  ))}
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* Customers Grid/List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className={cn(
-            viewMode === 'grid' 
-              ? 'grid gap-4 md:grid-cols-2 xl:grid-cols-3' 
-              : 'space-y-4'
-          )}
-        >
-          {paginatedCustomers.map((customer, index) => {
-            const StatusIcon = getStatusIcon(customer.status);
-            
-            if (viewMode === 'grid') {
-              return (
-                <motion.article
-                  key={customer.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ y: -2 }}
-                  className="relative overflow-hidden rounded-xl border border-border bg-background p-5 transition-all hover:shadow-lg"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="relative">
-                      <div className="size-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-lg font-semibold text-primary">
-                        {getCustomerInitials(customer.name)}
-                      </div>
-                      <span className={cn(
-                        "absolute -bottom-1 -right-1 size-4 rounded-full border-2 border-background",
-                        customer.status === 'active' ? 'bg-emerald-500' : 'bg-red-500'
-                      )} />
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <h2 className="font-medium truncate">{customer.name}</h2>
-                      <p className="mt-0.5 text-sm text-muted-foreground truncate">{customer.email}</p>
-                      {customer.phone && (
-                        <p className="mt-0.5 text-xs text-muted-foreground flex items-center gap-1">
-                          <Phone className="size-3" />
-                          {customer.phone}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
-                    <div className="flex items-center gap-4 text-sm">
-                      <span className="flex items-center gap-1">
-                        <ShoppingBag className="size-3.5 text-muted-foreground" />
-                        {customer.orders} orders
-                      </span>
-                    </div>
-                    <strong className="text-sm">{formatPrice(customer.totalSpent)}</strong>
-                  </div>
-                  
-                  <div className="mt-4 flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1 gap-1"
-                      onClick={() => setSelectedCustomer(customer.id)}
-                    >
-                      <Eye className="size-3.5" />
-                      View
-                    </Button>
-                    <Button variant="outline" size="sm" className="flex-1 gap-1">
-                      <Mail className="size-3.5" />
-                      Email
-                    </Button>
-                  </div>
-                </motion.article>
-              );
-            }
-            
-            // List view
+      {/* Customers Grid/List */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className={cn(
+          viewMode === 'grid' 
+            ? 'grid gap-6 md:grid-cols-2 xl:grid-cols-3' 
+            : 'space-y-4'
+        )}
+      >
+        {paginatedCustomers.map((customer, index) => {
+          const StatusIcon = getStatusIcon(customer.status);
+          
+          if (viewMode === 'grid') {
             return (
               <motion.article
                 key={customer.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.05 }}
-                className="flex items-center gap-4 p-4 rounded-lg border border-border bg-background hover:bg-muted/30 transition-colors"
+                className="relative border border-[#E5E5E5] bg-white p-6 hover:border-[#1A1A1A] transition-colors"
               >
-                <div className="relative">
-                  <div className="size-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center font-semibold text-primary">
-                    {getCustomerInitials(customer.name)}
+                <div className="flex items-start gap-4">
+                  <div className="relative">
+                    <div className="size-12 bg-[#1A1A1A] flex items-center justify-center text-lg font-bold text-white uppercase">
+                      {getCustomerInitials(customer.name)}
+                    </div>
+                    <span className={cn(
+                      "absolute -bottom-1 -right-1 size-3 border-2 border-white",
+                      customer.status === 'active' ? 'bg-emerald-500' : 'bg-red-500'
+                    )} />
                   </div>
-                  <span className={cn(
-                    "absolute -bottom-0.5 -right-0.5 size-3 rounded-full border-2 border-background",
-                    customer.status === 'active' ? 'bg-emerald-500' : 'bg-red-500'
-                  )} />
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h2 className="font-medium truncate">{customer.name}</h2>
+                  
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] truncate">{customer.name}</h2>
+                    <p className="mt-1 text-[10px] text-[#777777] truncate">{customer.email}</p>
+                    {customer.phone && (
+                      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777] flex items-center gap-2">
+                        <Phone className="size-3" />
+                        {customer.phone}
+                      </p>
+                    )}
                   </div>
-                  <p className="text-sm text-muted-foreground truncate">{customer.email}</p>
                 </div>
                 
-                <div className="hidden sm:block">
-                  <p className="text-sm font-medium">{customer.orders} orders</p>
-                  <p className="text-xs text-muted-foreground">Total orders</p>
+                <div className="mt-6 flex items-center justify-between border-t border-[#E5E5E5] pt-4">
+                  <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
+                    <ShoppingBag className="size-3 text-[#777777]" />
+                    {customer.orders} orders
+                  </div>
+                  <strong className="text-[14px] font-bold text-[#1A1A1A]">{formatPrice(customer.totalSpent)}</strong>
                 </div>
                 
-                <div className="hidden md:block">
-                  <p className="text-sm font-medium">{formatPrice(customer.totalSpent)}</p>
-                  <p className="text-xs text-muted-foreground">Total spent</p>
+                <div className="mt-6 flex gap-3">
+                  <button 
+                    className="flex-1 flex items-center justify-center gap-2 h-10 border border-[#E5E5E5] bg-white text-[10px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
+                    onClick={() => setSelectedCustomer(customer.id)}
+                  >
+                    <Eye className="size-3" />
+                    View
+                  </button>
+                  <button className="flex-1 flex items-center justify-center gap-2 h-10 border border-[#E5E5E5] bg-white text-[10px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors">
+                    <Mail className="size-3" />
+                    Email
+                  </button>
                 </div>
-                
-                <span className={cn(
-                  "inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium capitalize",
-                  getStatusColor(customer.status)
-                )}>
-                  <StatusIcon className="size-3" />
-                  {customer.status}
-                </span>
-                
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="hover:bg-muted"
-                  onClick={() => setSelectedCustomer(customer.id)}
-                >
-                  <MoreHorizontal className="size-4" />
-                </Button>
               </motion.article>
             );
-          })}
-        </motion.div>
-
-        {/* Empty State */}
-        {paginatedCustomers.length === 0 && (
-          <div className="p-8 text-center text-muted-foreground">
-            No customers found
-          </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredCustomers.length)} of {filteredCustomers.length} customers
-            </p>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
+          }
+          
+          // List view
+          return (
+            <motion.article
+              key={customer.id}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="flex items-center gap-6 p-4 border border-[#E5E5E5] bg-white hover:border-[#1A1A1A] transition-colors"
+            >
+              <div className="relative">
+                <div className="size-10 bg-[#1A1A1A] flex items-center justify-center font-bold text-white uppercase text-sm">
+                  {getCustomerInitials(customer.name)}
+                </div>
+                <span className={cn(
+                  "absolute -bottom-0.5 -right-0.5 size-3 border-2 border-white",
+                  customer.status === 'active' ? 'bg-emerald-500' : 'bg-red-500'
+                )} />
+              </div>
+              
+              <div className="flex-1 min-w-0">
+                <h2 className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] truncate">{customer.name}</h2>
+                <p className="mt-1 text-[10px] text-[#777777] truncate">{customer.email}</p>
+              </div>
+              
+              <div className="hidden sm:block">
+                <p className="text-[12px] font-bold text-[#1A1A1A]">{customer.orders}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#777777]">Orders</p>
+              </div>
+              
+              <div className="hidden md:block">
+                <p className="text-[12px] font-bold text-[#1A1A1A]">{formatPrice(customer.totalSpent)}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#777777]">Total spent</p>
+              </div>
+              
+              <span className={cn(
+                "inline-flex items-center gap-2 px-3 py-1 border text-[9px] font-bold uppercase tracking-[0.1em]",
+                customer.status === 'active'
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                  : 'border-red-200 bg-red-50 text-red-700'
+              )}>
+                <StatusIcon className="size-3" />
+                {customer.status}
+              </span>
+              
+              <button
+                className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
+                onClick={() => setSelectedCustomer(customer.id)}
               >
-                <ChevronLeft className="size-4" />
-              </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </Button>
-              ))}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                disabled={currentPage === totalPages}
+                <MoreHorizontal className="size-4" />
+              </button>
+            </motion.article>
+          );
+        })}
+      </motion.div>
+
+      {/* Empty State */}
+      {paginatedCustomers.length === 0 && (
+        <div className="p-12 border border-[#E5E5E5] bg-white text-center">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">No customers found</p>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredCustomers.length)} of {filteredCustomers.length} customers
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={cn(
+                  "size-8 flex items-center justify-center border text-[11px] font-bold transition-colors",
+                  currentPage === page
+                    ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:bg-[#F9F9F9]"
+                )}
               >
-                <ChevronRight className="size-4" />
-              </Button>
-            </div>
+                {page}
+              </button>
+            ))}
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="size-4" />
+            </button>
           </div>
-        )}
+        </div>
+      )}
       {/* Customer Detail Modal */}
       <AnimatePresence>
         {selectedCustomer && (
@@ -492,36 +497,42 @@ function CustomersAdmin() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
               onClick={() => setSelectedCustomer(null)}
             />
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-2xl rounded-xl border border-border bg-background p-6 shadow-2xl"
+              exit={{ scale: 0.98, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-2xl border border-[#E5E5E5] bg-white p-8 shadow-2xl"
             >
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-2xl">Customer Details</h2>
+              <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-6">
+                <h2
+                  className="text-3xl text-[#1A1A1A]"
+                  style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                >
+                  Customer Details
+                </h2>
                 <button
                   onClick={() => setSelectedCustomer(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  className="p-3 border border-transparent hover:border-[#E5E5E5] hover:bg-[#F9F9F9] transition-colors"
                 >
-                  <XCircle className="size-5" />
+                  <XCircle className="size-5 text-[#1A1A1A]" />
                 </button>
               </div>
               {/* Add detailed customer information here */}
-              {(() => { const customer = query.data?.find((item) => item.id === selectedCustomer); return customer ? <div className="mt-6 grid gap-4 text-sm sm:grid-cols-2"><div><p className="text-muted-foreground">Name</p><p className="mt-1 font-medium">{customer.name}</p></div><div><p className="text-muted-foreground">Status</p><p className="mt-1 capitalize font-medium">{customer.status}</p></div><div><p className="text-muted-foreground">Email</p><p className="mt-1 break-all">{customer.email}</p></div><div><p className="text-muted-foreground">Phone</p><p className="mt-1">{customer.phone}</p></div><div><p className="text-muted-foreground">Orders</p><p className="mt-1 font-medium">{customer.orders}</p></div><div><p className="text-muted-foreground">Total spent</p><p className="mt-1 font-medium">{formatPrice(customer.totalSpent)}</p></div></div> : null; })()}
+              {(() => { const customer = query.data?.find((item) => item.id === selectedCustomer); return customer ? <div className="mt-8 grid gap-6 text-sm sm:grid-cols-2"><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Name</p><p className="mt-2 text-[14px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{customer.name}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Status</p><p className="mt-2 text-[14px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{customer.status}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Email</p><p className="mt-2 text-[12px] text-[#1A1A1A] break-all">{customer.email}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Phone</p><p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{customer.phone || 'N/A'}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Orders</p><p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{customer.orders}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Total spent</p><p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{formatPrice(customer.totalSpent)}</p></div></div> : null; })()}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-      </div>
-  ); 
+    </div>
+  );
 }

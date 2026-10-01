@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import type { ProductFilters } from "@/types";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
 
 export const ALL_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 export const ALL_COLORS = [
@@ -16,6 +17,14 @@ export const ALL_COLORS = [
 ];
 export const PRICE_MAX = 250000;
 
+const COLLECTIONS = [
+  { name: "828", slug: "828" },
+  { name: "Ask Me About Jesus", slug: "ask-me-about-jesus" },
+  { name: "Babe, I Love Jesus", slug: "babe-i-love-jesus" },
+  { name: "Pretty And Prayed Up", slug: "pretty-and-prayed-up" },
+  { name: "Selah Girl Society", slug: "selah-girl-society" },
+];
+
 interface FilterPanelProps {
   filters: ProductFilters;
   onChange: (patch: Partial<ProductFilters>) => void;
@@ -29,23 +38,57 @@ function toggle(list: string[] | undefined, value: string) {
 
 export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
+      {/* Collections / Categories */}
+      <div className="space-y-4">
+        <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">Collections</h2>
+        <ul className="space-y-3">
+          <li>
+            <Link 
+              to="/shop" 
+              className={cn(
+                "text-[13px] transition-colors hover:text-[#1A1A1A]",
+                !filters.category ? "font-bold text-[#1A1A1A]" : "text-[#777777]"
+              )}
+            >
+              All Pieces
+            </Link>
+          </li>
+          {COLLECTIONS.map((collection) => (
+            <li key={collection.slug}>
+              <Link
+                to="/category/$slug"
+                params={{ slug: collection.slug }}
+                className={cn(
+                  "text-[13px] transition-colors hover:text-[#1A1A1A]",
+                  filters.category === collection.name ? "font-bold text-[#1A1A1A]" : "text-[#777777]"
+                )}
+              >
+                {collection.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="h-px w-full bg-[#E5E5E5]" />
+
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Filters</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">Filters</h2>
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+          className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A]"
         >
-          <X className="size-3" /> Clear all
+          <X className="size-3" strokeWidth={1.5} /> Clear All
         </button>
       </div>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
           Size
         </legend>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {ALL_SIZES.map((size) => {
             const active = filters.sizes?.includes(size);
             return (
@@ -55,10 +98,10 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 aria-pressed={active}
                 onClick={() => onChange({ sizes: toggle(filters.sizes, size) })}
                 className={cn(
-                  "h-9 min-w-11 border px-3 text-xs font-medium transition-colors",
+                  "flex h-10 min-w-10 items-center justify-center border text-[12px] font-medium transition-colors",
                   active
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-transparent hover:border-foreground/50",
+                    ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:border-[#1A1A1A]",
                 )}
               >
                 {size}
@@ -69,10 +112,10 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
           Colour
         </legend>
-        <div className="mt-3 flex flex-wrap gap-2.5">
+        <div className="flex flex-wrap gap-3">
           {ALL_COLORS.map((color) => {
             const active = filters.colors?.includes(color.name);
             return (
@@ -83,19 +126,24 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 aria-pressed={active}
                 onClick={() => onChange({ colors: toggle(filters.colors, color.name) })}
                 className={cn(
-                  "size-8 rounded-full border-2 transition-transform",
-                  active ? "border-foreground scale-110" : "border-border",
+                  "size-8 border transition-all",
+                  active ? "border-[#1A1A1A] p-0.5" : "border-transparent p-0 hover:border-[#E5E5E5]",
                 )}
-                style={{ backgroundColor: color.hex }}
-              />
+                title={color.name}
+              >
+                <span 
+                  className="block h-full w-full border border-[#E5E5E5]"
+                  style={{ backgroundColor: color.hex }}
+                />
+              </button>
             );
           })}
         </div>
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Max price
+        <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+          Max Price
         </legend>
         <input
           type="range"
@@ -104,28 +152,28 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
           step={5000}
           value={filters.maxPrice ?? PRICE_MAX}
           onChange={(event) => onChange({ maxPrice: Number(event.target.value) })}
-          className="mt-4 w-full accent-foreground"
+          className="w-full accent-[#1A1A1A]"
           aria-label="Maximum price"
         />
-        <p className="mt-2 text-xs text-muted-foreground">
-          Up to {formatPrice(filters.maxPrice ?? PRICE_MAX)}
+        <p className="mt-4 text-[13px] text-[#777777]">
+          Up to <span className="font-medium text-[#1A1A1A]">{formatPrice(filters.maxPrice ?? PRICE_MAX)}</span>
         </p>
       </fieldset>
 
-      <fieldset className="space-y-3">
-        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+      <fieldset className="space-y-4">
+        <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
           Availability
         </legend>
         {[
-          { key: "inStockOnly" as const, label: "In stock only" },
-          { key: "onSaleOnly" as const, label: "On sale" },
+          { key: "inStockOnly" as const, label: "In Stock Only" },
+          { key: "onSaleOnly" as const, label: "On Sale" },
         ].map((option) => (
-          <label key={option.key} className="flex cursor-pointer items-center gap-3 text-sm">
+          <label key={option.key} className="flex cursor-pointer items-center gap-3 text-[13px] text-[#444444] transition-colors hover:text-[#1A1A1A]">
             <input
               type="checkbox"
               checked={Boolean(filters[option.key])}
               onChange={(event) => onChange({ [option.key]: event.target.checked })}
-              className="size-4 border-border accent-foreground"
+              className="size-4 rounded-none border-[#E5E5E5] text-[#1A1A1A] focus:ring-[#1A1A1A]"
             />
             {option.label}
           </label>
@@ -133,10 +181,10 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
       </fieldset>
 
       <fieldset>
-        <legend className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
           Rating
         </legend>
-        <div className="mt-3 flex gap-2">
+        <div className="flex gap-2">
           {[4, 4.5].map((rating) => (
             <button
               key={rating}
@@ -146,13 +194,13 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
                 onChange({ minRating: filters.minRating === rating ? undefined : rating })
               }
               className={cn(
-                "h-9 border px-3 text-xs font-medium transition-colors",
+                "flex h-10 items-center justify-center border px-4 text-[12px] font-medium transition-colors",
                 filters.minRating === rating
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border bg-transparent hover:border-foreground/50",
+                  ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                  : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:border-[#1A1A1A]",
               )}
             >
-              {rating}+ stars
+              {rating}+ Stars
             </button>
           ))}
         </div>

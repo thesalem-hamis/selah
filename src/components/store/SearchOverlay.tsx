@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Search, X, Clock, ArrowUpRight } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { categories } from "@/data/catalog";
 import { productService } from "@/services/productService";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const RECENT_KEY = "selah.recent-searches";
 const SUGGESTED = ["Satin maxi", "Abaya", "Linen set", "Chiffon scarf", "Leather tote"];
@@ -83,186 +82,170 @@ export function SearchOverlay({ open, onClose }: SearchOverlayProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-100 animate-fade" role="dialog" aria-modal="true" aria-label="Search">
-      <button
-        aria-label="Close search"
-        className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div className="relative mx-auto flex h-full w-full max-w-3xl flex-col bg-background sm:h-auto sm:mt-16 sm:rounded-3xl sm:shadow-lift">
+    <div
+      className="fixed inset-0 z-[100] flex flex-col bg-[#1a1a1a] text-white"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search"
+    >
+      {/* Header with close */}
+      <div className="flex items-center justify-end px-6 py-5">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close search"
+          className="grid size-10 place-items-center text-gray-400 transition-colors hover:text-white"
+        >
+          <Icon icon="ph:x-light" className="size-6" />
+        </button>
+      </div>
+
+      {/* Search input area */}
+      <div className="mx-auto w-full max-w-3xl px-6 pt-8">
         <form
-          className="flex items-center gap-3 border-b border-border px-4 py-4 sm:px-6"
+          className="flex items-center gap-4 border-b border-gray-600 pb-4"
           onSubmit={(event) => {
             event.preventDefault();
             if (term.trim()) commit(term.trim());
           }}
         >
-          <Search className="size-5 shrink-0 text-muted-foreground" aria-hidden />
+          <Icon icon="ph:magnifying-glass-light" className="size-6 shrink-0 text-gray-500" />
           <input
             autoFocus
             value={term}
             onChange={(event) => setTerm(event.target.value)}
-            placeholder="Search dresses, scarves, SKU…"
+            placeholder="Search"
             aria-label="Search products"
-            className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
+            className="min-w-0 flex-1 bg-transparent text-2xl font-light tracking-wide text-white outline-none placeholder:text-gray-500"
           />
           {term && (
             <button
               type="button"
               onClick={() => setTerm("")}
-              className="rounded-full px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[13px] tracking-wide text-gray-400 transition-colors hover:text-white"
             >
               Clear
             </button>
           )}
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close search"
-            className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <X className="size-5" />
-          </button>
         </form>
+      </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-6 sm:max-h-[60vh]">
+      {/* Content area */}
+      <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="mx-auto w-full max-w-3xl px-6 py-10">
           {!term.trim() ? (
-            <div className="space-y-7">
+            <div className="space-y-12">
               {recent.length > 0 && (
                 <section>
-                  <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    Recent searches
+                  <h2 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500">
+                    Recent Searches
                   </h2>
-                  <ul className="flex flex-wrap gap-2">
+                  <div className="space-y-3">
                     {recent.map((item) => (
-                      <li key={item}>
-                        <button
-                          onClick={() => commit(item)}
-                          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm transition-colors hover:border-primary/40"
-                        >
-                          <Clock className="size-3.5 text-muted-foreground" />
-                          {item}
-                        </button>
-                      </li>
+                      <button
+                        key={item}
+                        onClick={() => commit(item)}
+                        className="flex w-full items-center justify-between py-2 text-[15px] tracking-wide text-gray-300 transition-colors hover:text-white"
+                      >
+                        <span>{item}</span>
+                        <Icon icon="ph:arrow-right-light" className="size-4 text-gray-600" />
+                      </button>
                     ))}
-                  </ul>
+                  </div>
                 </section>
               )}
               <section>
-                <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Suggested
+                <h2 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500">
+                  Popular Searches
                 </h2>
-                <ul className="flex flex-wrap gap-2">
+                <div className="space-y-3">
                   {SUGGESTED.map((item) => (
-                    <li key={item}>
-                      <button
-                        onClick={() => commit(item)}
-                        className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-2 text-sm transition-colors hover:bg-secondary"
-                      >
-                        {item}
-                        <ArrowUpRight className="size-3.5 text-muted-foreground" />
-                      </button>
-                    </li>
+                    <button
+                      key={item}
+                      onClick={() => commit(item)}
+                      className="flex w-full items-center justify-between py-2 text-[15px] tracking-wide text-gray-300 transition-colors hover:text-white"
+                    >
+                      <span>{item}</span>
+                      <Icon icon="ph:arrow-right-light" className="size-4 text-gray-600" />
+                    </button>
                   ))}
-                </ul>
-              </section>
-              <section>
-                <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Categories
-                </h2>
-                <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {categories.map((category) => (
-                    <li key={category.id}>
-                      <Link
-                        to="/category/$slug"
-                        params={{ slug: category.slug }}
-                        onClick={onClose}
-                        className="block rounded-xl border border-border bg-card px-4 py-3 text-sm transition-colors hover:border-primary/40"
-                      >
-                        {category.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                </div>
               </section>
             </div>
           ) : loading ? (
-            <ul className="space-y-3">
+            <div className="space-y-4">
               {[0, 1, 2].map((key) => (
-                <li key={key} className="flex gap-3">
-                  <Skeleton className="size-16 rounded-xl" />
-                  <div className="flex-1 space-y-2 py-1">
-                    <Skeleton className="h-3.5 w-2/3" />
-                    <Skeleton className="h-3 w-1/4" />
+                <div key={key} className="flex gap-4 animate-pulse">
+                  <div className="size-20 rounded bg-gray-700" />
+                  <div className="flex-1 space-y-3 py-2">
+                    <div className="h-3 w-2/3 rounded bg-gray-700" />
+                    <div className="h-3 w-1/3 rounded bg-gray-700" />
                   </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : results.length === 0 ? (
-            <div className="py-12 text-center">
-              <p className="font-display text-2xl">No results for "{term}"</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Try a shorter term, or browse the full collection.
+            <div className="py-16 text-center">
+              <p className="text-xl font-light tracking-wide">No results for "{term}"</p>
+              <p className="mt-3 text-[13px] text-gray-500">
+                Try a different search term, or browse the full collection.
               </p>
               <Link
                 to="/shop"
                 onClick={onClose}
-                className="mt-6 inline-flex h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground"
+                className="mt-8 inline-flex h-12 items-center border border-gray-600 px-8 text-[13px] font-medium tracking-[0.15em] text-white transition-colors hover:border-white"
               >
-                Browse everything
+                BROWSE EVERYTHING
               </Link>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {matchingCategories.length > 0 && (
-                <ul className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {matchingCategories.map((category) => (
-                    <li key={category.id}>
-                      <Link
-                        to="/category/$slug"
-                        params={{ slug: category.slug }}
-                        onClick={onClose}
-                        className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium"
-                      >
-                        Category · {category.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <ul className="space-y-2">
-                {results.slice(0, 6).map((product) => (
-                  <li key={product.id}>
                     <Link
-                      to="/product/$slug"
-                      params={{ slug: product.slug }}
+                      key={category.id}
+                      to="/category/$slug"
+                      params={{ slug: category.slug }}
                       onClick={onClose}
-                      className="flex items-center gap-4 rounded-2xl p-2 transition-colors hover:bg-muted"
+                      className="border border-gray-600 px-4 py-2 text-[11px] font-medium tracking-[0.15em] text-gray-300 transition-colors hover:border-white hover:text-white"
                     >
+                      {category.name.toUpperCase()}
+                    </Link>
+                  ))}
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                {results.slice(0, 6).map((product) => (
+                  <Link
+                    key={product.id}
+                    to="/product/$slug"
+                    params={{ slug: product.slug }}
+                    onClick={onClose}
+                    className="group"
+                  >
+                    <div className="overflow-hidden bg-[#2a2a2a]">
                       <img
                         src={product.images[0]}
                         alt={product.name}
                         loading="lazy"
-                        width={64}
-                        height={80}
-                        className="size-16 rounded-xl object-cover"
+                        className="aspect-[3/4] w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium">{product.name}</p>
-                        <p className="text-xs text-muted-foreground capitalize">
-                          {product.category} · {product.sku}
-                        </p>
-                      </div>
-                      <span className="text-sm">{formatPrice(product.price)}</span>
-                    </Link>
-                  </li>
+                    </div>
+                    <p className="mt-3 text-[13px] font-medium tracking-wide text-gray-200 group-hover:text-white">
+                      {product.name}
+                    </p>
+                    <p className="mt-1 text-[12px] text-gray-500">
+                      {formatPrice(product.price)}
+                    </p>
+                  </Link>
                 ))}
-              </ul>
+              </div>
               <button
                 onClick={() => commit(term.trim())}
-                className="w-full rounded-full border border-border py-3 text-sm font-medium transition-colors hover:bg-muted"
+                className="w-full border border-gray-600 py-4 text-[13px] font-medium tracking-[0.15em] text-white transition-colors hover:border-white"
               >
-                See all {results.length} results
+                VIEW ALL {results.length} RESULTS
               </button>
             </div>
           )}

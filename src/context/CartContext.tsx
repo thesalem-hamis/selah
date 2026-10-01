@@ -25,6 +25,9 @@ interface CartContextValue {
   setQuantity: (id: string, quantity: number) => void;
   clear: () => void;
   applyCoupon: (coupon: AppliedCoupon | null) => void;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -33,6 +36,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [coupon, setCoupon] = useState<AppliedCoupon | null>(null);
   const [hydrated, setHydrated] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -84,6 +88,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...current, next];
     });
     toast.success("Added to bag", { description: `${product.name} · ${size} · ${color}` });
+    setIsCartOpen(true);
   }, []);
 
   const remove = useCallback((id: string) => {
@@ -103,6 +108,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCoupon(null);
   }, []);
 
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+
   const value = useMemo<CartContextValue>(() => {
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const discount = coupon?.discount ?? 0;
@@ -121,8 +129,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQuantity,
       clear,
       applyCoupon: setCoupon,
+      isCartOpen,
+      openCart,
+      closeCart,
     };
-  }, [items, coupon, add, remove, setQuantity, clear]);
+  }, [items, coupon, add, remove, setQuantity, clear, isCartOpen, openCart, closeCart]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

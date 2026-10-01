@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/format";
 
 export function OrderSummary({
@@ -20,15 +19,50 @@ export function OrderSummary({
   onAction?: () => void;
 }) {
   return (
-    <aside className="border border-border bg-card p-6">
-      <h2 className="font-display text-2xl">Your summary</h2>
-      <dl className="mt-6 space-y-3 text-sm">
-        <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatPrice(subtotal)}</dd></div>
-        {discount > 0 && <div className="flex justify-between text-accent"><dt>Discount</dt><dd>-{formatPrice(discount)}</dd></div>}
-        <div className="flex justify-between"><dt className="text-muted-foreground">Delivery</dt><dd>{shipping ? formatPrice(shipping) : "Free"}</dd></div>
-        <div className="flex justify-between border-t border-border pt-4 text-base font-semibold"><dt>Total</dt><dd>{formatPrice(total)}</dd></div>
+    <aside className="border border-[#E5E5E5] bg-white p-8">
+      <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+        Order Summary
+      </h2>
+      <dl className="space-y-4 text-[13px]">
+        <div className="flex justify-between">
+          <dt className="text-[#777777]">SUBTOTAL</dt>
+          <dd className="font-medium text-[#1A1A1A]">{formatPrice(subtotal)}</dd>
+        </div>
+        {discount > 0 && (
+          <div className="flex justify-between text-[#FFC0CB]">
+            <dt>DISCOUNT</dt>
+            <dd>-{formatPrice(discount)}</dd>
+          </div>
+        )}
+        <div className="flex justify-between">
+          <dt className="text-[#777777]">SHIPPING</dt>
+          <dd className="font-medium text-[#1A1A1A]">{shipping ? formatPrice(shipping) : "FREE"}</dd>
+        </div>
+        <div className="mt-6 flex justify-between border-t border-[#E5E5E5] pt-6 text-[14px]">
+          <dt className="font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">Total</dt>
+          <dd className="font-bold text-[#1A1A1A]">{formatPrice(total)}</dd>
+        </div>
       </dl>
-      {actionLabel && (actionTo ? <Button asChild className="mt-6 w-full"><Link to={actionTo}>{actionLabel}</Link></Button> : <Button onClick={onAction} className="mt-6 w-full">{actionLabel}</Button>)}
+      
+      {actionLabel && (
+        <div className="mt-8">
+          {actionTo ? (
+            <Link
+              to={actionTo}
+              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+            >
+              {actionLabel}
+            </Link>
+          ) : (
+            <button
+              onClick={onAction}
+              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+            >
+              {actionLabel}
+            </button>
+          )}
+        </div>
+      )}
     </aside>
   );
 }

@@ -1,10 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { 
-  StoreLayout 
-} from "@/components/store/StoreLayout";
+import { StoreLayout } from "@/components/store/StoreLayout";
 import { OrderSummary } from "@/components/shared/OrderSummary";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { orderService } from "@/services/orderService";
@@ -13,27 +10,12 @@ import { customerService } from "@/services/customerService";
 import { formatPrice } from "@/lib/format";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ChevronRight, 
-  ChevronLeft, 
   Shield, 
   Lock, 
-  CreditCard, 
   Truck, 
-  MapPin, 
-  User, 
-  Mail, 
-  Phone, 
-  CheckCircle2,
-  AlertCircle,
-  Loader2,
-  Sparkles,
-  ArrowRight,
-  Building2,
-  Globe,
-  Home
+  AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { ComponentType } from "react";
 
 export const Route = createFileRoute("/checkout")({ component: CheckoutPage });
 
@@ -50,7 +32,6 @@ interface FieldProps {
   name: string;
   label: string;
   type?: string;
-  icon?: ComponentType<{ className?: string }>;
   value: string;
   onChange: (value: string) => void;
   error?: string | undefined;
@@ -78,9 +59,9 @@ function CheckoutPage() {
   }, [navigate, user]);
 
   const steps = [
-    { number: 1, label: 'Contact', icon: User },
-    { number: 2, label: 'Delivery', icon: MapPin },
-    { number: 3, label: 'Payment', icon: CreditCard },
+    { number: 1, label: 'CONTACT' },
+    { number: 2, label: 'DELIVERY' },
+    { number: 3, label: 'PAYMENT' },
   ];
 
   const updateField = (field: keyof FormData, value: string) => {
@@ -131,28 +112,23 @@ function CheckoutPage() {
   if (!cart.items.length) {
     return (
       <StoreLayout>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="container-page py-24 text-center"
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="mx-auto mb-6 flex size-20 items-center justify-center rounded-full bg-muted"
+        <div className="container-page py-32 text-center">
+          <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+            Your Bag is Empty
+          </p>
+          <h1
+            className="mb-8 text-4xl text-[#1A1A1A] md:text-5xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
           >
-            <CreditCard className="size-10 text-muted-foreground" />
-          </motion.div>
-          <h1 className="font-display text-4xl">Your bag is empty</h1>
-          <p className="mt-3 text-muted-foreground">Add some items to your bag before checking out.</p>
-          <Button asChild className="mt-6 gap-2">
-            <Link to="/shop">
-              Shop the collection
-              <ArrowRight className="size-4" />
-            </Link>
-          </Button>
-        </motion.div>
+            Add items to check out
+          </h1>
+          <Link
+            to="/shop"
+            className="inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+          >
+            SHOP THE COLLECTION
+          </Link>
+        </div>
       </StoreLayout>
     );
   }
@@ -208,149 +184,104 @@ function CheckoutPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-10 md:py-16">
+      <div className="container-page py-12 md:py-20">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-10"
-        >
-          <Link 
-            to="/cart" 
-            className="group mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ChevronLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-            Back to bag
-          </Link>
-          <p className="eyebrow text-primary flex items-center gap-2">
-            <Sparkles className="size-4" />
-            Almost yours
+        <header className="mb-12 flex flex-col items-center text-center">
+          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777]">
+            Almost Yours
           </p>
-          <h1 className="mt-3 font-display text-4xl md:text-5xl">Checkout</h1>
-        </motion.div>
+          <h1
+            className="text-4xl text-[#1A1A1A] md:text-5xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Checkout
+          </h1>
+        </header>
 
         {/* Progress Steps */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-10"
-        >
-          <div className="flex items-center gap-4">
-            {steps.map((stepItem, index) => (
-              <div key={stepItem.number} className="flex items-center gap-2 flex-1">
-                <div className="flex items-center gap-2">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className={cn(
-                      "size-10 rounded-full flex items-center justify-center font-semibold transition-all",
-                      step > stepItem.number 
-                        ? 'bg-primary text-primary-foreground'
-                        : step === stepItem.number 
-                          ? 'bg-primary/10 text-primary border-2 border-primary'
-                          : 'bg-muted text-muted-foreground'
-                    )}
-                  >
-                    {step > stepItem.number ? (
-                      <CheckCircle2 className="size-5" />
-                    ) : (
-                      <stepItem.icon className="size-4" />
-                    )}
-                  </motion.div>
-                  <span className={cn(
-                    "text-sm font-medium hidden sm:block",
-                    step >= stepItem.number ? 'text-foreground' : 'text-muted-foreground'
-                  )}>
-                    {stepItem.label}
-                  </span>
-                </div>
-                {index < steps.length - 1 && (
-                  <div className="flex-1 h-px bg-border relative">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: step > stepItem.number ? '100%' : '0%' }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-y-0 left-0 bg-primary"
-                    />
-                  </div>
+        <div className="mb-16 flex items-center justify-center gap-8 border-b border-[#E5E5E5] pb-8">
+          {steps.map((stepItem, index) => (
+            <div key={stepItem.number} className="flex items-center gap-4">
+              <span 
+                className={cn(
+                  "text-[11px] font-bold uppercase tracking-[0.2em] transition-colors",
+                  step >= stepItem.number ? "text-[#1A1A1A]" : "text-[#E5E5E5]"
                 )}
-              </div>
-            ))}
-          </div>
-        </motion.div>
+              >
+                {stepItem.number}. {stepItem.label}
+              </span>
+              {index < steps.length - 1 && (
+                <span className="h-px w-8 bg-[#E5E5E5]" />
+              )}
+            </div>
+          ))}
+        </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
-            <div className="space-y-8">
+          <div className="grid gap-12 lg:grid-cols-[1fr_400px] lg:gap-20">
+            <div className="space-y-12">
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.section
                     key="contact"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
+                    exit={{ opacity: 0, x: 10 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <h2 className="font-display text-2xl flex items-center gap-2">
-                      <User className="size-5 text-primary" />
-                      Contact details
+                    <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+                      1. Contact Details
                     </h2>
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="grid gap-6 sm:grid-cols-2">
                       <Field 
                         name="name" 
-                        label="Full name" 
-                        icon={User}
+                        label="FULL NAME" 
                         value={formData['name']}
                         onChange={(value) => updateField('name', value)}
                         error={errors['name']}
                       />
                       <Field 
                         name="email" 
-                        label="Email address" 
+                        label="EMAIL ADDRESS" 
                         type="email" 
-                        icon={Mail}
                         value={formData['email']}
                         onChange={(value) => updateField('email', value)}
                         error={errors['email']}
                       />
                       <Field 
                         name="phone" 
-                        label="Phone number" 
-                        icon={Phone}
+                        label="PHONE NUMBER" 
                         value={formData['phone']}
                         onChange={(value) => updateField('phone', value)}
                         error={errors['phone']}
                       />
                     </div>
-                    <Button 
+                    <button 
                       type="button"
                       onClick={handleNextStep}
-                      className="mt-6 gap-2"
+                      className="mt-10 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
                     >
-                      Continue to delivery
-                      <ArrowRight className="size-4" />
-                    </Button>
+                      CONTINUE TO DELIVERY
+                    </button>
                   </motion.section>
                 )}
 
                 {step === 2 && (
                   <motion.section
                     key="delivery"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
+                    exit={{ opacity: 0, x: 10 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <h2 className="font-display text-2xl flex items-center gap-2">
-                      <MapPin className="size-5 text-primary" />
-                      Delivery address
+                    <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+                      2. Delivery Address
                     </h2>
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="grid gap-6 sm:grid-cols-2">
                       <div className="sm:col-span-2">
                         <Field 
                           name="street" 
-                          label="Street address" 
-                          icon={Home}
+                          label="STREET ADDRESS" 
                           value={formData['street']}
                           onChange={(value) => updateField('street', value)}
                           error={errors['street']}
@@ -358,39 +289,34 @@ function CheckoutPage() {
                       </div>
                       <Field 
                         name="city" 
-                        label="City" 
-                        icon={Building2}
+                        label="CITY" 
                         value={formData['city']}
                         onChange={(value) => updateField('city', value)}
                         error={errors['city']}
                       />
                       <Field 
                         name="state" 
-                        label="State" 
-                        icon={Globe}
+                        label="STATE" 
                         value={formData['state']}
                         onChange={(value) => updateField('state', value)}
                         error={errors['state']}
                       />
                     </div>
-                    <div className="mt-6 flex gap-3">
-                      <Button 
+                    <div className="mt-10 flex gap-4">
+                      <button 
                         type="button"
-                        variant="outline"
                         onClick={handlePreviousStep}
-                        className="gap-2"
+                        className="flex h-14 w-1/3 items-center justify-center border border-[#1A1A1A] bg-white text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white"
                       >
-                        <ChevronLeft className="size-4" />
-                        Back
-                      </Button>
-                      <Button 
+                        BACK
+                      </button>
+                      <button 
                         type="button"
                         onClick={handleNextStep}
-                        className="gap-2"
+                        className="flex h-14 flex-1 items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
                       >
-                        Continue to payment
-                        <ArrowRight className="size-4" />
-                      </Button>
+                        CONTINUE TO PAYMENT
+                      </button>
                     </div>
                   </motion.section>
                 )}
@@ -398,105 +324,77 @@ function CheckoutPage() {
                 {step === 3 && (
                   <motion.section
                     key="payment"
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
+                    exit={{ opacity: 0, x: 10 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <h2 className="font-display text-2xl flex items-center gap-2">
-                      <CreditCard className="size-5 text-primary" />
-                      Payment method
+                    <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+                      3. Payment Method
                     </h2>
                     
-                    <div className="mt-4 space-y-3">
+                    <div className="space-y-4">
                       {[
-                        { id: 'card', label: 'Card Payment', description: 'Pay with Visa, Mastercard, or Verve', icon: CreditCard },
-                        { id: 'bank', label: 'Bank Transfer', description: 'Direct bank transfer payment', icon: Building2 },
-                        { id: 'ussd', label: 'USSD', description: 'Pay using USSD code', icon: Phone },
+                        { id: 'card', label: 'CARD PAYMENT', description: 'Pay with Visa, Mastercard, or Verve' },
+                        { id: 'bank', label: 'BANK TRANSFER', description: 'Direct bank transfer payment' },
+                        { id: 'ussd', label: 'USSD', description: 'Pay using USSD code' },
                       ].map((method) => (
-                        <motion.button
+                        <button
                           key={method.id}
                           type="button"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
                           onClick={() => setPaymentMethod(method.id as typeof paymentMethod)}
                           className={cn(
-                            "w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left",
+                            "flex w-full items-center justify-between border p-6 text-left transition-colors",
                             paymentMethod === method.id
-                              ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                              : 'border-border hover:border-primary/30'
+                              ? 'border-[#1A1A1A] bg-[#f4f4f4]'
+                              : 'border-[#E5E5E5] bg-white hover:border-[#1A1A1A]'
                           )}
                         >
-                          <div className={cn(
-                            "size-12 rounded-lg flex items-center justify-center",
-                            paymentMethod === method.id ? 'bg-primary text-primary-foreground' : 'bg-muted'
-                          )}>
-                            <method.icon className="size-6" />
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-medium">{method.label}</p>
-                            <p className="text-sm text-muted-foreground">{method.description}</p>
+                          <div>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{method.label}</p>
+                            <p className="mt-1 text-[12px] text-[#777777]">{method.description}</p>
                           </div>
                           <div className={cn(
-                            "size-5 rounded-full border-2 flex items-center justify-center",
-                            paymentMethod === method.id ? 'border-primary' : 'border-muted-foreground/30'
+                            "flex size-5 items-center justify-center border",
+                            paymentMethod === method.id ? 'border-[#1A1A1A]' : 'border-[#E5E5E5]'
                           )}>
                             {paymentMethod === method.id && (
-                              <div className="size-2.5 rounded-full bg-primary" />
+                              <div className="size-2.5 bg-[#1A1A1A]" />
                             )}
                           </div>
-                        </motion.button>
+                        </button>
                       ))}
                     </div>
 
-                    <div className="mt-6 flex gap-3">
-                      <Button 
+                    <div className="mt-10 flex gap-4">
+                      <button 
                         type="button"
-                        variant="outline"
                         onClick={handlePreviousStep}
-                        className="gap-2"
+                        className="flex h-14 w-1/3 items-center justify-center border border-[#1A1A1A] bg-white text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white"
                       >
-                        <ChevronLeft className="size-4" />
-                        Back
-                      </Button>
-                      <Button 
+                        BACK
+                      </button>
+                      <button 
                         type="submit"
                         disabled={busy}
-                        size="lg"
-                        className="flex-1 gap-2"
+                        className="flex h-14 flex-1 items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                       >
-                        {busy ? (
-                          <>
-                            <Loader2 className="size-4 animate-spin" />
-                            Processing…
-                          </>
-                        ) : (
-                          <>
-                            <Lock className="size-4" />
-                            Pay {formatPrice(cart.total)}
-                          </>
-                        )}
-                      </Button>
+                        {busy ? "PROCESSING..." : `PAY ${formatPrice(cart.total)}`}
+                      </button>
                     </div>
                   </motion.section>
                 )}
               </AnimatePresence>
 
               {errors['submit'] && (
-                <div className="flex items-center gap-2 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 p-4 text-sm text-red-600 dark:text-red-400">
-                  <AlertCircle className="size-4 shrink-0" />
+                <div className="mt-6 border border-red-500 bg-red-50 p-4 text-[12px] text-red-600">
                   {errors['submit']}
                 </div>
               )}
             </div>
 
             {/* Order Summary */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="lg:sticky lg:top-24 h-fit"
-            >
+            <div className="lg:sticky lg:top-32 h-fit">
               <OrderSummary 
                 subtotal={cart.subtotal} 
                 discount={cart.discount} 
@@ -505,19 +403,19 @@ function CheckoutPage() {
               />
 
               {/* Trust badges */}
-              <div className="mt-6 space-y-3">
+              <div className="mt-8 space-y-4">
                 {[
                   { icon: Shield, text: 'Secure checkout' },
                   { icon: Truck, text: 'Express delivery available' },
                   { icon: Lock, text: '256-bit SSL encryption' },
                 ].map(({ icon: Icon, text }) => (
-                  <div key={text} className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Icon className="size-4 text-primary shrink-0" />
+                  <div key={text} className="flex items-center gap-3 text-[12px] text-[#777777]">
+                    <Icon className="size-4 text-[#1A1A1A] shrink-0" strokeWidth={1.5} />
                     {text}
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </form>
       </div>
@@ -529,40 +427,34 @@ function Field({
   name, 
   label, 
   type = "text", 
-  icon: Icon,
   value,
   onChange,
   error
 }: FieldProps) { 
   return (
-    <label className="block">
-      <span className="text-sm font-medium">{label}</span>
-      <div className="relative mt-2">
-        {Icon && (
-          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+    <div>
+      <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
+        {label}
+      </label>
+      <input 
+        name={name} 
+        type={type} 
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required 
+        className={cn(
+          "h-12 w-full border bg-transparent px-4 text-[13px] outline-none transition-colors",
+          error 
+            ? 'border-red-500 focus:border-red-500' 
+            : 'border-[#E5E5E5] focus:border-[#1A1A1A]'
         )}
-        <input 
-          name={name} 
-          type={type} 
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required 
-          className={cn(
-            "h-11 w-full border bg-background px-3 rounded-lg transition-all",
-            Icon && "pl-9",
-            error 
-              ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' 
-              : 'border-input focus:border-primary focus:ring-2 focus:ring-primary/20',
-            "focus:outline-none"
-          )}
-        />
-      </div>
+      />
       {error && (
-        <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
-          <AlertCircle className="size-3" />
+        <p className="mt-2 flex items-center gap-1 text-[11px] text-red-500">
+          <AlertCircle className="size-3" strokeWidth={1.5} />
           {error}
         </p>
       )}
-    </label>
+    </div>
   ); 
 }

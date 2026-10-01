@@ -178,42 +178,44 @@ function ProductsAdmin() {
   };
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-background via-background to-muted/20 min-h-screen">
+    <div className="space-y-12 pb-20">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col sm:flex-row sm:items-end justify-between gap-4"
+        className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-[#E5E5E5] pb-8"
       >
         <div>
-          <p className="eyebrow text-primary flex items-center gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A] flex items-center gap-2">
             <Package className="size-4" />
             Catalogue
           </p>
-          <h1 className="mt-2 font-display text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <h1
+            className="mt-4 text-4xl text-[#1A1A1A] md:text-6xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
             Products
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Manage your product inventory and catalogue
+          <p className="mt-4 text-[13px] text-[#777777] uppercase tracking-[0.1em]">
+            Manage your product inventory and catalogue.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" className="gap-2 hover:bg-primary/5 transition-all">
+        <div className="flex flex-wrap gap-3">
+          <button className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9]">
             <Upload className="size-4" />
             Import
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2 hover:bg-primary/5 transition-all">
+          </button>
+          <button className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9]">
             <Download className="size-4" />
             Export
-          </Button>
-          <Button
-            size="sm"
-            className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/20 transition-all"
+          </button>
+          <button
+            className="flex items-center justify-center gap-2 border border-[#1A1A1A] bg-[#1A1A1A] px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-black/80 hover:border-black/80"
             onClick={() => setShowAddProduct(true)}
           >
             <Plus className="size-4" />
             Add product
-          </Button>
+          </button>
         </div>
       </motion.div>
 
@@ -222,61 +224,55 @@ function ProductsAdmin() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       >
         {[
           {
             label: "Total Products",
             value: stats.total,
             icon: Boxes,
-            color: "from-blue-500 to-cyan-500",
-            shadow: "shadow-blue-500/20",
           },
           {
             label: "Active",
             value: stats.active,
             icon: CheckCircle2,
-            color: "from-emerald-500 to-green-500",
-            shadow: "shadow-emerald-500/20",
           },
           {
             label: "Low Stock",
             value: stats.lowStock,
             icon: AlertTriangle,
-            color: "from-orange-500 to-amber-500",
-            shadow: "shadow-orange-500/20",
           },
           {
             label: "Inventory Value",
             value: formatPrice(stats.totalValue),
             icon: DollarSign,
-            color: "from-purple-500 to-pink-500",
-            shadow: "shadow-purple-500/20",
           },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.15 + index * 0.05 }}
-            whileHover={{ y: -4, scale: 1.02 }}
-            className="relative overflow-hidden p-5 rounded-xl border border-border bg-background/80 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="relative border border-[#E5E5E5] bg-white p-6 transition-all hover:border-[#1A1A1A]"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-muted/10" />
-            <div className="relative flex items-center justify-between">
-              <div
-                className={cn(
-                  "size-10 rounded-lg bg-gradient-to-br flex items-center justify-center shadow-lg",
-                  stat.color,
-                  stat.shadow,
-                )}
-              >
-                <stat.icon className="size-5 text-white" />
+            <div className="relative">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center justify-center">
+                  <stat.icon className="size-5 text-[#1A1A1A]" />
+                </div>
+                {index === 0 && <TrendingUp className="size-4 text-emerald-600" />}
               </div>
-              {index === 0 && <TrendingUp className="size-4 text-emerald-500" />}
+
+              <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                {stat.label}
+              </p>
+              <p
+                className="mt-2 text-3xl md:text-4xl text-[#1A1A1A]"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+              >
+                {stat.value}
+              </p>
             </div>
-            <p className="relative mt-3 text-2xl font-semibold">{stat.value}</p>
-            <p className="relative text-sm text-muted-foreground">{stat.label}</p>
           </motion.div>
         ))}
       </motion.div>
@@ -301,27 +297,25 @@ function ProductsAdmin() {
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2 flex-1 sm:flex-none hover:bg-primary/5 transition-all"
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9] flex-1 sm:flex-none"
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="size-4" />
             Filters
-          </Button>
+          </button>
 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-            className="h-10 px-3 rounded-lg border border-input bg-background/80 backdrop-blur-sm text-sm focus:border-primary focus:outline-none flex-1 sm:flex-none"
+            className="h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none flex-1 sm:flex-none appearance-none"
           >
-            <option value="newest">Newest</option>
-            <option value="name">Name</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="stock">Stock Level</option>
+            <option value="newest">NEWEST</option>
+            <option value="name">NAME</option>
+            <option value="price-asc">PRICE: LOW TO HIGH</option>
+            <option value="price-desc">PRICE: HIGH TO LOW</option>
+            <option value="stock">STOCK LEVEL</option>
           </select>
         </div>
       </motion.div>
@@ -335,20 +329,20 @@ function ProductsAdmin() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="p-4 rounded-lg border border-border bg-muted/30 backdrop-blur-sm">
+            <div className="p-6 border border-[#E5E5E5] bg-[#F9F9F9]">
               <div className="flex flex-wrap gap-4">
                 <div>
-                  <label className="text-sm font-medium">Status</label>
-                  <div className="flex gap-2 mt-2 flex-wrap">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">Status</label>
+                  <div className="flex gap-2 flex-wrap">
                     {(["all", "active", "draft", "archived"] as const).map((status) => (
                       <button
                         key={status}
                         onClick={() => setStatusFilter(status)}
                         className={cn(
-                          "px-3 py-1.5 text-xs font-medium rounded-full capitalize transition-all",
+                          "px-4 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors border",
                           statusFilter === status
-                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                            : "bg-background border border-border hover:bg-muted",
+                            ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                            : "bg-white text-[#777777] border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]",
                         )}
                       >
                         {status}
@@ -369,30 +363,26 @@ function ProductsAdmin() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20 backdrop-blur-sm"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-[#1A1A1A] bg-[#1A1A1A] text-white"
           >
-            <p className="text-sm">
-              <span className="font-semibold">{selectedProducts.size}</span> products selected
+            <p className="text-[11px] font-bold uppercase tracking-[0.1em]">
+              {selectedProducts.size} products selected
             </p>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1 sm:flex-none"
+            <div className="flex gap-3 w-full sm:w-auto">
+              <button
+                className="flex-1 sm:flex-none px-6 h-10 border border-[#333333] bg-transparent text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-[#222222] transition-colors"
                 onClick={() => setSelectedProducts(new Set())}
               >
                 Clear selection
-              </Button>
-              <Button
-                variant="destructive"
-                size="sm"
+              </button>
+              <button
                 onClick={handleBulkDelete}
                 disabled={isDeleting}
-                className="gap-2 flex-1 sm:flex-none"
+                className="flex items-center justify-center gap-2 flex-1 sm:flex-none px-6 h-10 bg-red-600 text-white text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-red-700 transition-colors"
               >
                 <Trash2 className="size-4" />
                 Delete selected
-              </Button>
+              </button>
             </div>
           </motion.div>
         )}
@@ -403,12 +393,12 @@ function ProductsAdmin() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="overflow-x-auto rounded-xl border border-border bg-background/80 backdrop-blur-sm shadow-sm"
+        className="overflow-x-auto border border-[#E5E5E5] bg-white"
       >
-        <table className="w-full min-w-[800px] text-left text-sm">
-          <thead className="border-b border-border bg-muted/30">
-            <tr className="text-xs uppercase tracking-wider text-muted-foreground">
-              <th className="p-4">
+        <table className="w-full min-w-[800px] text-left">
+          <thead className="border-b border-[#E5E5E5] bg-[#F9F9F9]">
+            <tr className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+              <th className="p-4 w-12">
                 <input
                   type="checkbox"
                   checked={
@@ -416,7 +406,7 @@ function ProductsAdmin() {
                     paginatedProducts.length > 0
                   }
                   onChange={toggleSelectAll}
-                  className="rounded border-input"
+                  className="rounded-none border-[#E5E5E5] text-[#1A1A1A] focus:ring-[#1A1A1A]"
                 />
               </th>
               <th className="p-4">Product</th>
@@ -426,7 +416,7 @@ function ProductsAdmin() {
               <th className="p-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border">
+          <tbody className="divide-y divide-[#E5E5E5]">
             {paginatedProducts.map((product, index) => (
               <motion.tr
                 key={product.id}
@@ -434,8 +424,8 @@ function ProductsAdmin() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: index * 0.05 }}
                 className={cn(
-                  "hover:bg-muted/30 transition-colors",
-                  selectedProducts.has(product.id) && "bg-primary/5",
+                  "hover:bg-[#F9F9F9] transition-colors",
+                  selectedProducts.has(product.id) && "bg-[#F9F9F9]",
                 )}
               >
                 <td className="p-4">
@@ -443,46 +433,46 @@ function ProductsAdmin() {
                     type="checkbox"
                     checked={selectedProducts.has(product.id)}
                     onChange={() => toggleSelectProduct(product.id)}
-                    className="rounded border-input"
+                    className="rounded-none border-[#E5E5E5] text-[#1A1A1A] focus:ring-[#1A1A1A]"
                   />
                 </td>
                 <td className="p-4">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4">
                     <img
                       src={product.images[0]}
                       alt={product.name}
-                      className="size-12 rounded-lg object-cover shadow-sm"
+                      className="size-16 object-cover border border-[#E5E5E5]"
                     />
                     <div>
-                      <p className="font-medium">{product.name}</p>
-                      <p className="text-xs text-muted-foreground">{product.slug}</p>
+                      <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{product.name}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-[#777777]">{product.slug}</p>
                     </div>
                   </div>
                 </td>
-                <td className="p-4 font-medium">{formatPrice(product.price)}</td>
+                <td className="p-4 text-[12px] font-bold text-[#1A1A1A]">{formatPrice(product.price)}</td>
                 <td className="p-4">
                   <div className="flex items-center gap-2">
                     <span
                       className={cn(
-                        "font-medium",
-                        product.stock < 10 ? "text-red-600" : "text-foreground",
+                        "text-[12px] font-bold",
+                        product.stock < 10 ? "text-red-600" : "text-[#1A1A1A]",
                       )}
                     >
                       {product.stock}
                     </span>
-                    {product.stock < 10 && <AlertTriangle className="size-4 text-red-500" />}
+                    {product.stock < 10 && <AlertTriangle className="size-4 text-red-600" />}
                   </div>
                 </td>
                 <td className="p-4">
                   <span
                     className={cn(
-                      "inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium capitalize",
+                      "inline-flex items-center gap-2 px-3 py-1 border text-[10px] font-bold uppercase tracking-[0.1em]",
                       product.status === "active" &&
-                        "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400",
+                        "border-emerald-200 bg-emerald-50 text-emerald-700",
                       product.status === "draft" &&
-                        "bg-yellow-50 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-400",
+                        "border-yellow-200 bg-yellow-50 text-yellow-700",
                       product.status === "archived" &&
-                        "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+                        "border-[#E5E5E5] bg-[#F9F9F9] text-[#777777]",
                     )}
                   >
                     {product.status === "active" && <CheckCircle2 className="size-3" />}
@@ -492,34 +482,28 @@ function ProductsAdmin() {
                   </span>
                 </td>
                 <td className="p-4">
-                  <div className="flex justify-end gap-1">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="hover:bg-muted transition-all"
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
                       onClick={() => setSelectedProduct(product)}
                       title="View product"
                     >
                       <Eye className="size-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="hover:bg-muted transition-all"
+                    </button>
+                    <button
+                      className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
                       onClick={() => handleDuplicate(product.id)}
                       title="Duplicate product"
                     >
                       <Copy className="size-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 transition-all"
+                    </button>
+                    <button
+                      className="p-2 border border-transparent text-[#777777] hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all"
                       onClick={() => setDeleteConfirm(product.id)}
                       title="Delete product"
                     >
                       <Trash2 className="size-4" />
-                    </Button>
+                    </button>
                   </div>
                 </td>
               </motion.tr>
@@ -528,49 +512,50 @@ function ProductsAdmin() {
         </table>
 
         {paginatedProducts.length === 0 && (
-          <div className="p-8 text-center text-muted-foreground">
-            <Package className="size-12 mx-auto mb-3 opacity-40" />
-            <p>No products found</p>
+          <div className="p-12 text-center">
+            <Package className="size-8 mx-auto mb-4 text-[#E5E5E5]" />
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">No products found</p>
           </div>
         )}
       </motion.div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
             {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of{" "}
             {filteredProducts.length} products
           </p>
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
             >
               <ChevronLeft className="size-4" />
-            </Button>
+            </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
+              <button
                 key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
                 onClick={() => setCurrentPage(page)}
-                className={cn(currentPage === page && "bg-primary shadow-lg shadow-primary/20")}
+                className={cn(
+                  "size-8 flex items-center justify-center border text-[11px] font-bold transition-colors",
+                  currentPage === page
+                    ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:bg-[#F9F9F9]"
+                )}
               >
                 {page}
-              </Button>
+              </button>
             ))}
-            <Button
-              variant="outline"
-              size="sm"
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
             >
               <ChevronRight className="size-4" />
-            </Button>
+            </button>
           </div>
         </div>
       )}
@@ -586,21 +571,21 @@ function ProductsAdmin() {
           >
             <button
               aria-label="Close product details"
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
               onClick={() => setSelectedProduct(null)}
             />
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-background p-6 shadow-2xl"
+              exit={{ scale: 0.98, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-[#E5E5E5] bg-white p-8 shadow-2xl"
             >
               <button
                 onClick={() => setSelectedProduct(null)}
-                className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted transition-colors"
+                className="absolute top-6 right-6 p-2 border border-transparent hover:border-[#E5E5E5] hover:bg-[#F9F9F9] transition-colors"
               >
-                <X className="size-5" />
+                <X className="size-5 text-[#1A1A1A]" />
               </button>
               <div className="flex flex-col sm:flex-row gap-5">
                 <img
@@ -616,24 +601,27 @@ function ProductsAdmin() {
                   </p>
                 </div>
               </div>
-              <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-3">
-                <div>
-                  <p className="text-xs text-muted-foreground">Price</p>
-                  <p className="mt-1 font-medium">{formatPrice(selectedProduct.price)}</p>
+              <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-3">
+                <div className="border border-[#E5E5E5] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Price</p>
+                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{formatPrice(selectedProduct.price)}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Stock</p>
-                  <p className="mt-1 font-medium">{selectedProduct.stock}</p>
+                <div className="border border-[#E5E5E5] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Stock</p>
+                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{selectedProduct.stock}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">SKU</p>
-                  <p className="mt-1 font-medium">{selectedProduct.sku}</p>
+                <div className="border border-[#E5E5E5] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">SKU</p>
+                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{selectedProduct.sku}</p>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end">
-                <Button variant="outline" onClick={() => setSelectedProduct(null)}>
+              <div className="mt-10 flex justify-end pt-6 border-t border-[#E5E5E5]">
+                <button
+                  className="px-8 h-12 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
+                  onClick={() => setSelectedProduct(null)}
+                >
                   Close
-                </Button>
+                </button>
               </div>
             </motion.div>
           </motion.div>
@@ -656,32 +644,41 @@ function ProductsAdmin() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
               onClick={() => setDeleteConfirm(null)}
             />
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative w-full max-w-md rounded-xl border border-border bg-background p-6 shadow-2xl"
+              exit={{ scale: 0.98, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-md border border-[#E5E5E5] bg-white p-8 shadow-2xl"
             >
-              <div className="flex items-center gap-3">
-                <div className="size-10 rounded-lg bg-red-50 dark:bg-red-950/30 flex items-center justify-center">
+              <div className="flex items-start gap-4">
+                <div className="size-10 bg-red-50 border border-red-200 flex items-center justify-center shrink-0">
                   <AlertTriangle className="size-5 text-red-600" />
                 </div>
                 <div>
-                  <h2 className="font-semibold text-lg">Delete product?</h2>
-                  <p className="text-sm text-muted-foreground">This action cannot be undone.</p>
+                  <h2
+                    className="text-2xl text-[#1A1A1A]"
+                    style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                  >
+                    Delete product?
+                  </h2>
+                  <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                    This action cannot be undone.
+                  </p>
                 </div>
               </div>
-              <div className="mt-6 flex gap-3">
-                <Button variant="outline" className="flex-1" onClick={() => setDeleteConfirm(null)}>
+              <div className="mt-8 flex gap-4 pt-6 border-t border-[#E5E5E5]">
+                <button
+                  className="flex-1 h-12 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
+                  onClick={() => setDeleteConfirm(null)}
+                >
                   Cancel
-                </Button>
-                <Button
-                  variant="destructive"
-                  className="flex-1 gap-2"
+                </button>
+                <button
+                  className="flex flex-1 items-center justify-center gap-3 h-12 bg-red-600 text-[11px] font-bold uppercase tracking-[0.1em] text-white hover:bg-red-700 transition-colors disabled:opacity-50"
                   onClick={() => handleDelete(deleteConfirm)}
                   disabled={isDeleting}
                 >
@@ -696,7 +693,7 @@ function ProductsAdmin() {
                       Delete
                     </>
                   )}
-                </Button>
+                </button>
               </div>
             </motion.div>
           </motion.div>
@@ -716,28 +713,40 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
   const [categories, setCategories] = useState<Array<{id: string, slug: string, name: string}>>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch categories when modal opens
+  // Use predefined collections instead of fetching old categories from the database
   useEffect(() => {
     if (isOpen) {
-      const fetchCategories = async () => {
+      const definedCategories = [
+        { id: "828", slug: "828", name: "828" },
+        { id: "ask-me-about-jesus", slug: "ask-me-about-jesus", name: "Ask Me About Jesus" },
+        { id: "babe-i-love-jesus", slug: "babe-i-love-jesus", name: "Babe, I Love Jesus" },
+        { id: "pretty-and-prayed-up", slug: "pretty-and-prayed-up", name: "Pretty And Prayed Up" },
+        { id: "selah-girl-society", slug: "selah-girl-society", name: "Selah Girl Society" }
+      ];
+      setCategories(definedCategories);
+
+      // Ensure categories exist in DB to prevent foreign key errors
+      const ensureCategoriesInDb = async () => {
         try {
-          const { data, error } = await supabase
-            .from("categories")
-            .select("id, slug, name")
-            .eq("active", true)
-            .order("name");
+          const { data: existing } = await supabase.from("categories").select("slug");
+          const existingSlugs = new Set(existing?.map(c => c.slug) || []);
           
-          if (error) {
-            console.error("Failed to fetch categories:", error);
-          } else {
-            setCategories(data || []);
+          const missingCategories = definedCategories
+            .filter(c => !existingSlugs.has(c.slug))
+            .map(c => ({
+              name: c.name,
+              slug: c.slug,
+              active: true
+            }));
+            
+          if (missingCategories.length > 0) {
+            await supabase.from("categories").insert(missingCategories);
           }
-        } catch (error) {
-          console.error("Failed to fetch categories:", error);
+        } catch (e) {
+          console.error("Failed to sync categories to db:", e);
         }
       };
-      
-      fetchCategories();
+      ensureCategoriesInDb();
     }
   }, [isOpen]);
 
@@ -871,7 +880,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         description: String(formData.get("description") ?? ""),
         details: ["Designed for everyday wear"],
         category,
-        subcategory: "New release",
+        subcategory: String(formData.get("subcategory") ?? ""),
         price: Math.round(priceRaw * 100),
         oldPrice: undefined,
         sku: SKU,
@@ -921,60 +930,65 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         >
           <button
             aria-label="Close add product"
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.form
-            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            initial={{ scale: 0.98, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            transition={{ type: "spring", duration: 0.5 }}
+            exit={{ scale: 0.98, opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
             onSubmit={handleSubmit}
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border border-border bg-background p-6 shadow-2xl"
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-[#E5E5E5] bg-white p-8"
           >
             {/* Header */}
-            <div className="flex items-start justify-between mb-6">
+            <div className="flex items-start justify-between mb-8 border-b border-[#E5E5E5] pb-6">
               <div>
-                <p className="eyebrow text-primary">Catalogue</p>
-                <h2 className="mt-2 font-display text-2xl sm:text-3xl">Add New Product</h2>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">Catalogue</p>
+                <h2
+                  className="mt-4 text-3xl md:text-4xl text-[#1A1A1A]"
+                  style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                >
+                  Add New Product
+                </h2>
+                <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
                   Fill in the details below to create a new product
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-muted transition-colors"
+                className="p-3 border border-transparent hover:border-[#E5E5E5] hover:bg-[#F9F9F9] transition-colors"
               >
-                <X className="size-5" />
+                <X className="size-5 text-[#1A1A1A]" />
               </button>
             </div>
 
             {/* Error message */}
             {submitError && (
-              <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm">
+              <div className="mb-6 p-4 border border-red-200 bg-red-50 text-[11px] font-bold uppercase tracking-[0.1em] text-red-600">
                 {submitError}
               </div>
             )}
 
             {/* Form Fields */}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2">
               {/* Product Name */}
               <div className="sm:col-span-2">
-                <label className="text-sm font-medium mb-2 block">
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
                   Product Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="name"
                   required
-                  placeholder="Enter product name"
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  placeholder="ENTER PRODUCT NAME"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Price */}
               <div>
-                <label className="text-sm font-medium mb-2 block">
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
                   Price (£) <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -984,13 +998,13 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   step="0.01"
                   required
                   placeholder="0.00"
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Stock */}
               <div>
-                <label className="text-sm font-medium mb-2 block">
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
                   Stock <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -999,89 +1013,111 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   min="0"
                   required
                   placeholder="0"
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Size Range */}
               <div className="sm:col-span-2">
-                <label className="text-sm font-medium mb-2 block">
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
                   Size Range
                 </label>
                 <input
                   name="sizeRange"
                   type="text"
-                  placeholder="e.g. XS-XL or XS, S, M, L, XL"
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  placeholder="E.G. XS-XL OR XS, S, M, L, XL"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
                 />
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Enter a range (XS-XL) or comma-separated sizes (XS, S, M, L, XL). Defaults to XS-XXL if left empty.
+                <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                  Enter a range (XS-XL) or comma-separated sizes. Defaults to XS-XXL if left empty.
                 </p>
               </div>
 
               {/* Category - Dynamic Dropdown */}
               <div>
-                <label className="text-sm font-medium mb-2 block">
-                  Category <span className="text-red-500">*</span>
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                  Collection <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="category"
                   required
                   defaultValue=""
-                  className="w-full h-11 px-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
                 >
-                  <option value="" disabled>Select a category</option>
+                  <option value="" disabled>SELECT A COLLECTION</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.slug}>
-                      {cat.name}
+                      {cat.name.toUpperCase()}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Subcategory - General Category */}
+              <div>
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                  Category <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="subcategory"
+                  required
+                  defaultValue=""
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
+                >
+                  <option value="" disabled>SELECT A CATEGORY</option>
+                  <option value="tops">TOPS</option>
+                  <option value="bottoms">BOTTOMS</option>
+                  <option value="dresses">DRESSES</option>
+                  <option value="outerwear">OUTERWEAR</option>
+                  <option value="accessories">ACCESSORIES</option>
+                  <option value="jewelry">JEWELRY</option>
+                  <option value="bags">BAGS</option>
+                </select>
+              </div>
+
               {/* SKU */}
               <div>
-                <label className="text-sm font-medium mb-2 block">SKU</label>
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">SKU</label>
                 <input
                   name="sku"
-                  placeholder="Auto-generated if left empty"
-                  className="w-full h-11 px-4 rounded-lg bincrease the logo maturedlyorder border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
+                  placeholder="AUTO-GENERATED IF EMPTY"
+                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
                 />
               </div>
 
               {/* Description */}
               <div className="sm:col-span-2">
-                <label className="text-sm font-medium mb-2 block">
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
                   Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="description"
                   required
-                  placeholder="Enter product description"
-                  className="w-full min-h-24 px-4 py-3 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all resize-none"
+                  placeholder="ENTER PRODUCT DESCRIPTION"
+                  className="w-full min-h-32 px-4 py-4 border border-[#E5E5E5] bg-white text-[12px] tracking-[0.05em] text-[#1A1A1A] placeholder:text-[#BBBBBB] placeholder:uppercase placeholder:tracking-[0.1em] focus:border-[#1A1A1A] focus:outline-none transition-colors resize-none"
                 />
               </div>
 
               {/* Image Upload */}
               <div className="sm:col-span-2">
-                <label className="text-sm font-medium mb-2 block">Product Images</label>
+                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-4 block">Product Images</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {imagePreviews.map((preview, index) => (
-                    <div key={index} className="relative group">
+                    <div key={index} className="relative group border border-[#E5E5E5]">
                       <img
                         src={preview}
                         alt={`Preview ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg border border-border shadow-sm"
+                        className="w-full h-32 object-cover"
                       />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-2 right-2 p-2 bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                       >
                         <X className="size-4" />
                       </button>
                       {index === 0 && (
-                        <span className="absolute bottom-2 left-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded">
+                        <span className="absolute bottom-2 left-2 px-3 py-1 bg-[#1A1A1A] text-white text-[9px] font-bold uppercase tracking-[0.2em]">
                           Main
                         </span>
                       )}
@@ -1092,10 +1128,10 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="h-32 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+                      className="h-32 border border-dashed border-[#BBBBBB] flex flex-col items-center justify-center gap-3 hover:border-[#1A1A1A] hover:bg-[#F9F9F9] transition-all"
                     >
-                      <ImagePlus className="size-8 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">Add Image</span>
+                      <ImagePlus className="size-6 text-[#777777]" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">Add Image</span>
                     </button>
                   )}
                 </div>
@@ -1107,26 +1143,25 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   onChange={handleImageUpload}
                   className="hidden"
                 />
-                <p className="mt-2 text-xs text-muted-foreground">
+                <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
                   Upload up to 5 images. First image will be used as the main product image.
                 </p>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-end">
-              <Button
+            <div className="mt-10 pt-6 border-t border-[#E5E5E5] flex flex-col sm:flex-row gap-4 justify-end">
+              <button
                 type="button"
-                variant="outline"
                 onClick={onClose}
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto px-8 h-12 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
               >
                 Cancel
-              </Button>
-              <Button
+              </button>
+              <button
                 type="submit"
                 disabled={isSubmitting}
-                className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg shadow-primary/20 transition-all w-full sm:w-auto"
+                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 h-12 border border-[#1A1A1A] bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.1em] text-white hover:bg-black hover:border-black transition-colors disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
@@ -1139,7 +1174,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     Create Product
                   </>
                 )}
-              </Button>
+              </button>
             </div>
           </motion.form>
         </motion.div>

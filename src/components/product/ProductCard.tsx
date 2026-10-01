@@ -42,7 +42,7 @@ export function ProductCard({ product, showRating = false, className, listView =
             width={800}
             height={1000}
             className={cn(
-              "aspect-4/5 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105",
+              "aspect-[4/5] w-full object-cover transition-opacity duration-500 ease-out",
               secondary && "group-hover:opacity-0",
               soldOut && "opacity-70",
             )}
@@ -55,7 +55,7 @@ export function ProductCard({ product, showRating = false, className, listView =
               loading="lazy"
               width={800}
               height={1000}
-              className="absolute inset-0 aspect-4/5 w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              className="absolute inset-0 aspect-[4/5] w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             />
           )}
 
@@ -128,16 +128,6 @@ export function ProductCard({ product, showRating = false, className, listView =
             )}
           </div>
         </div>
-        {!soldOut && (
-          <button
-            type="button"
-            onClick={() => add(product)}
-            aria-label={`Add ${product.name} to bag`}
-            className="grid size-11 shrink-0 place-items-center border border-foreground/20 bg-foreground text-background transition-all active:scale-95 md:hidden"
-          >
-            <ShoppingBag className="size-[1.05rem]" strokeWidth={1.8} />
-          </button>
-        )}
       </div>
     </article>
   );

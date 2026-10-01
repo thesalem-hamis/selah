@@ -236,36 +236,41 @@ function Overview() {
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 border-b border-[#E5E5E5] pb-8"
       >
         <div>
-          <p className="eyebrow text-primary flex items-center gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A] flex items-center gap-2">
             <BarChart3 className="size-4" />
             Studio overview
           </p>
-          <h1 className="mt-2 font-display text-4xl md:text-5xl">Good morning.</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <h1
+            className="mt-4 text-4xl text-[#1A1A1A] md:text-6xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Good morning.
+          </h1>
+          <p className="mt-4 text-[13px] text-[#777777] uppercase tracking-[0.1em]">
             Here's what's happening with your store today.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Time Range Selector */}
-          <div className="flex rounded-lg border border-border bg-background p-1">
+          <div className="flex border border-[#E5E5E5]">
             {timeRanges.map((range) => (
               <button
                 key={range.value}
                 onClick={() => handleTimeRangeChange(range.value as typeof timeRange)}
                 className={cn(
-                  "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
+                  "px-4 py-3 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors border-r border-[#E5E5E5] last:border-r-0",
                   timeRange === range.value
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground",
+                    ? "bg-[#1A1A1A] text-white"
+                    : "bg-white text-[#777777] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]",
                 )}
               >
                 {range.label}
@@ -276,13 +281,13 @@ function Overview() {
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2 rounded-lg border border-border hover:bg-muted transition-colors disabled:opacity-50"
+            className="p-3 border border-[#E5E5E5] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
           >
             <RefreshCw className={cn("size-4", isRefreshing && "animate-spin")} />
           </button>
           <button
             onClick={handleDownload}
-            className="p-2 rounded-lg border border-border hover:bg-muted transition-colors"
+            className="p-3 border border-[#E5E5E5] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
           >
             <Download className="size-4" />
           </button>
@@ -290,39 +295,24 @@ function Overview() {
       </motion.div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ y: -2 }}
-            className="group relative overflow-hidden rounded-xl border border-border bg-background p-6 transition-all hover:shadow-lg"
+            className="relative border border-[#1A1A1A] bg-white p-6 transition-all hover:bg-[#1A1A1A] hover:text-white group"
           >
-            {/* Background gradient */}
-            <div
-              className={cn(
-                "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity",
-                "bg-gradient-to-br",
-                stat.color,
-              )}
-            />
-
             <div className="relative">
               <div className="flex items-start justify-between">
-                <div
-                  className={cn(
-                    "size-10 rounded-lg flex items-center justify-center",
-                    stat.bgColor,
-                  )}
-                >
-                  <stat.icon className="size-5 text-primary" />
+                <div className="flex items-center justify-center">
+                  <stat.icon className="size-5 text-[#1A1A1A] group-hover:text-white" />
                 </div>
                 <span
                   className={cn(
-                    "inline-flex items-center gap-1 text-xs font-medium",
-                    stat.trend === "up" ? "text-emerald-600" : "text-red-600",
+                    "inline-flex items-center gap-1 text-[11px] font-bold tracking-[0.1em]",
+                    stat.trend === "up" ? "text-emerald-600 group-hover:text-emerald-400" : "text-red-600 group-hover:text-red-400",
                   )}
                 >
                   {stat.trend === "up" ? (
@@ -334,26 +324,38 @@ function Overview() {
                 </span>
               </div>
 
-              <p className="mt-4 text-sm text-muted-foreground">{stat.label}</p>
-              <p className="mt-1 font-display text-3xl">{stat.value}</p>
+              <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777] group-hover:text-[#BBBBBB]">
+                {stat.label}
+              </p>
+              <p
+                className="mt-2 text-3xl md:text-4xl text-[#1A1A1A] group-hover:text-white"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+              >
+                {stat.value}
+              </p>
             </div>
           </motion.div>
         ))}
       </div>
 
       {/* Main Grid */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-8 lg:grid-cols-2">
         {/* Store Health */}
         <motion.section
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-xl border border-border bg-background p-6"
+          className="border border-[#E5E5E5] bg-white p-8"
         >
-          <div className="flex items-center justify-between">
-            <h2 className="font-display text-2xl">Store health</h2>
-            <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-              <MoreHorizontal className="size-4" />
+          <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-6">
+            <h2
+              className="text-2xl md:text-3xl text-[#1A1A1A]"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+            >
+              Store Health
+            </h2>
+            <button className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] hover:text-[#1A1A1A] transition-colors">
+              VIEW DETAILS
             </button>
           </div>
 
@@ -364,20 +366,15 @@ function Overview() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5 + index * 0.1 }}
-                className="flex items-center justify-between p-4 rounded-lg border border-border/50 hover:bg-muted/50 transition-colors"
+                className="flex items-center justify-between p-4 border border-[#E5E5E5] hover:border-[#1A1A1A] transition-colors"
               >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "size-10 rounded-lg flex items-center justify-center",
-                      item.bgColor,
-                    )}
-                  >
-                    <item.icon className={cn("size-5", item.color)} />
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center">
+                    <item.icon className="size-5 text-[#1A1A1A]" />
                   </div>
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{item.label}</span>
                 </div>
-                <span className="font-semibold text-lg">{item.value}</span>
+                <span className="font-bold text-lg text-[#1A1A1A]">{item.value}</span>
               </motion.div>
             ))}
           </div>
@@ -388,11 +385,18 @@ function Overview() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-xl border border-border bg-background p-6"
+          className="border border-[#E5E5E5] bg-white p-8"
         >
-          <div className="flex items-center justify-between">
-            <h2 className="font-display text-2xl">Top pieces</h2>
-            <button className="text-sm text-primary hover:underline">View all</button>
+          <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-6">
+            <h2
+              className="text-2xl md:text-3xl text-[#1A1A1A]"
+              style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+            >
+              Top Pieces
+            </h2>
+            <button className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] hover:text-[#1A1A1A] transition-colors">
+              VIEW ALL
+            </button>
           </div>
 
           <div className="mt-6 space-y-4">
@@ -402,20 +406,20 @@ function Overview() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + index * 0.1 }}
-                className="flex items-center justify-between gap-4 p-4 rounded-lg border border-border/50 hover:bg-muted/50 transition-colors"
+                className="flex items-center justify-between gap-4 p-4 border border-[#E5E5E5] hover:border-[#1A1A1A] transition-colors"
               >
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="size-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                    <Star className="size-4 text-primary" />
+                <div className="flex items-center gap-4 flex-1">
+                  <div className="flex items-center justify-center">
+                    <Star className="size-4 text-[#1A1A1A]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">#{index + 1} best seller</p>
+                    <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] truncate">{item.name}</p>
+                    <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">#{index + 1} Best Seller</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-semibold">{item.units} sold</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-[14px] font-bold text-[#1A1A1A]">{item.units} sold</p>
+                  <p className="mt-1 text-[11px] font-bold tracking-[0.1em] text-[#777777]">
                     {((item.units / (data?.unitsSold || 1)) * 100).toFixed(1)}%
                   </p>
                 </div>
@@ -423,7 +427,9 @@ function Overview() {
             ))}
 
             {!topProducts.length && (
-              <div className="text-center py-8 text-muted-foreground">No sales data yet</div>
+              <div className="text-center py-10 text-[12px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                No sales data yet
+              </div>
             )}
           </div>
         </motion.section>
@@ -434,40 +440,42 @@ function Overview() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="rounded-xl border border-border bg-background p-6"
+        className="border border-[#E5E5E5] bg-[#1A1A1A] p-8 text-white"
       >
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-2xl">Recent activity</h2>
-          <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-            <Calendar className="size-4" />
-          </button>
+        <div className="flex items-center justify-between border-b border-[#333333] pb-6">
+          <h2
+            className="text-2xl md:text-3xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Recent Activity
+          </h2>
+          <Calendar className="size-4 text-[#777777]" />
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
           {recentActivity.map((item, index) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.7 + index * 0.1 }}
-              whileHover={{ y: -2 }}
-              className="p-4 rounded-lg border border-border/50 hover:shadow-md transition-all"
+              className="p-6 border border-[#333333] bg-[#222222]"
             >
-              <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "size-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
-                    item.color,
-                  )}
-                >
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center">
                   <item.icon className="size-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">{item.label}</p>
-                  <p className="text-xs text-muted-foreground">{item.change} this period</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-white">{item.label}</p>
+                  <p className="mt-1 text-[10px] font-bold tracking-[0.2em] text-[#777777]">{item.change} this period</p>
                 </div>
               </div>
-              <p className="mt-3 font-display text-2xl">{item.value}</p>
+              <p
+                className="mt-6 text-3xl md:text-4xl text-white"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+              >
+                {item.value}
+              </p>
             </motion.div>
           ))}
         </div>

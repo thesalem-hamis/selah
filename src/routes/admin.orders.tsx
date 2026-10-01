@@ -179,330 +179,343 @@ function OrdersAdmin() {
   };
 
   return (
-      <div className="space-y-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap items-end justify-between gap-4"
-        >
-          <div>
-            <p className="eyebrow text-primary flex items-center gap-2">
-              <ShoppingBag className="size-4" />
-              Fulfilment
-            </p>
-            <h1 className="mt-2 font-display text-4xl">Orders</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Track and manage customer orders
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
-              <Download className="size-4" />
-              Export
-            </Button>
-            <Button variant="outline" className="gap-2">
-              <RefreshCw className="size-4" />
-              Refresh
-            </Button>
-          </div>
-        </motion.div>
+    <div className="space-y-12 pb-20">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-[#E5E5E5] pb-8"
+      >
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A] flex items-center gap-2">
+            <ShoppingBag className="size-4" />
+            Fulfilment
+          </p>
+          <h1
+            className="mt-4 text-4xl text-[#1A1A1A] md:text-6xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Orders
+          </h1>
+          <p className="mt-4 text-[13px] text-[#777777] uppercase tracking-[0.1em]">
+            Track and manage customer orders.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <button className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9]">
+            <Download className="size-4" />
+            Export
+          </button>
+          <button className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9]">
+            <RefreshCw className="size-4" />
+            Refresh
+          </button>
+        </div>
+      </motion.div>
 
-        {/* Stats Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {[
-            { label: 'Total Orders', value: stats.total, icon: ShoppingBag, color: 'from-blue-500 to-cyan-500' },
-            { label: 'Pending', value: stats.pending, icon: Clock, color: 'from-yellow-500 to-amber-500' },
-            { label: 'Shipped', value: stats.shipped, icon: Truck, color: 'from-indigo-500 to-purple-500' },
-            { label: 'Revenue', value: formatPrice(stats.totalRevenue), icon: DollarSign, color: 'from-emerald-500 to-green-500' },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15 + index * 0.05 }}
-              className="p-5 rounded-xl border border-border bg-background"
-            >
-              <div className="flex items-center justify-between">
-                <div className={cn(
-                  "size-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
-                  stat.color
-                )}>
-                  <stat.icon className="size-5 text-white" />
+      {/* Stats Cards */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {[
+          { label: 'Total Orders', value: stats.total, icon: ShoppingBag },
+          { label: 'Pending', value: stats.pending, icon: Clock },
+          { label: 'Shipped', value: stats.shipped, icon: Truck },
+          { label: 'Revenue', value: formatPrice(stats.totalRevenue), icon: DollarSign },
+        ].map((stat, index) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="relative border border-[#E5E5E5] bg-white p-6 transition-all hover:border-[#1A1A1A]"
+          >
+            <div className="relative">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center justify-center">
+                  <stat.icon className="size-5 text-[#1A1A1A]" />
                 </div>
-                <TrendingUp className="size-4 text-emerald-500" />
+                {index === 3 ? <TrendingUp className="size-4 text-emerald-600" /> : null}
               </div>
-              <p className="mt-3 text-2xl font-semibold">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
 
-        {/* Toolbar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
-        >
-          {/* Search */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-            <input
-              type="search"
-              placeholder="Search orders by reference or customer..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-10 pl-9 pr-4 rounded-lg border border-input bg-background text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
-            />
-          </div>
+              <p className="mt-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                {stat.label}
+              </p>
+              <p
+                className="mt-2 text-3xl md:text-4xl text-[#1A1A1A]"
+                style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+              >
+                {stat.value}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
 
-          {/* Filters */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className="size-4" />
-              Filters
-            </Button>
-            
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="h-10 px-3 rounded-lg border border-input bg-background text-sm focus:border-primary focus:outline-none"
-            >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-              <option value="total-asc">Total: Low to High</option>
-              <option value="total-desc">Total: High to Low</option>
-            </select>
-          </div>
-        </motion.div>
+      {/* Toolbar */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between"
+      >
+        {/* Search */}
+        <div className="relative flex-1 max-w-md w-full">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#777777]" />
+          <input
+            type="search"
+            placeholder="SEARCH ORDERS BY REFERENCE OR CUSTOMER..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full h-12 pl-12 pr-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+          />
+        </div>
 
-        {/* Filters Panel */}
-        <AnimatePresence>
-          {showFilters && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="p-4 rounded-lg border border-border bg-muted/30">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="text-sm font-medium">Order Status</label>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {(['all', 'pending', 'confirmed', 'processing', 'shipped', 'out-for-delivery', 'delivered', 'cancelled'] as const).map(status => (
-                        <button
-                          key={status}
-                          onClick={() => setStatusFilter(status)}
-                          className={cn(
-                            "px-3 py-1.5 text-xs font-medium rounded-full capitalize transition-all",
-                            statusFilter === status
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-background border border-border hover:bg-muted'
-                          )}
-                        >
-                          {status.replaceAll('-', ' ')}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Payment Status</label>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {(['all', 'paid', 'unpaid', 'failed'] as const).map(status => (
-                        <button
-                          key={status}
-                          onClick={() => setPaymentFilter(status)}
-                          className={cn(
-                            "px-3 py-1.5 text-xs font-medium rounded-full capitalize transition-all",
-                            paymentFilter === status
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-background border border-border hover:bg-muted'
-                          )}
-                        >
-                          {status}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Filters */}
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            className="flex items-center justify-center gap-2 border border-[#E5E5E5] bg-white px-6 h-12 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] transition-colors hover:bg-[#F9F9F9] flex-1 sm:flex-none"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <Filter className="size-4" />
+            Filters
+          </button>
+          
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+            className="h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none flex-1 sm:flex-none appearance-none"
+          >
+            <option value="newest">NEWEST</option>
+            <option value="oldest">OLDEST</option>
+            <option value="total-asc">TOTAL: LOW TO HIGH</option>
+            <option value="total-desc">TOTAL: HIGH TO LOW</option>
+          </select>
+        </div>
+      </motion.div>
 
-        {/* Orders Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="overflow-x-auto rounded-xl border border-border bg-background shadow-sm"
-        >
-          <table className="w-full min-w-[800px] text-left text-sm">
-            <thead className="border-b border-border bg-muted/30">
-              <tr className="text-xs uppercase tracking-wider text-muted-foreground">
-                <th className="p-4">Order</th>
-                <th className="p-4">Customer</th>
-                <th className="p-4">Total</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Payment</th>
-                <th className="p-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {paginatedOrders.map((order, index) => {
-                const StatusIcon = getStatusIcon(order.status);
-                return (
-                  <motion.tr
-                    key={order.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="hover:bg-muted/30 transition-colors"
-                  >
-                    <td className="p-4">
+      {/* Filters Panel */}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="p-6 border border-[#E5E5E5] bg-[#F9F9F9]">
+              <div className="grid gap-8 sm:grid-cols-2">
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">Order Status</label>
+                  <div className="flex flex-wrap gap-2">
+                    {(['all', 'pending', 'confirmed', 'processing', 'shipped', 'out-for-delivery', 'delivered', 'cancelled'] as const).map(status => (
                       <button
-                        onClick={() => setSelectedOrder(order.id)}
-                        className="font-medium hover:text-primary transition-colors"
+                        key={status}
+                        onClick={() => setStatusFilter(status)}
+                        className={cn(
+                          "px-4 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors border",
+                          statusFilter === status
+                            ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                            : 'bg-white text-[#777777] border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]'
+                        )}
                       >
-                        {order.reference}
+                        {status.replaceAll('-', ' ')}
                       </button>
-                      <span className="block text-xs font-normal text-muted-foreground">
-                        {new Date(order.createdAt).toLocaleDateString("en-NG", {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="size-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                          <Users className="size-4 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-medium">{order.customerName}</p>
-                          <p className="text-xs text-muted-foreground">{order.customerEmail}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4 font-medium">
-                      {formatPrice(order.total)}
-                    </td>
-                    <td className="p-4">
-                      <div className="relative">
-                        <select
-                          value={order.status}
-                          onChange={async (event) => {
-                            await handleStatusUpdate(order.id, event.target.value as OrderStatus);
-                          }}
-                          disabled={isUpdating}
-                          className={cn(
-                            "appearance-none pl-8 pr-8 py-1.5 text-xs font-medium rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all",
-                            getStatusColor(order.status),
-                            isUpdating && "opacity-50 cursor-not-allowed"
-                          )}
-                        >
-                          {["pending", "confirmed", "processing", "shipped", "out-for-delivery", "delivered", "cancelled"].map((status) => (
-                            <option key={status} value={status}>
-                              {status.replaceAll("-", " ")}
-                            </option>
-                          ))}
-                        </select>
-                        <StatusIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none" />
-                        <ChevronRight className="absolute right-2.5 top-1/2 -translate-y-1/2 size-3.5 pointer-events-none opacity-50" />
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <span className={cn(
-                        "inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium capitalize",
-                        getPaymentColor(order.paymentStatus)
-                      )}>
-                        {order.paymentStatus === 'paid' && <CheckCircle2 className="size-3" />}
-                        {order.paymentStatus === 'unpaid' && <Clock className="size-3" />}
-                        {order.paymentStatus === 'failed' && <XCircle className="size-3" />}
-                        {order.paymentStatus}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex justify-end gap-1">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="hover:bg-muted"
-                          onClick={() => setSelectedOrder(order.id)}
-                        >
-                          <Eye className="size-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="hover:bg-muted"
-                        >
-                          <MoreHorizontal className="size-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </motion.tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {paginatedOrders.length === 0 && (
-            <div className="p-8 text-center text-muted-foreground">
-              No orders found
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">Payment Status</label>
+                  <div className="flex flex-wrap gap-2">
+                    {(['all', 'paid', 'unpaid', 'failed'] as const).map(status => (
+                      <button
+                        key={status}
+                        onClick={() => setPaymentFilter(status)}
+                        className={cn(
+                          "px-4 py-2 text-[10px] font-bold uppercase tracking-[0.1em] transition-colors border",
+                          paymentFilter === status
+                            ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
+                            : 'bg-white text-[#777777] border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]'
+                        )}
+                      >
+                        {status}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredOrders.length)} of {filteredOrders.length} orders
-            </p>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="size-4" />
-              </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                <Button
-                  key={page}
-                  variant={currentPage === page ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setCurrentPage(page)}
+      {/* Orders Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="overflow-x-auto border border-[#E5E5E5] bg-white"
+      >
+        <table className="w-full min-w-[800px] text-left">
+          <thead className="border-b border-[#E5E5E5] bg-[#F9F9F9]">
+            <tr className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+              <th className="p-4">Order</th>
+              <th className="p-4">Customer</th>
+              <th className="p-4">Total</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Payment</th>
+              <th className="p-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#E5E5E5]">
+            {paginatedOrders.map((order, index) => {
+              const StatusIcon = getStatusIcon(order.status);
+              return (
+                <motion.tr
+                  key={order.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="hover:bg-[#F9F9F9] transition-colors"
                 >
-                  {page}
-                </Button>
-              ))}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="size-4" />
-              </Button>
-            </div>
+                  <td className="p-4">
+                    <button
+                      onClick={() => setSelectedOrder(order.id)}
+                      className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:text-[#777777] transition-colors"
+                    >
+                      {order.reference}
+                    </button>
+                    <span className="block mt-1 text-[10px] uppercase tracking-[0.1em] text-[#777777]">
+                      {new Date(order.createdAt).toLocaleDateString("en-NG", {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="size-8 bg-[#1A1A1A] flex items-center justify-center shrink-0">
+                        <Users className="size-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{order.customerName}</p>
+                        <p className="mt-1 text-[10px] text-[#777777]">{order.customerEmail}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="p-4 text-[12px] font-bold text-[#1A1A1A]">
+                    {formatPrice(order.total)}
+                  </td>
+                  <td className="p-4">
+                    <div className="relative">
+                      <select
+                        value={order.status}
+                        onChange={async (event) => {
+                          await handleStatusUpdate(order.id, event.target.value as OrderStatus);
+                        }}
+                        disabled={isUpdating}
+                        className={cn(
+                          "appearance-none pl-8 pr-8 py-2 text-[10px] font-bold uppercase tracking-[0.1em] border cursor-pointer focus:outline-none transition-all",
+                          order.status === 'delivered' ? 'border-emerald-200 bg-emerald-50 text-emerald-700' :
+                          order.status === 'cancelled' ? 'border-red-200 bg-red-50 text-red-700' :
+                          'border-[#E5E5E5] bg-white text-[#1A1A1A]',
+                          isUpdating && "opacity-50 cursor-not-allowed"
+                        )}
+                      >
+                        {["pending", "confirmed", "processing", "shipped", "out-for-delivery", "delivered", "cancelled"].map((status) => (
+                          <option key={status} value={status}>
+                            {status.replaceAll("-", " ")}
+                          </option>
+                        ))}
+                      </select>
+                      <StatusIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-3 pointer-events-none" />
+                      <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 size-3 pointer-events-none opacity-50" />
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <span className={cn(
+                      "inline-flex items-center gap-2 px-3 py-1 border text-[9px] font-bold uppercase tracking-[0.1em]",
+                      order.paymentStatus === 'paid' ? 'border-emerald-200 bg-emerald-50 text-emerald-700' :
+                      order.paymentStatus === 'failed' ? 'border-red-200 bg-red-50 text-red-700' :
+                      'border-yellow-200 bg-yellow-50 text-yellow-700'
+                    )}>
+                      {order.paymentStatus === 'paid' && <CheckCircle2 className="size-3" />}
+                      {order.paymentStatus === 'unpaid' && <Clock className="size-3" />}
+                      {order.paymentStatus === 'failed' && <XCircle className="size-3" />}
+                      {order.paymentStatus}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex justify-end gap-2">
+                      <button
+                        className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
+                        onClick={() => setSelectedOrder(order.id)}
+                      >
+                        <Eye className="size-4" />
+                      </button>
+                      <button
+                        className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
+                      >
+                        <MoreHorizontal className="size-4" />
+                      </button>
+                    </div>
+                  </td>
+                </motion.tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {paginatedOrders.length === 0 && (
+          <div className="p-12 border border-[#E5E5E5] bg-white text-center">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">No orders found</p>
           </div>
         )}
+      </motion.div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredOrders.length)} of {filteredOrders.length} orders
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={cn(
+                  "size-8 flex items-center justify-center border text-[11px] font-bold transition-colors",
+                  currentPage === page
+                    ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:bg-[#F9F9F9]"
+                )}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              className="p-2 border border-[#E5E5E5] bg-white hover:bg-[#F9F9F9] transition-colors disabled:opacity-50"
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight className="size-4" />
+            </button>
+          </div>
+        </div>
+      )}
+      
       {/* Order Detail Modal */}
       <AnimatePresence>
         {selectedOrder && (
@@ -510,37 +523,42 @@ function OrdersAdmin() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/50"
+              className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
               onClick={() => setSelectedOrder(null)}
             />
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-2xl rounded-xl border border-border bg-background p-6 shadow-2xl"
+              exit={{ scale: 0.98, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-2xl border border-[#E5E5E5] bg-white p-8 shadow-2xl"
             >
-              {/* Modal content would go here */}
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-2xl">Order Details</h2>
+              <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-6">
+                <h2
+                  className="text-3xl text-[#1A1A1A]"
+                  style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                >
+                  Order Details
+                </h2>
                 <button
                   onClick={() => setSelectedOrder(null)}
-                  className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  className="p-3 border border-transparent hover:border-[#E5E5E5] hover:bg-[#F9F9F9] transition-colors"
                 >
-                  <XCircle className="size-5" />
+                  <XCircle className="size-5 text-[#1A1A1A]" />
                 </button>
               </div>
-              {/* Add detailed order information here */}
-              {(() => { const order = query.data?.find((item) => item.id === selectedOrder); return order ? <div className="mt-6 grid gap-4 text-sm sm:grid-cols-2"><div><p className="text-muted-foreground">Customer</p><p className="mt-1 font-medium">{order.customerName}</p><p className="text-xs text-muted-foreground">{order.customerEmail}</p></div><div><p className="text-muted-foreground">Total</p><p className="mt-1 font-medium">{formatPrice(order.total)}</p><p className="text-xs capitalize text-muted-foreground">{order.paymentStatus}</p></div><div className="sm:col-span-2"><p className="text-muted-foreground">Delivery address</p><p className="mt-1">{order.address.street}, {order.address.city}, {order.address.state}</p></div><div className="sm:col-span-2"><p className="text-muted-foreground">Items</p><div className="mt-2 space-y-2">{order.items.map((item) => <div key={`${item.slug}-${item.size}`} className="flex justify-between border-b border-border pb-2"><span>{item.name} × {item.quantity}</span><span>{formatPrice(item.price * item.quantity)}</span></div>)}</div></div></div> : null; })()}
+              {/* Detailed order information */}
+              {(() => { const order = query.data?.find((item) => item.id === selectedOrder); return order ? <div className="mt-8 grid gap-6 text-sm sm:grid-cols-2"><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Customer</p><p className="mt-2 text-[14px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{order.customerName}</p><p className="mt-1 text-[12px] text-[#777777]">{order.customerEmail}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Total</p><p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{formatPrice(order.total)}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">{order.paymentStatus}</p></div><div className="sm:col-span-2 p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Delivery address</p><p className="mt-2 text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A]">{order.address.street}, {order.address.city}, {order.address.state}</p></div><div className="sm:col-span-2"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777] mb-4">Items</p><div className="space-y-3">{order.items.map((item) => <div key={`${item.slug}-${item.size}`} className="flex justify-between border border-[#E5E5E5] p-4"><span className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{item.name} × {item.quantity}</span><span className="text-[12px] font-bold text-[#1A1A1A]">{formatPrice(item.price * item.quantity)}</span></div>)}</div></div></div> : null; })()}
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-      </div>
-  ); 
+    </div>
+  );
 }
