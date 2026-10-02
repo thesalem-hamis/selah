@@ -84,117 +84,92 @@ export function AdminLayout({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <div className="theme-admin min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f4f4f4]">
       {/* Header */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 border-b border-sidebar-border bg-sidebar text-sidebar-foreground backdrop-blur-lg bg-opacity-95"
+        className="sticky top-0 z-40 border-b border-[#E5E5E5] bg-white text-[#1A1A1A]"
       >
-        <div className="container-page flex h-[4.5rem] items-center justify-between">
+        <div className="container-page flex h-[5rem] items-center justify-between">
           {/* Logo & Mobile Menu */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-sidebar-accent transition-colors"
+              className="lg:hidden p-2 hover:bg-[#F9F9F9] transition-colors"
             >
               {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
 
-            <Link to="/" className="group flex items-center gap-3">
-              <motion.span
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-sidebar-primary to-sidebar-primary/80 text-sm font-bold text-sidebar-primary-foreground shadow-lg shadow-sidebar-primary/20"
-              >
-                S
-              </motion.span>
-              <span className="font-display text-2xl tracking-tight">
-                Selah{" "}
-                <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-sidebar-foreground/55">
-                  Studio
-                </span>
+            <Link to="/" className="flex items-center gap-3">
+              <span className="text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}>
+                SELAH GIRL <span className="text-[10px] font-sans uppercase tracking-[0.3em] font-bold text-[#777777]">STUDIO</span>
               </span>
             </Link>
           </div>
 
           {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-md mx-6">
+          <div className="hidden md:flex flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-sidebar-foreground/50" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-[#777777]" />
               <input
                 type="search"
-                placeholder="Search orders, products..."
-                className="w-full h-10 pl-9 pr-4 rounded-lg bg-sidebar-accent/50 border border-sidebar-border text-sm text-sidebar-foreground placeholder:text-sidebar-foreground/40 focus:outline-none focus:ring-2 focus:ring-sidebar-primary/50 transition-all"
+                placeholder="SEARCH ORDERS, PRODUCTS..."
+                className="w-full h-12 pl-12 pr-4 border border-[#E5E5E5] bg-transparent text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
               />
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {/* Notifications */}
             <div className="relative">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="relative p-2 rounded-lg hover:bg-sidebar-accent transition-colors"
+                className="relative p-3 hover:bg-[#F9F9F9] transition-colors border border-transparent hover:border-[#E5E5E5]"
               >
                 <Bell className="size-5" />
                 {notifications.some((n) => n.unread) && (
-                  <span className="absolute top-1 right-1 size-2 rounded-full bg-red-500" />
+                  <span className="absolute top-2 right-2 size-2 bg-red-600" />
                 )}
-              </motion.button>
+              </button>
 
               <AnimatePresence>
                 {notificationsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-80 rounded-xl border border-sidebar-border bg-background shadow-2xl overflow-hidden"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 mt-2 w-80 border border-[#1A1A1A] bg-white shadow-2xl z-50"
                   >
-                    <div className="p-4 border-b border-border">
-                      <h3 className="font-semibold">Notifications</h3>
+                    <div className="p-4 border-b border-[#E5E5E5] bg-[#1A1A1A] text-white">
+                      <h3 className="text-[11px] font-bold uppercase tracking-[0.2em]">Notifications</h3>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {notifications.map((notification) => (
                         <button
                           key={notification.id}
                           className={cn(
-                            "w-full text-left p-4 hover:bg-muted/50 transition-colors border-b border-border/50",
-                            notification.unread && "bg-primary/5",
+                            "w-full text-left p-4 hover:bg-[#F9F9F9] transition-colors border-b border-[#E5E5E5]",
+                            notification.unread && "bg-[#F9F9F9]",
                           )}
                         >
-                          <div className="flex items-start gap-3">
-                            <div
-                              className={cn(
-                                "size-8 rounded-lg flex items-center justify-center shrink-0",
-                                notification.unread ? "bg-primary/10" : "bg-muted",
-                              )}
-                            >
-                              <Bell className="size-4 text-primary" />
-                            </div>
+                          <div className="flex items-start gap-4">
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium">{notification.title}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5">
+                              <p className="text-[12px] font-bold text-[#1A1A1A]">{notification.title}</p>
+                              <p className="text-[12px] text-[#444444] mt-1">
                                 {notification.description}
                               </p>
-                              <p className="text-xs text-muted-foreground mt-1">
+                              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777] mt-2">
                                 {notification.time}
                               </p>
                             </div>
                             {notification.unread && (
-                              <span className="size-2 rounded-full bg-primary shrink-0 mt-1" />
+                              <span className="size-2 bg-[#1A1A1A] shrink-0 mt-1" />
                             )}
                           </div>
                         </button>
                       ))}
-                    </div>
-                    <div className="p-2 border-t border-border">
-                      <button className="w-full p-2 text-sm text-primary hover:bg-primary/5 rounded-lg transition-colors">
-                        View all notifications
-                      </button>
                     </div>
                   </motion.div>
                 )}
@@ -203,46 +178,44 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
             {/* User Menu */}
             <div className="relative">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-sidebar-accent transition-colors"
+                className="flex items-center gap-3 p-2 hover:bg-[#F9F9F9] transition-colors border border-transparent hover:border-[#E5E5E5]"
               >
-                <div className="size-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-sm font-semibold text-primary-foreground">
+                <div className="size-8 bg-[#1A1A1A] flex items-center justify-center text-[12px] font-bold text-white">
                   {user?.name?.[0]?.toUpperCase() || "A"}
                 </div>
                 <div className="hidden lg:block text-left">
-                  <p className="text-sm font-medium leading-tight">{user?.name}</p>
-                  <p className="text-xs text-sidebar-foreground/60">Administrator</p>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{user?.name}</p>
+                  <p className="text-[10px] uppercase tracking-[0.1em] text-[#777777]">Administrator</p>
                 </div>
-              </motion.button>
+              </button>
 
               <AnimatePresence>
                 {userMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-56 rounded-xl border border-sidebar-border bg-background shadow-2xl overflow-hidden"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 mt-2 w-56 border border-[#1A1A1A] bg-white shadow-2xl z-50"
                   >
-                    <div className="p-4 border-b border-border">
-                      <p className="font-medium">{user?.name}</p>
-                      <p className="text-sm text-muted-foreground">{user?.email}</p>
+                    <div className="p-4 border-b border-[#E5E5E5] bg-[#1A1A1A] text-white">
+                      <p className="text-[11px] font-bold uppercase tracking-[0.1em]">{user?.name}</p>
+                      <p className="text-[10px] text-[#BBBBBB] mt-1">{user?.email}</p>
                     </div>
                     <div className="p-2">
-                      <button className="w-full flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-lg transition-colors">
+                      <button className="w-full flex items-center gap-3 p-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors">
                         <Settings className="size-4" />
                         Settings
                       </button>
-                      <button className="w-full flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-lg transition-colors">
+                      <button className="w-full flex items-center gap-3 p-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors">
                         <Shield className="size-4" />
                         Security
                       </button>
-                      <div className="h-px bg-border my-2" />
+                      <div className="h-px bg-[#E5E5E5] my-2" />
                       <button
-                        onClick={logout}
-                        className="w-full flex items-center gap-2 p-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors"
+                         onClick={logout}
+                        className="w-full flex items-center gap-3 p-3 text-[11px] font-bold uppercase tracking-[0.1em] text-red-600 hover:bg-red-50 transition-colors"
                       >
                         <LogOut className="size-4" />
                         Sign out
@@ -257,10 +230,10 @@ export function AdminLayout({ children }: { children: ReactNode }) {
       </motion.header>
 
       {/* Main Content */}
-      <div className="container-page grid gap-5 py-4 lg:grid-cols-[240px_1fr] lg:gap-6 lg:py-6">
+      <div className="container-page grid gap-8 py-8 lg:grid-cols-[240px_1fr] lg:gap-12">
         {/* Sidebar */}
-        <aside className="min-w-0 lg:sticky lg:top-[4.5rem] lg:flex lg:h-[calc(100vh-5rem)] lg:flex-col lg:justify-between">
-          <div className="mb-2 hidden items-center gap-2 px-3 text-[9px] font-bold uppercase tracking-[0.22em] text-muted-foreground lg:flex">
+        <aside className="min-w-0 lg:sticky lg:top-[7rem] lg:flex lg:h-[calc(100vh-8rem)] lg:flex-col lg:justify-between">
+          <div className="mb-6 hidden items-center gap-2 px-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777] lg:flex">
             <Package className="size-3" />
             Workspace
           </div>
@@ -274,25 +247,22 @@ export function AdminLayout({ children }: { children: ReactNode }) {
                 exit={{ opacity: 0, height: 0 }}
                 className="lg:hidden"
               >
-                <div className="space-y-1 rounded-xl border border-border bg-card p-2.5 shadow-sm">
-                  {links.map(({ to, label, icon: Icon, description }) => {
+                <div className="space-y-1 bg-white border border-[#E5E5E5] p-2 mb-6">
+                  {links.map(({ to, label, icon: Icon }) => {
                     const active = pathname === to || (to !== "/admin" && pathname.startsWith(to));
                     return (
                       <Link
                         key={to}
                         to={to}
                         className={cn(
-                          "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
+                          "flex items-center gap-3 px-4 py-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all",
                           active
-                            ? "bg-primary text-primary-foreground shadow-md"
-                            : "hover:bg-muted",
+                            ? "bg-[#1A1A1A] text-white"
+                            : "text-[#1A1A1A] hover:bg-[#F9F9F9]",
                         )}
                       >
-                        <Icon className="size-5" />
-                        <div>
-                          <p>{label}</p>
-                          <p className="text-xs opacity-75">{description}</p>
-                        </div>
+                        <Icon className="size-4" />
+                        <span>{label}</span>
                         {active && <ChevronRight className="size-4 ml-auto" />}
                       </Link>
                     );
@@ -304,86 +274,62 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:block">
-            <div className="space-y-1 rounded-xl border border-border bg-card p-2.5 shadow-sm">
-              {links.map(({ to, label, icon: Icon, description }) => {
+            <div className="space-y-1 bg-white border border-[#E5E5E5] p-2">
+              {links.map(({ to, label, icon: Icon }) => {
                 const active = pathname === to || (to !== "/admin" && pathname.startsWith(to));
                 return (
                   <Link
                     key={to}
                     to={to}
                     className={cn(
-                      "group relative flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
+                      "group relative flex items-center gap-4 px-4 py-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-all",
                       active
-                        ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                        ? "bg-[#1A1A1A] text-white"
+                        : "text-[#777777] hover:bg-[#F9F9F9] hover:text-[#1A1A1A]",
                     )}
                   >
-                    <Icon
-                      className={cn(
-                        "size-4 transition-transform group-hover:scale-110",
-                        active && "text-primary-foreground",
-                      )}
-                    />
-                    <div className="flex-1">
-                      <p>{label}</p>
-                      <p
-                        className={cn(
-                          "text-xs",
-                          active ? "text-primary-foreground/70" : "text-muted-foreground/60",
-                        )}
-                      >
-                        {description}
-                      </p>
-                    </div>
-                    {active && (
-                      <motion.span
-                        layoutId="activeIndicator"
-                        className="absolute inset-y-2 left-0 w-1 rounded-full bg-primary-foreground"
-                      />
-                    )}
+                    <Icon className="size-4" />
+                    <span className="flex-1">{label}</span>
                   </Link>
                 );
               })}
             </div>
 
             {/* Studio Status */}
-               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="mt-4 rounded-xl border border-border bg-gradient-to-br from-card to-muted/50 p-3"
-              >
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 border border-[#E5E5E5] bg-white p-6"
+            >
               <div className="flex items-center justify-between">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#777777]">
                   Studio status
                 </p>
-                <Sparkles className="size-4 text-primary" />
+                <Sparkles className="size-4 text-[#1A1A1A]" />
               </div>
-              <div className="mt-2 space-y-1.5">
-                <div className="flex items-center gap-2 text-xs">
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
                   <span className="relative flex size-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full size-2 bg-emerald-500" />
+                    <span className="relative inline-flex size-2 bg-emerald-500" />
                   </span>
-                  All systems operational
+                  Operational
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <TrendingUp className="size-3 text-primary" />
-                  Sales up 12.5% this week
+                <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                  <TrendingUp className="size-3 text-[#1A1A1A]" />
+                  Sales up 12.5%
                 </div>
               </div>
             </motion.div>
 
-            <motion.button
+            <button
               type="button"
-              whileHover={{ y: -1 }}
-              whileTap={{ scale: 0.98 }}
               onClick={logout}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200/70 bg-red-50/70 px-3.5 py-2.5 text-sm font-semibold text-red-700 transition-colors hover:bg-red-100 dark:border-red-900/50 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40"
+              className="mt-4 flex w-full items-center justify-center gap-3 border border-red-200 bg-white px-4 py-4 text-[11px] font-bold uppercase tracking-[0.1em] text-red-600 transition-colors hover:bg-red-50"
             >
               <LogOut className="size-4" />
               Sign out of Studio
-            </motion.button>
+            </button>
           </nav>
         </aside>
 

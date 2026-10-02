@@ -1,10 +1,124 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Trash2, Minus, Plus, ArrowRight } from "lucide-react";
+import { Trash2, Minus, Plus } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { OrderSummary } from "@/components/shared/OrderSummary";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/cart")({ component: CartPage });
-function CartPage() { const cart = useCart(); return <StoreLayout><div className="container-page py-10 md:py-16"><p className="eyebrow">Your selection</p><h1 className="mt-3 font-display text-4xl md:text-5xl">Shopping bag</h1>{cart.items.length === 0 ? <div className="border-y border-border py-20 text-center"><p className="text-muted-foreground">Your bag is waiting for something considered.</p><Button asChild className="mt-6"><Link to="/shop">Continue shopping</Link></Button></div> : <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_360px]"><div className="divide-y divide-border border-y border-border">{cart.items.map((item) => <article key={item.id} className="flex gap-4 py-5"><img src={item.image} alt={item.name} className="size-28 object-cover sm:size-36" /><div className="min-w-0 flex-1"><div className="flex justify-between gap-3"><div><Link to="/product/$slug" params={{ slug: item.slug }} className="font-medium hover:underline">{item.name}</Link><p className="mt-1 text-xs text-muted-foreground">{item.color} · {item.size}</p></div><button aria-label={`Remove ${item.name}`} onClick={() => cart.remove(item.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="size-4" /></button></div><div className="mt-6 flex items-center justify-between"><div className="flex items-center border border-border"><button className="p-2" onClick={() => cart.setQuantity(item.id, item.quantity - 1)}><Minus className="size-3" /></button><span className="w-8 text-center text-sm">{item.quantity}</span><button className="p-2" onClick={() => cart.setQuantity(item.id, item.quantity + 1)}><Plus className="size-3" /></button></div><span className="font-medium">{formatPrice(item.price * item.quantity)}</span></div></div></article>)}</div><OrderSummary subtotal={cart.subtotal} discount={cart.discount} shipping={cart.shipping} total={cart.total} actionLabel="Proceed to checkout" actionTo="/checkout" /></div>}</div></StoreLayout>; }
+
+function CartPage() {
+  const cart = useCart();
+
+  return (
+    <StoreLayout>
+      <div className="container-page py-12 md:py-20">
+        <header className="mb-12 flex flex-col items-center text-center">
+          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777]">
+            Your Selection
+          </p>
+          <h1
+            className="text-4xl text-[#1A1A1A] md:text-5xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Shopping Bag
+          </h1>
+        </header>
+
+        {cart.items.length === 0 ? (
+          <div className="flex flex-col items-center border-y border-[#E5E5E5] py-32 text-center">
+            <p className="mb-8 text-[13px] leading-relaxed text-[#444444]">
+              Your bag is waiting for something considered.
+            </p>
+            <Link
+              to="/shop"
+              className="inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+            >
+              CONTINUE SHOPPING
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-12 lg:grid-cols-[1fr_380px] lg:gap-20">
+            <div className="border-t border-[#E5E5E5]">
+              {cart.items.map((item) => (
+                <article
+                  key={item.id}
+                  className="flex gap-6 border-b border-[#E5E5E5] py-8"
+                >
+                  <Link to="/product/$slug" params={{ slug: item.slug }} className="shrink-0">
+                    <div className="h-40 w-32 bg-[#f4f4f4]">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </Link>
+                  
+                  <div className="flex flex-1 flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start gap-4">
+                        <Link
+                          to="/product/$slug"
+                          params={{ slug: item.slug }}
+                          className="text-[14px] font-medium text-[#1A1A1A] hover:underline hover:decoration-[#E5E5E5] underline-offset-4"
+                        >
+                          {item.name}
+                        </Link>
+                        <button
+                          aria-label={`Remove ${item.name}`}
+                          onClick={() => cart.remove(item.id)}
+                          className="text-[#777777] transition-colors hover:text-[#1A1A1A]"
+                        >
+                          <Trash2 className="size-4" strokeWidth={1.5} />
+                        </button>
+                      </div>
+                      <p className="mt-2 text-[12px] text-[#777777]">
+                        Color: <span className="text-[#1A1A1A]">{item.color}</span> / Size: <span className="text-[#1A1A1A]">{item.size}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex items-end justify-between">
+                      <div className="flex h-12 w-32 items-center border border-[#E5E5E5]">
+                        <button
+                          className="flex h-full w-10 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-[#f4f4f4]"
+                          onClick={() => cart.setQuantity(item.id, item.quantity - 1)}
+                        >
+                          <Minus className="size-3" strokeWidth={1.5} />
+                        </button>
+                        <span className="flex-1 text-center text-[13px] font-medium text-[#1A1A1A]">
+                          {item.quantity}
+                        </span>
+                        <button
+                          className="flex h-full w-10 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-[#f4f4f4]"
+                          onClick={() => cart.setQuantity(item.id, item.quantity + 1)}
+                        >
+                          <Plus className="size-3" strokeWidth={1.5} />
+                        </button>
+                      </div>
+                      <span className="text-[14px] font-medium tracking-wide text-[#1A1A1A]">
+                        {formatPrice(item.price * item.quantity)}
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="lg:sticky lg:top-32 h-fit">
+              <OrderSummary
+                subtotal={cart.subtotal}
+                discount={cart.discount}
+                shipping={cart.shipping}
+                total={cart.total}
+                actionLabel="PROCEED TO CHECKOUT"
+                actionTo="/checkout"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </StoreLayout>
+  );
+}

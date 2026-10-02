@@ -1,15 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  LockKeyhole,
-  Mail,
-  Phone,
-  RefreshCw,
-  UserRound,
-} from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -21,8 +12,7 @@ type AuthMode = "login" | "register";
 type RegisterStep = "form" | "verify";
 
 function LoginPage() {
-  const { user, login, startRegistration, verifyRegistrationOtp, resendRegistrationOtp, ready } =
-    useAuth();
+  const { user, login, startRegistration, verifyRegistrationOtp, resendRegistrationOtp, ready } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>("login");
   const [error, setError] = useState("");
@@ -126,51 +116,50 @@ function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,oklch(0.87_0.07_80_/_0.7),transparent_34%),radial-gradient(circle_at_90%_88%,oklch(0.78_0.08_46_/_0.18),transparent_32%)]" />
-      <div className="relative mx-auto grid min-h-screen w-full max-w-[100rem] lg:grid-cols-[1fr_0.9fr]">
-        <section className="hidden flex-col justify-between p-10 lg:flex xl:p-16">
-          <Link to="/" className="font-display text-3xl tracking-tight">
-            Selah{" "}
-            <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              Girl Society
-            </span>
+    <main className="flex min-h-screen bg-white">
+      <div className="mx-auto grid min-h-screen w-full lg:grid-cols-2">
+        {/* Left Side - Editorial */}
+        <section className="hidden flex-col justify-between bg-[#f4f4f4] p-12 lg:flex xl:p-20">
+          <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
+            SELAH GIRL
           </Link>
+          
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="max-w-xl"
           >
-            <p className="eyebrow">A community for the set-apart woman</p>
-            <h1 className="mt-5 font-display text-6xl leading-[0.98] xl:text-8xl">
-              Pause.
-              <br />
-              Reflect.
-              <br />
-              <span className="text-accent">Declare.</span>
+            <p className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+              Selah Girl Society
+            </p>
+            <h1 className="font-light text-6xl leading-[1.1] xl:text-7xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
+              Pause.<br />
+              Reflect.<br />
+              Declare.
             </h1>
-            <p className="mt-8 max-w-md text-sm leading-7 text-muted-foreground">
+            <p className="mt-8 max-w-md text-[14px] leading-relaxed text-[#444444]">
               Faith-led fashion and Christian basics for women choosing to live intentionally,
               boldly, and unapologetically for Jesus.
             </p>
           </motion.div>
-          <p className="text-xs text-muted-foreground">Wear what you believe.</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">Wear what you believe.</p>
         </section>
 
-        <section className="relative flex items-center justify-center px-5 py-10 sm:px-10 lg:bg-surface/70 lg:px-16">
+        {/* Right Side - Auth Forms */}
+        <section className="relative flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-20 xl:px-32">
           <Link
             to="/"
-            className="absolute left-5 top-7 inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground lg:left-16"
+            className="absolute left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
           >
-            <ArrowLeft className="size-4" /> Back to store
+            <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO STORE
           </Link>
-          <div className="w-full max-w-md pt-8">
-            <div className="mb-10 lg:hidden">
-              <Link to="/" className="font-display text-3xl">
-                Selah
+
+          <div className="w-full max-w-md pt-12">
+            <div className="mb-12 lg:hidden">
+              <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
+                SELAH GIRL
               </Link>
-              <p className="mt-3 eyebrow">Girl Society</p>
             </div>
 
             {mode === "register" && registerStep === "verify" ? (
@@ -180,10 +169,11 @@ function LoginPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <h2 className="mt-8 font-display text-4xl">Check your inbox</h2>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  We sent an 8-digit code to{" "}
-                  <span className="font-medium text-foreground">{pendingEmail}</span>. Enter it
+                <h2 className="text-3xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
+                  Check Your Inbox
+                </h2>
+                <p className="mt-4 text-[13px] leading-relaxed text-[#444444]">
+                  We sent an 8-digit code to <span className="font-medium text-[#1A1A1A]">{pendingEmail}</span>. Enter it
                   below to finish creating your account.
                 </p>
                 <form className="mt-8" onSubmit={handleVerifyOtp}>
@@ -202,29 +192,28 @@ function LoginPage() {
                         autoComplete="one-time-code"
                         maxLength={1}
                         required
-                        className="h-14 w-10 rounded-xl border border-input bg-background text-center text-2xl font-semibold outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        className="h-14 w-10 border border-[#E5E5E5] bg-transparent text-center text-xl outline-none transition-colors focus:border-[#1A1A1A]"
                       />
                     ))}
                   </div>
-                  {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
-                  {info && <p className="mt-4 text-sm text-emerald-600">{info}</p>}
+                  {error && <p className="mt-4 text-[12px] text-red-600">{error}</p>}
+                  {info && <p className="mt-4 text-[12px] text-emerald-600">{info}</p>}
+                  
                   <button
                     disabled={busy}
-                    className="group mt-7 flex h-13 w-full items-center justify-between rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-60"
+                    className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                   >
-                    {busy ? "Verifying…" : "Verify and enter my account"}
-                    <span className="grid size-8 place-items-center rounded-full bg-primary-foreground/15 transition-transform group-hover:translate-x-1">
-                      <ArrowRight className="size-4" />
-                    </span>
+                    {busy ? "VERIFYING..." : "VERIFY & ENTER ACCOUNT"}
                   </button>
-                  <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground">
+
+                  <div className="mt-8 flex flex-col gap-4 text-center text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
                     <button
                       type="button"
                       onClick={handleResend}
                       disabled={busy}
-                      className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-foreground disabled:opacity-60"
+                      className="inline-flex items-center justify-center gap-1 hover:text-[#1A1A1A] disabled:opacity-50"
                     >
-                      <RefreshCw className="size-3" /> Resend code
+                      <RefreshCw className="size-3" strokeWidth={1.5} /> RESEND CODE
                     </button>
                     <button
                       type="button"
@@ -234,16 +223,16 @@ function LoginPage() {
                         setError("");
                         setInfo("");
                       }}
-                      className="underline underline-offset-4 hover:text-foreground"
+                      className="hover:text-[#1A1A1A]"
                     >
-                      Use a different email
+                      USE A DIFFERENT EMAIL
                     </button>
                   </div>
                 </form>
               </motion.div>
             ) : (
               <>
-                <div className="flex border-b border-border">
+                <div className="flex border-b border-[#E5E5E5] mb-10">
                   {(["login", "register"] as const).map((item) => (
                     <button
                       key={item}
@@ -254,32 +243,35 @@ function LoginPage() {
                         setInfo("");
                       }}
                       className={cn(
-                        "flex-1 border-b-2 pb-4 text-sm font-medium capitalize transition-colors",
-                        mode === item
-                          ? "border-primary text-foreground"
-                          : "border-transparent text-muted-foreground hover:text-foreground",
+                        "flex-1 pb-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors relative",
+                        mode === item ? "text-[#1A1A1A]" : "text-[#777777] hover:text-[#1A1A1A]",
                       )}
                     >
-                      {item === "login" ? "Sign in" : "Create account"}
+                      {item === "login" ? "SIGN IN" : "CREATE ACCOUNT"}
+                      {mode === item && (
+                        <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#1A1A1A]" />
+                      )}
                     </button>
                   ))}
                 </div>
+                
                 <motion.div
                   key={mode}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h2 className="mt-8 font-display text-4xl">
-                    {mode === "login" ? "Welcome back." : "Join the society."}
+                  <h2 className="text-3xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
+                    {mode === "login" ? "Welcome Back." : "Join The Society."}
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  <p className="mt-4 text-[13px] leading-relaxed text-[#444444]">
                     {mode === "login"
                       ? "Your orders, saved details, and Selah world are waiting."
                       : "Create your account and make space for what matters."}
                   </p>
+                  
                   <form
-                    className="mt-8"
+                    className="mt-8 space-y-5"
                     onSubmit={async (event) => {
                       event.preventDefault();
                       setBusy(true);
@@ -313,64 +305,53 @@ function LoginPage() {
                     }}
                   >
                     {mode === "register" && (
-                      <AuthField name="name" label="Full name" icon={UserRound} />
+                      <AuthField name="name" label="FULL NAME" />
                     )}
                     {mode === "register" && (
-                      <AuthField name="phone" label="Phone number" icon={Phone} />
+                      <AuthField name="phone" label="PHONE NUMBER" />
                     )}
-                    <AuthField name="email" label="Email address" type="email" icon={Mail} />
-                    <AuthField
-                      name="password"
-                      label="Password"
-                      type="password"
-                      icon={LockKeyhole}
-                    />
+                    <AuthField name="email" label="EMAIL ADDRESS" type="email" />
+                    <AuthField name="password" label="PASSWORD" type="password" />
+                    
                     {mode === "login" && (
-                      <div className="mt-3 text-right">
+                      <div className="pt-2">
                         <button
                           type="button"
-                          className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                          className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] underline decoration-[#E5E5E5] underline-offset-4 hover:text-[#1A1A1A] transition-colors"
                         >
-                          Forgot password?
+                          FORGOT PASSWORD?
                         </button>
                       </div>
                     )}
-                    {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
-                    {info && <p className="mt-4 text-sm text-emerald-600">{info}</p>}
+                    
+                    {error && <p className="pt-2 text-[12px] text-red-600">{error}</p>}
+                    {info && <p className="pt-2 text-[12px] text-emerald-600">{info}</p>}
+                    
                     <button
                       disabled={busy}
-                      className="group mt-7 flex h-13 w-full items-center justify-between rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/15 transition-all hover:-translate-y-0.5 hover:bg-primary/90 disabled:opacity-60"
+                      className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                     >
                       {busy
-                        ? "Please wait…"
+                        ? "PLEASE WAIT..."
                         : mode === "login"
-                          ? "Enter my account"
-                          : "Create my account"}
-                      <span className="grid size-8 place-items-center rounded-full bg-primary-foreground/15 transition-transform group-hover:translate-x-1">
-                        <ArrowRight className="size-4" />
-                      </span>
+                          ? "ENTER ACCOUNT"
+                          : "CREATE ACCOUNT"}
                     </button>
                   </form>
-                  <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="h-px flex-1 bg-border" />
-                    <span>or continue with</span>
-                    <span className="h-px flex-1 bg-border" />
+                  
+                  <div className="my-10 flex items-center gap-4">
+                    <span className="h-px flex-1 bg-[#E5E5E5]" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">OR</span>
+                    <span className="h-px flex-1 bg-[#E5E5E5]" />
                   </div>
+                  
                   <button
                     onClick={handleGoogleSignIn}
                     disabled={busy}
-                    className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-medium transition-colors hover:bg-muted disabled:opacity-60"
+                    className="flex h-14 w-full items-center justify-center border border-[#1A1A1A] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white disabled:opacity-50"
                   >
-                    {busy ? "Please wait…" : "Continue with Google"}
+                    {busy ? "PLEASE WAIT..." : "CONTINUE WITH GOOGLE"}
                   </button>
-                  <div className="mt-10 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1.5">
-                      <Check className="size-3.5 text-accent" /> Order tracking
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Check className="size-3.5 text-accent" /> Faster checkout
-                    </span>
-                  </div>
                 </motion.div>
               </>
             )}
@@ -385,25 +366,37 @@ function AuthField({
   name,
   label,
   type = "text",
-  icon: Icon,
 }: {
   name: string;
   label: string;
   type?: string;
-  icon: typeof UserRound;
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+  const inputType = isPassword ? (showPassword ? "text" : "password") : type;
+
   return (
-    <label className="mt-5 block text-sm font-medium">
-      {label}
-      <span className="relative mt-2 block">
-        <Icon className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+    <div>
+      <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
+        {label}
+      </label>
+      <div className="relative">
         <input
           name={name}
-          type={type}
+          type={inputType}
           required
-          className="h-13 w-full rounded-xl border border-input bg-background pl-11 pr-4 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/10"
+          className="h-12 w-full border border-[#E5E5E5] bg-transparent px-4 text-[13px] outline-none transition-colors focus:border-[#1A1A1A]"
         />
-      </span>
-    </label>
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777] hover:text-[#1A1A1A] transition-colors"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        )}
+      </div>
+    </div>
   );
 }

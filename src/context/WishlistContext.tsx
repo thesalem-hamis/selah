@@ -41,14 +41,15 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const toggle = useCallback((id: string, name?: string) => {
     setIds((current) => {
       const exists = current.includes(id);
-      if (exists) {
-        toast("Removed from wishlist", { description: name });
-        return current.filter((item) => item !== id);
-      }
-      toast.success("Saved to wishlist", { description: name });
-      return [...current, id];
+      return exists ? current.filter((item) => item !== id) : [...current, id];
     });
-  }, []);
+    
+    if (ids.includes(id)) {
+      toast("Removed from wishlist", { description: name });
+    } else {
+      toast.success("Saved to wishlist", { description: name });
+    }
+  }, [ids]);
 
   const value = useMemo<WishlistContextValue>(
     () => ({

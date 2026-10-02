@@ -26,15 +26,15 @@ export const Route = createFileRoute("/about")({
 
 const pillars = [
   {
-    title: "Faith in every thread",
+    title: "FAITH IN EVERY THREAD",
     body: "We believe faith and fashion can exist beautifully together. Every piece is designed to help women wear what they believe.",
   },
   {
-    title: "Intentional living",
+    title: "INTENTIONAL LIVING",
     body: "Selah is a moment to pause, reflect, and consider. Our clothing is a reminder to slow down and keep Christ at the centre.",
   },
   {
-    title: "A set-apart community",
+    title: "A SET-APART COMMUNITY",
     body: "We are creating space for women of God to look good, feel good, and encourage one another as they live boldly for Jesus.",
   },
 ];
@@ -42,52 +42,77 @@ const pillars = [
 function About() {
   return (
     <StoreLayout>
-      <section className="container-page py-10 md:py-16">
-        <p className="eyebrow mb-4">Our story</p>
-        <h1 className="max-w-3xl font-display text-4xl leading-[1.05] md:text-6xl">
-          Fashion for the woman who chooses to live set apart.
-        </h1>
-        <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-          Selah Girl Society was founded by two women who love Jesus and believe faith and fashion
-          can exist beautifully together. We create trendy Christian basics for women who want to
-          live intentionally, boldly, and unapologetically for Jesus.
-        </p>
-        <blockquote className="mt-8 max-w-2xl border-l-2 border-accent pl-5 font-display text-2xl leading-tight md:text-3xl">
-          Pause. Reflect. Wear. Declare.
-        </blockquote>
+      <section className="container-page py-20 md:py-32">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777]">
+            Our Story
+          </p>
+          <h1
+            className="text-4xl text-[#1A1A1A] md:text-6xl lg:text-7xl leading-[1.1]"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Fashion for the woman who chooses to live set apart.
+          </h1>
+          <p className="mx-auto mt-10 max-w-2xl text-[14px] leading-relaxed text-[#444444] md:text-[15px]">
+            Selah Girl Society was founded by two women who love Jesus and believe faith and fashion
+            can exist beautifully together. We create trendy Christian basics for women who want to
+            live intentionally, boldly, and unapologetically for Jesus.
+          </p>
+          <blockquote
+            className="mx-auto mt-16 max-w-2xl text-2xl text-[#1A1A1A] md:text-4xl leading-[1.3]"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            "Pause. Reflect. Wear. Declare."
+          </blockquote>
+        </div>
       </section>
 
-      <section className="container-page grid gap-6 pb-6 md:grid-cols-2">
-        <img src={editorial} alt="Selah studio in UK" loading="lazy" className="rounded-3xl" />
-        <img src={promo} alt="Selah campaign imagery" loading="lazy" className="rounded-3xl" />
+      <section className="container-page pb-20 md:pb-32">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="aspect-[3/4] w-full bg-[#f4f4f4]">
+            <img src={editorial} alt="Selah studio in UK" loading="lazy" className="h-full w-full object-cover" />
+          </div>
+          <div className="aspect-[3/4] w-full bg-[#f4f4f4]">
+            <img src={promo} alt="Selah campaign imagery" loading="lazy" className="h-full w-full object-cover" />
+          </div>
+        </div>
       </section>
 
-      <section className="container-page py-12 md:py-20">
-        <div className="grid gap-10 md:grid-cols-3">
+      <section className="container-page pb-20 md:pb-32">
+        <div className="grid gap-12 md:grid-cols-3 md:gap-16 border-t border-[#E5E5E5] pt-16">
           {pillars.map((pillar, index) => (
             <article key={pillar.title}>
-              <span className="font-display text-2xl text-accent">
+              <span className="text-[14px] font-bold text-[#1A1A1A]">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h2 className="mt-3 font-display text-xl">{pillar.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pillar.body}</p>
+              <h2 className="mt-6 text-[12px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+                {pillar.title}
+              </h2>
+              <p className="mt-4 text-[14px] leading-relaxed text-[#444444]">
+                {pillar.body}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="container-page pb-16 md:pb-24">
-        <div className="rounded-3xl bg-primary px-6 py-12 text-center text-primary-foreground md:px-16 md:py-16">
-          <h2 className="font-display text-3xl md:text-4xl">Welcome to the society</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm opacity-85">
+      <section className="container-page pb-24 md:pb-32">
+        <div className="bg-[#1A1A1A] px-6 py-20 text-center text-white md:px-16 md:py-32">
+          <h2
+            className="text-4xl md:text-6xl"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+          >
+            Welcome to the society
+          </h2>
+          <p className="mx-auto mt-8 max-w-xl text-[14px] leading-relaxed text-[#BBBBBB]">
             A community for the woman of God who wants to look good, feel good, and keep Christ at
             the centre. Pause, reflect, wear, and declare it with us.
           </p>
           <Link
             to="/shop"
-            className="mt-8 inline-flex h-12 items-center rounded-full bg-background px-8 text-sm font-medium text-foreground transition-opacity hover:opacity-90"
+            className="mt-12 inline-flex h-14 items-center justify-center bg-white px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#E5E5E5]"
           >
-            Shop new season
+            SHOP NEW SEASON
           </Link>
         </div>
       </section>

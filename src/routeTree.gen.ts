@@ -18,6 +18,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
+import { Route as PakistanJourneyRouteImport } from './routes/pakistan-journey'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as WishlistRouteImport } from './routes/wishlist'
@@ -72,6 +73,11 @@ const LoginRoute = LoginRouteImport.update({
 const NewArrivalsRoute = NewArrivalsRouteImport.update({
   id: '/new-arrivals',
   path: '/new-arrivals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PakistanJourneyRoute = PakistanJourneyRouteImport.update({
+  id: '/pakistan-journey',
+  path: '/pakistan-journey',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/collections': typeof CollectionsRoute
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
+  '/pakistan-journey': typeof PakistanJourneyRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/collections': typeof CollectionsRoute
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
+  '/pakistan-journey': typeof PakistanJourneyRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/collections': typeof CollectionsRoute
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
+  '/pakistan-journey': typeof PakistanJourneyRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/login'
     | '/new-arrivals'
+    | '/pakistan-journey'
     | '/search'
     | '/shop'
     | '/wishlist'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/login'
     | '/new-arrivals'
+    | '/pakistan-journey'
     | '/search'
     | '/shop'
     | '/wishlist'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/login'
     | '/new-arrivals'
+    | '/pakistan-journey'
     | '/search'
     | '/shop'
     | '/wishlist'
@@ -265,6 +277,7 @@ export interface RootRouteChildren {
   CollectionsRoute: typeof CollectionsRoute
   LoginRoute: typeof LoginRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
+  PakistanJourneyRoute: typeof PakistanJourneyRoute
   SearchRoute: typeof SearchRoute
   ShopRoute: typeof ShopRoute
   WishlistRoute: typeof WishlistRoute
@@ -336,6 +349,13 @@ declare module '@tanstack/react-router' {
       path: '/new-arrivals'
       fullPath: '/new-arrivals'
       preLoaderRoute: typeof NewArrivalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pakistan-journey': {
+      id: '/pakistan-journey'
+      path: '/pakistan-journey'
+      fullPath: '/pakistan-journey'
+      preLoaderRoute: typeof PakistanJourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -437,6 +457,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsRoute: CollectionsRoute,
   LoginRoute: LoginRoute,
   NewArrivalsRoute: NewArrivalsRoute,
+  PakistanJourneyRoute: PakistanJourneyRoute,
   SearchRoute: SearchRoute,
   ShopRoute: ShopRoute,
   WishlistRoute: WishlistRoute,

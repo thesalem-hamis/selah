@@ -57,26 +57,26 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
   ].reduce<number>((sum, value) => sum + (value ?? 0), 0);
 
   return (
-    <div className="container-page py-8 md:py-14">
-      <header className="max-w-2xl">
-        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
+    <div className="container-page py-12 md:py-20">
+      <header className="mb-16 flex flex-col items-center text-center">
+        {eyebrow && <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#FFC0CB]">{eyebrow}</p>}
         <h1
-          className="text-3xl md:text-5xl"
+          className="text-4xl text-[#1A1A1A] md:text-6xl"
           style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
         >
           {title}
         </h1>
-        {description && <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{description}</p>}
+        {description && <p className="mt-6 max-w-xl text-[14px] leading-relaxed text-[#444444]">{description}</p>}
       </header>
 
-      <div className="mt-8 flex items-center justify-between gap-4 border-y border-border py-3 md:mt-12">
-        <div className="flex items-center gap-3">
+      <div className="mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-y border-[#E5E5E5] py-4">
+        <div className="flex items-center justify-between md:justify-start gap-4">
           <Sheet>
-            <SheetTrigger className="inline-flex h-10 items-center gap-2 rounded-full border border-border bg-surface px-4 text-xs font-medium lg:hidden">
+            <SheetTrigger className="inline-flex h-12 items-center gap-2 border border-[#1A1A1A] bg-white px-6 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white lg:hidden">
               <SlidersHorizontal className="size-4" />
               Filters
               {activeCount > 0 && (
-                <span className="grid size-5 place-items-center rounded-full bg-foreground text-[10px] text-background">
+                <span className="grid size-5 place-items-center bg-[#FFC0CB] text-[10px] text-[#1A1A1A]">
                   {activeCount}
                 </span>
               )}
@@ -87,17 +87,17 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
               </div>
             </SheetContent>
           </Sheet>
-          <p className="text-xs text-muted-foreground">
-            {query.data ? `${query.data.length} pieces` : ""}
+          <p className="text-[12px] font-medium tracking-wide text-[#777777]">
+            {query.data ? `${query.data.length} PIECES` : ""}
           </p>
         </div>
 
-        <label className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span className="hidden sm:inline">Sort</span>
+        <label className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+          <span className="hidden sm:inline">Sort By</span>
           <select
             value={filters.sort ?? "featured"}
             onChange={(event) => change({ sort: event.target.value as SortKey })}
-            className="h-10 rounded-none border-0 border-b border-border bg-transparent px-1 text-xs font-medium text-foreground outline-none"
+            className="h-10 border-0 border-b border-[#1A1A1A] bg-transparent px-1 text-[13px] font-medium text-[#1A1A1A] outline-none"
             aria-label="Sort products"
           >
             {sortOptions.map((option) => (
@@ -109,9 +109,9 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
         </label>
       </div>
 
-      <div className="mt-8 grid gap-10 lg:grid-cols-[240px_1fr] lg:gap-14">
+      <div className="grid gap-10 lg:grid-cols-[240px_1fr] lg:gap-14">
         <aside className="hidden lg:block">
-          <div className="sticky top-28">
+          <div className="sticky top-32">
             <FilterPanel filters={filters} onChange={change} onReset={reset} />
           </div>
         </aside>
