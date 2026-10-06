@@ -103,7 +103,7 @@ function ProductPage() {
       <div className="container-page py-12 md:py-20">
         <Link
           to="/shop"
-          className="absolute left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
+          className="left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
         >
           <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
         </Link>
