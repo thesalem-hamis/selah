@@ -111,7 +111,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
         </div>
       </fieldset>
 
-      <fieldset>
+      {/* <fieldset>
         <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
           Colour
         </legend>
@@ -139,7 +139,7 @@ export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
             );
           })}
         </div>
-      </fieldset>
+      </fieldset> */}
 
       <fieldset>
         <legend className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">

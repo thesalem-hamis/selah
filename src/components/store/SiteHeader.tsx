@@ -68,24 +68,13 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
           {/* Center - Logo */}
           <div className="flex w-3/5 items-center justify-center">
             <Link to="/" className="relative flex items-center justify-center h-16 w-full md:w-48">
-              {/* Text Logo */}
-              <span
-                className={cn(
-                  "absolute text-base sm:text-lg md:text-2xl tracking-[0.2em] font-light transition-opacity duration-300",
-                  !scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
-                )}
-                style={{ fontFamily: "var(--font-selah)" }}
-              >
-                SELAH GIRL
-              </span>
               
               {/* Image Logo */}
               <img
                 src="/selah-girls-logo.png"
                 alt="Selah Girl Society"
                 className={cn(
-                  "absolute h-14 w-auto md:h-16 object-contain transition-opacity duration-300",
-                  scrolled ? "opacity-100" : "opacity-0 pointer-events-none"
+                  "absolute h-14 w-auto md:h-20 object-contain transition-opacity duration-300"
                 )}
               />
             </Link>

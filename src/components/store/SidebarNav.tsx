@@ -41,7 +41,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
         )}
       >
         {/* Header Tabs - fixed height, never shrinks */}
-        <div className="flex h-14 shrink-0 items-center border-b border-[#333333] md:h-24">
+        <div className="flex h-14 shrink-0 items-center border-b border-[#333333] md:h-20">
           <button
             onClick={() => setActiveTab("SHOP")}
             className={cn(

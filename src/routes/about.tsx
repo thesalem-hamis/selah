@@ -42,24 +42,24 @@ const pillars = [
 function About() {
   return (
     <StoreLayout>
-      <section className="container-page py-20 md:py-32">
+      <section className="container-page py-24 md:py-32">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777]">
+          <p className="mb-8 text-[11px] font-bold uppercase tracking-[0.3em] text-[#777777]">
             Our Story
           </p>
           <h1
-            className="text-4xl text-[#1A1A1A] md:text-6xl lg:text-7xl leading-[1.1]"
+            className="text-4xl text-[#1A1A1A] md:text-6xl lg:text-7xl leading-[1.15]"
             style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
           >
             Fashion for the woman who chooses to live set apart.
           </h1>
-          <p className="mx-auto mt-10 max-w-2xl text-[14px] leading-relaxed text-[#444444] md:text-[15px]">
+          <p className="mx-auto mt-12 max-w-2xl text-[15px] leading-relaxed text-[#444444] md:text-[16px]">
             Selah Girl Society was founded by two women who love Jesus and believe faith and fashion
             can exist beautifully together. We create trendy Christian basics for women who want to
             live intentionally, boldly, and unapologetically for Jesus.
           </p>
           <blockquote
-            className="mx-auto mt-16 max-w-2xl text-2xl text-[#1A1A1A] md:text-4xl leading-[1.3]"
+            className="mx-auto mt-20 max-w-2xl text-3xl text-[#1A1A1A] md:text-4xl leading-[1.4] italic"
             style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
           >
             "Pause. Reflect. Wear. Declare."
@@ -78,17 +78,17 @@ function About() {
         </div>
       </section>
 
-      <section className="container-page pb-20 md:pb-32">
-        <div className="grid gap-12 md:grid-cols-3 md:gap-16 border-t border-[#E5E5E5] pt-16">
+      <section className="container-page pb-24 md:pb-32">
+        <div className="grid gap-12 md:grid-cols-3 md:gap-16 border-t border-[#E5E5E5] pt-20">
           {pillars.map((pillar, index) => (
-            <article key={pillar.title}>
-              <span className="text-[14px] font-bold text-[#1A1A1A]">
+            <article key={pillar.title} className="text-center md:text-left">
+              <span className="text-[12px] font-bold text-[#1A1A1A] tracking-[0.1em]">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h2 className="mt-6 text-[12px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+              <h2 className="mt-6 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
                 {pillar.title}
               </h2>
-              <p className="mt-4 text-[14px] leading-relaxed text-[#444444]">
+              <p className="mt-5 text-[14px] leading-relaxed text-[#444444]">
                 {pillar.body}
               </p>
             </article>

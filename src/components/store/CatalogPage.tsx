@@ -57,87 +57,60 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
   ].reduce<number>((sum, value) => sum + (value ?? 0), 0);
 
   return (
-    <div className="container-page py-12 md:py-20">
-      <header className="mb-16 flex flex-col items-center text-center">
-        {eyebrow && <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#FFC0CB]">{eyebrow}</p>}
-        <h1
-          className="text-4xl text-[#1A1A1A] md:text-6xl"
-          style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-        >
-          {title}
-        </h1>
-        {description && <p className="mt-6 max-w-xl text-[14px] leading-relaxed text-[#444444]">{description}</p>}
-      </header>
-
-      <div className="mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-y border-[#E5E5E5] py-4">
-        <div className="flex items-center justify-between md:justify-start gap-4">
+    <div className="container-page py-12 md:py-16">
+      <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-4 mb-8 text-[12px]">
+        <div className="font-medium text-[#1A1A1A]">
+          {title} {!baseFilters?.category && "+"}
+        </div>
+        <div className="flex items-center gap-6 text-[#1A1A1A]">
+          <label className="flex items-center gap-2">
+            <span className="text-[#777777]">Sort:</span>
+            <select
+              value={filters.sort ?? "featured"}
+              onChange={(event) => change({ sort: event.target.value as SortKey })}
+              className="bg-transparent outline-none font-medium cursor-pointer"
+              aria-label="Sort products"
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
           <Sheet>
-            <SheetTrigger className="inline-flex h-12 items-center gap-2 border border-[#1A1A1A] bg-white px-6 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white lg:hidden">
-              <SlidersHorizontal className="size-4" />
-              Filters
-              {activeCount > 0 && (
-                <span className="grid size-5 place-items-center bg-[#FFC0CB] text-[10px] text-[#1A1A1A]">
-                  {activeCount}
-                </span>
-              )}
+            <SheetTrigger className="font-medium hover:text-[#777777] transition-colors">
+              Refine
             </SheetTrigger>
-            <SheetContent side="left" className="w-[86vw] overflow-y-auto p-6 sm:max-w-sm">
+            <SheetContent side="right" className="w-[86vw] overflow-y-auto p-6 sm:max-w-sm">
               <div className="mt-6">
                 <FilterPanel filters={filters} onChange={change} onReset={reset} />
               </div>
             </SheetContent>
           </Sheet>
-          <p className="text-[12px] font-medium tracking-wide text-[#777777]">
-            {query.data ? `${query.data.length} PIECES` : ""}
-          </p>
         </div>
-
-        <label className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
-          <span className="hidden sm:inline">Sort By</span>
-          <select
-            value={filters.sort ?? "featured"}
-            onChange={(event) => change({ sort: event.target.value as SortKey })}
-            className="h-10 border-0 border-b border-[#1A1A1A] bg-transparent px-1 text-[13px] font-medium text-[#1A1A1A] outline-none"
-            aria-label="Sort products"
-          >
-            {sortOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
       </div>
 
-      <div className="grid gap-10 lg:grid-cols-[240px_1fr] lg:gap-14">
-        <aside className="hidden lg:block">
-          <div className="sticky top-32">
-            <FilterPanel filters={filters} onChange={change} onReset={reset} />
-          </div>
-        </aside>
-
-        <div>
-          {query.isError ? (
-            <ErrorState onRetry={() => void query.refetch()} />
-          ) : !query.isLoading && query.data?.length === 0 ? (
-            <EmptyState
-              icon={PackageSearch}
-              title="Nothing matches those filters"
-              description="Try widening your price range or clearing a filter or two."
-              actionLabel="Clear filters"
-              onAction={reset}
-            />
-          ) : (
-            <ProductGrid
-              products={query.data ?? []}
-              reviews={reviewsQuery.data ?? {}}
-              loading={query.isLoading || reviewsQuery.isLoading}
-              columns={3}
-              showRating
-              viewMode={viewMode}
-            />
-          )}
-        </div>
+      <div>
+        {query.isError ? (
+          <ErrorState onRetry={() => void query.refetch()} />
+        ) : !query.isLoading && query.data?.length === 0 ? (
+          <EmptyState
+            icon={PackageSearch}
+            title="Nothing matches those filters"
+            description="Try widening your price range or clearing a filter or two."
+            actionLabel="Clear filters"
+            onAction={reset}
+          />
+        ) : (
+          <ProductGrid
+            products={query.data ?? []}
+            reviews={reviewsQuery.data ?? {}}
+            loading={query.isLoading || reviewsQuery.isLoading}
+            columns={4}
+            viewMode={viewMode}
+          />
+        )}
       </div>
     </div>
   );

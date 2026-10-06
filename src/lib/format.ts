@@ -8,12 +8,12 @@ const nf = new Intl.NumberFormat("en-GB", {
 });
 
 export function formatPrice(value: number) {
-  return nf.format(value / BASE_UNITS_PER_GBP);
+  return nf.format(value);
 }
 
 export function formatCompact(value: number) {
   return new Intl.NumberFormat("en-GB", { notation: "compact", maximumFractionDigits: 1 }).format(
-    value / BASE_UNITS_PER_GBP,
+    value,
   );
 }
 

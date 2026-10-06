@@ -57,9 +57,6 @@ export function ProductGrid({
         <ProductCard
           key={product.id}
           product={product}
-          showRating={Boolean(showRating)}
-          listView={viewMode === "list"}
-          review={reviews?.[product.id]}
         />
       ))}
     </div>

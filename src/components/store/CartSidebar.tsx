@@ -77,7 +77,7 @@ export function CartSidebar() {
                         </button>
                       </div>
                       <p className="mt-1 text-[11px] text-[#777777]">
-                        Size: {item.size} / Color: {item.color}
+                        Size: {item.size}
                       </p>
                     </div>
                     
@@ -132,3 +132,4 @@ export function CartSidebar() {
     </>
   );
 }
+

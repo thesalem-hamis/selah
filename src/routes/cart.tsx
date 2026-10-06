@@ -75,7 +75,7 @@ function CartPage() {
                         </button>
                       </div>
                       <p className="mt-2 text-[12px] text-[#777777]">
-                        Color: <span className="text-[#1A1A1A]">{item.color}</span> / Size: <span className="text-[#1A1A1A]">{item.size}</span>
+                        Size: <span className="text-[#1A1A1A]">{item.size}</span>
                       </p>
                     </div>
 
@@ -122,3 +122,4 @@ function CartPage() {
     </StoreLayout>
   );
 }
+

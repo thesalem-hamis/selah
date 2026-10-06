@@ -881,15 +881,12 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         details: ["Designed for everyday wear"],
         category,
         subcategory: String(formData.get("subcategory") ?? ""),
-        price: Math.round(priceRaw * 100),
+        price: priceRaw,
         oldPrice: undefined,
         sku: SKU,
         stock: Number(formData.get("stock") ?? 0),
         sizes: sizes,
-        colors: [
-          { name: "Olive", hex: "#6E7A50" },
-          { name: "Cream", hex: "#F1E9D9" },
-        ],
+        colors: [],
         images: imageUrls,
         tags: [],
         rating: 0,
@@ -1182,3 +1179,4 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     </AnimatePresence>
   );
 }
+

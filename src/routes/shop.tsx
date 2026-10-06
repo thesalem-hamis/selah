@@ -27,7 +27,7 @@ function ShopPage() {
   return (
     <StoreLayout>
       <CatalogPage
-        title="All pieces"
+        title="Shop All"
         baseFilters={{}}
       />
     </StoreLayout>
