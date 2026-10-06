@@ -121,7 +121,13 @@ function LoginPage() {
         {/* Left Side - Editorial */}
         <section className="hidden flex-col justify-between bg-[#f4f4f4] p-12 lg:flex xl:p-20">
           <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
-            SELAH GIRL
+            <img
+                src="/selah-girls-logo.png"
+                alt="Selah Girl Society"
+                className={cn(
+                  "absolute h-16 w-auto md:h-24 object-contain transition-opacity duration-300"
+                )}
+              />
           </Link>
           
           <motion.div
@@ -156,9 +162,15 @@ function LoginPage() {
           </Link>
 
           <div className="w-full max-w-md pt-12">
-            <div className="mb-12 lg:hidden">
+            <div className="mb-6 flex text-center relative w-full items-center justify-center lg:hidden">
               <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
-                SELAH GIRL
+                <img
+                src="/selah-girls-logo.png"
+                alt="Selah Girl Society"
+                className={cn(
+                  "h-16 w-auto object-contain transition-opacity duration-300"
+                )}
+              />
               </Link>
             </div>
 

@@ -178,7 +178,7 @@ function Home() {
 
           <div className="relative aspect-[4/5] w-full lg:aspect-auto lg:h-full order-2 lg:order-1 bg-[#f4f4f4]">
             <img 
-              src="https://images.unsplash.com/photo-1605374828135-eeefb1dc6a92?q=80&w=2000&auto=format&fit=crop" 
+              src="/sg2.jpg"
               alt="Artisan Craftsmanship"
               className="h-full w-full object-cover"
             />

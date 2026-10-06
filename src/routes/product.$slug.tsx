@@ -17,15 +17,15 @@ import type { Product, Review } from "@/types";
 import { cn } from "@/lib/utils";
 import { useWishlist } from "@/context/WishlistContext";
 
-export const Route = createFileRoute("/product/$slug")({ 
-  component: ProductPage 
+export const Route = createFileRoute("/product/$slug")({
+  component: ProductPage
 });
 
 function AccordionItem({ title, children, defaultOpen = false }: { title: string, children: React.ReactNode, defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
     <div className="border-b border-[#E5E5E5]">
-      <button 
+      <button
         className="w-full py-5 flex justify-between items-center text-[13px] text-[#1A1A1A] hover:text-[#777777] transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -46,9 +46,9 @@ function ProductPage() {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const productQuery = useQuery({ 
-    queryKey: ["product", slug], 
-    queryFn: () => productService.bySlug(slug) 
+  const productQuery = useQuery({
+    queryKey: ["product", slug],
+    queryFn: () => productService.bySlug(slug)
   });
 
   const product = productQuery.data;
@@ -101,15 +101,21 @@ function ProductPage() {
   return (
     <StoreLayout>
       <div className="container-page py-12 md:py-20">
+        <Link
+          to="/shop"
+          className="absolute left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
+        >
+          <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
+        </Link>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
-          
+
           {/* Left Column - Product Info & Accordion */}
           <div className="lg:col-span-3 order-2 lg:order-1 space-y-12 pt-4">
             <div>
               <h1 className="text-[13px] text-[#1A1A1A] mb-1">{product.name}</h1>
               <p className="text-[13px] text-[#1A1A1A]">{formatPrice(product.price)}</p>
             </div>
-            
+
             <div className="border-t border-[#E5E5E5]">
               <AccordionItem title="Product Details" defaultOpen>
                 <ul className="space-y-2">
@@ -120,7 +126,7 @@ function ProductPage() {
                     </li>
                   ))}
                   {product.details.length === 0 && (
-                     <li className="flex items-start">{product.description}</li>
+                    <li className="flex items-start">{product.description}</li>
                   )}
                 </ul>
               </AccordionItem>
@@ -140,8 +146,8 @@ function ProductPage() {
           {/* Center Column - Main Image */}
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
             <div className="bg-[#f4f4f4] w-full relative flex items-center justify-center p-4 md:p-8 aspect-[4/5]">
-              <img 
-                src={product.images[activeImageIndex] || product.images[0]} 
+              <img
+                src={product.images[activeImageIndex] || product.images[0]}
                 alt={product.name}
                 className="w-full h-full object-cover md:object-contain"
               />
@@ -149,7 +155,7 @@ function ProductPage() {
             {product.images.length > 1 && (
               <div className="flex flex-wrap gap-3">
                 {product.images.map((img, i) => (
-                  <button 
+                  <button
                     key={i}
                     onClick={() => setActiveImageIndex(i)}
                     className={cn(
@@ -157,7 +163,7 @@ function ProductPage() {
                       activeImageIndex === i ? "ring-1 ring-[#1A1A1A] ring-offset-2" : "opacity-70 hover:opacity-100"
                     )}
                   >
-                     <img src={img} alt={`${product.name} ${i+1}`} className="w-full h-full object-cover" />
+                    <img src={img} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -169,7 +175,7 @@ function ProductPage() {
             <div className="space-y-6">
               {product.sizes && product.sizes.length > 0 && (
                 <div className="border border-[#E5E5E5] relative h-12">
-                  <select 
+                  <select
                     className="w-full h-full px-4 appearance-none text-[12px] text-[#1A1A1A] bg-transparent outline-none cursor-pointer"
                     value={selectedSize}
                     onChange={(e) => setSelectedSize(e.target.value)}
@@ -183,7 +189,7 @@ function ProductPage() {
                 </div>
               )}
 
-              <button 
+              <button
                 onClick={handleAddToCart}
                 className="w-full h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
               >
@@ -200,10 +206,10 @@ function ProductPage() {
   );
 }
 
-function Related({ product }: { product: Product }) { 
-  const query = useQuery({ 
-    queryKey: ["related", product.id], 
-    queryFn: () => productService.related(product) 
+function Related({ product }: { product: Product }) {
+  const query = useQuery({
+    queryKey: ["related", product.id],
+    queryFn: () => productService.related(product)
   });
 
   return (
@@ -215,8 +221,8 @@ function Related({ product }: { product: Product }) {
         >
           You May Also Like
         </h2>
-        <Link 
-          to="/shop" 
+        <Link
+          to="/shop"
           className="hidden items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:opacity-60 transition-opacity md:flex"
         >
           VIEW ALL
