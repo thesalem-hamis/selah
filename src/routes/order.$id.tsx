@@ -1,10 +1,96 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Package } from "lucide-react";
+import { Check } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import { Button } from "@/components/ui/button";
 import { orderService } from "@/services/orderService";
 import { formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/order/$id")({ component: OrderPage });
-function OrderPage() { const { id } = Route.useParams(); const query = useQuery({ queryKey: ["order", id], queryFn: () => orderService.byId(id) }); const order = query.data; return <StoreLayout><div className="container-page max-w-3xl py-16 text-center"><div className="mx-auto flex size-14 items-center justify-center rounded-full bg-accent/15 text-accent"><Check /></div><p className="eyebrow mt-6">Order confirmed</p><h1 className="mt-3 font-display text-4xl">Thank you for choosing Selah.</h1>{order && <><p className="mt-3 text-sm text-muted-foreground">{order.reference} · {formatPrice(order.total)} · arriving {new Date(order.estimatedDelivery).toLocaleDateString("en-NG", { day: "numeric", month: "long" })}</p><div className="mt-10 divide-y divide-border border-y border-border text-left">{order.items.map((item) => <div key={item.slug} className="flex items-center gap-4 py-4"><img src={item.image} alt={item.name} className="size-16 object-cover" /><div className="flex-1"><p className="text-sm font-medium">{item.name}</p><p className="text-xs text-muted-foreground">{item.color} · {item.size} · Qty {item.quantity}</p></div><span className="text-sm">{formatPrice(item.price * item.quantity)}</span></div>)}</div></>}<div className="mt-8 flex justify-center gap-3"><Button asChild><Link to="/shop">Keep shopping</Link></Button><Button asChild variant="outline"><Link to="/account">View account</Link></Button></div></div></StoreLayout>; }
+
+function OrderPage() {
+  const { id } = Route.useParams();
+  const query = useQuery({ queryKey: ["order", id], queryFn: () => orderService.byId(id) });
+  const order = query.data;
+
+  return (
+    <StoreLayout>
+      <div className="container-page max-w-3xl py-24 md:py-32">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl text-[#1A1A1A] mb-4" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
+            Thank you for your order.
+          </h1>
+          <p className="text-[13px] text-[#444444]">
+            Your order has been confirmed and is being processed.
+          </p>
+          {order && (
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+              Order No. {order.reference}
+            </p>
+          )}
+        </div>
+
+        {order ? (
+          <div className="border border-[#E5E5E5] bg-[#f4f4f4]/30 p-6 md:p-10">
+            <div className="flex flex-col md:flex-row justify-between pb-8 mb-8 border-b border-[#E5E5E5] gap-4">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] mb-1">Date</p>
+                <p className="text-[13px] text-[#1A1A1A]">
+                  {new Date(order.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                </p>
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] mb-1">Total</p>
+                <p className="text-[13px] text-[#1A1A1A]">{formatPrice(order.total)}</p>
+              </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] mb-1">Status</p>
+                <p className="text-[13px] text-[#1A1A1A] capitalize">{order.status}</p>
+              </div>
+            </div>
+
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] mb-6">
+              Order Details
+            </h2>
+            <div className="divide-y divide-[#E5E5E5]">
+              {order.items.map((item) => (
+                <div key={item.slug} className="flex items-center gap-6 py-6">
+                  <div className="bg-[#f4f4f4] size-24 p-2 flex-shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[13px] text-[#1A1A1A] mb-1">{item.name}</p>
+                    <p className="text-[12px] text-[#777777]">
+                      Size: {item.size} <span className="mx-2">|</span> Qty: {item.quantity}
+                    </p>
+                  </div>
+                  <span className="text-[13px] text-[#1A1A1A]">
+                    {formatPrice(item.price * item.quantity)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row justify-between gap-4 border-t border-[#E5E5E5] pt-10">
+              <Link
+                to="/shop"
+                className="flex-1 flex items-center justify-center h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
+              >
+                CONTINUE SHOPPING
+              </Link>
+              <Link
+                to="/account"
+                className="flex-1 flex items-center justify-center h-12 border border-[#E5E5E5] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:border-[#1A1A1A]"
+              >
+                VIEW ACCOUNT
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#1A1A1A] border-r-transparent" />
+          </div>
+        )}
+      </div>
+    </StoreLayout>
+  );
+}

@@ -101,20 +101,27 @@ function Home() {
         </div>
       </section>
 
-      {/* Brand Story - 50/50 Split Pink Block */}
-      <section className="border-t border-b border-[#E5E5E5] bg-white">
+      {/* Brand Story - Minimalist Luxury Split */}
+      <section className="bg-white border-t border-b border-[#E5E5E5]">
         <div className="grid lg:grid-cols-2">
-          <div className="flex flex-col justify-center bg-[#FFF5F7] px-8 py-20 lg:px-20 lg:py-32">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">
+          <div className="relative flex flex-col justify-center px-8 py-24 lg:px-24 lg:py-40">
+            {/* Decorative element */}
+            <div className="absolute top-12 left-12 md:top-24 md:left-24 text-[120px] md:text-[200px] leading-none text-[#FFF5F7] select-none pointer-events-none -z-10" style={{ fontFamily: "var(--font-selah)" }}>
+              &quot;
+            </div>
+            
+            <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.4em] text-[#777777]">
               Our Philosophy
             </p>
             <h2
-              className="text-4xl leading-tight text-[#1A1A1A] md:text-5xl"
+              className="text-4xl leading-[1.1] text-[#1A1A1A] md:text-[3.5rem] md:leading-[1.1] max-w-[15ch]"
               style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
             >
-              Created to Glorify. <br/>Designed to Inspire.
+              Created to Glorify. <br/>
+              <span className="italic text-[#777777]">Designed to Inspire.</span>
             </h2>
-            <div className="mt-8 space-y-5 text-[14px] leading-relaxed text-[#1A1A1A]/80">
+            
+            <div className="mt-12 space-y-6 text-[13px] md:text-[14px] leading-relaxed text-[#444444] max-w-md">
               <p>
                 Selah Girl Society was born from a simple conviction: that godly women deserve clothing that reflects the beauty of their faith. Not loud, not flashy, but quietly powerful.
               </p>
@@ -123,17 +130,17 @@ function Home() {
               </p>
             </div>
             
-            <div className="mt-10">
+            <div className="mt-12">
               <Link
                 to="/about"
-                className="inline-flex h-12 md:h-14 items-center justify-center border border-[#1A1A1A] bg-transparent px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white"
+                className="group inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:text-[#777777]"
               >
-                Read Our Story
+                <span className="border-b border-[#1A1A1A] pb-1 group-hover:border-[#777777] transition-colors">Discover Our Story</span>
               </Link>
             </div>
           </div>
           
-          <div className="relative aspect-[4/5] w-full lg:aspect-auto lg:h-full">
+          <div className="relative aspect-[4/5] w-full lg:aspect-auto lg:h-full bg-[#f4f4f4]">
             <img
               src="/sg1.jpeg"
               alt="Selah Girl Society Editorial"
@@ -144,20 +151,22 @@ function Home() {
         </div>
       </section>
 
-      {/* Pakistan Journey - 50/50 Split Black Block */}
+      {/* Pakistan Journey - Deep Contrast Luxury Split */}
       <section className="bg-[#1A1A1A]">
         <div className="grid lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-8 py-20 lg:px-20 lg:py-32 order-1 lg:order-2">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#BBBBBB]">
-              Our Craftsmanship
+          <div className="flex flex-col justify-center px-8 py-24 lg:px-24 lg:py-40 order-1 lg:order-2">
+            <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.4em] text-[#777777]">
+              Artisan Craftsmanship
             </p>
             <h2
-              className="text-4xl leading-tight text-white md:text-5xl"
+              className="text-4xl leading-[1.1] text-white md:text-[3.5rem] md:leading-[1.1] max-w-[15ch]"
               style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
             >
-              The Pakistan Journey
+              The Pakistan <br />
+              <span className="italic text-[#777777]">Journey.</span>
             </h2>
-            <div className="mt-8 space-y-5 text-[14px] leading-relaxed text-[#BBBBBB]">
+            
+            <div className="mt-12 space-y-6 text-[13px] md:text-[14px] leading-relaxed text-[#BBBBBB] max-w-md">
               <p>
                 True luxury is found in the dignity of the hands that make it. We travelled to Pakistan to build direct relationships with family-owned facilities that prioritize ethical labor.
               </p>
@@ -166,21 +175,21 @@ function Home() {
               </p>
             </div>
             
-            <div className="mt-10">
+            <div className="mt-12">
               <Link
                 to="/pakistan-journey"
-                className="inline-flex h-12 md:h-14 items-center justify-center border border-white bg-transparent px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-white hover:text-[#1A1A1A]"
+                className="group inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:text-[#BBBBBB]"
               >
-                Read The Journey
+                <span className="border-b border-white pb-1 group-hover:border-[#BBBBBB] transition-colors">Read The Journal</span>
               </Link>
             </div>
           </div>
 
-          <div className="relative aspect-[4/5] w-full lg:aspect-auto lg:h-full order-2 lg:order-1 bg-[#f4f4f4]">
+          <div className="relative aspect-[4/5] w-full lg:aspect-auto lg:h-full order-2 lg:order-1 bg-[#111111]">
             <img 
               src="/sg2.jpg"
               alt="Artisan Craftsmanship"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover opacity-90"
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import editorial from "@/assets/editorial.jpg";
-import promo from "@/assets/promo.jpg";
+import promo from "@/assets/p8.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({

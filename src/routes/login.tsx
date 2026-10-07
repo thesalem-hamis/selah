@@ -17,7 +17,9 @@ function LoginPage() {
   const [mode, setMode] = useState<AuthMode>("login");
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [isEmailBusy, setIsEmailBusy] = useState(false);
+  const [isGoogleBusy, setIsGoogleBusy] = useState(false);
+  const busy = isEmailBusy || isGoogleBusy;
   const [registerStep, setRegisterStep] = useState<RegisterStep>("form");
   const [pendingEmail, setPendingEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", "", "", ""]);
@@ -30,7 +32,7 @@ function LoginPage() {
   }, [ready, user, navigate]);
 
   const handleGoogleSignIn = async () => {
-    setBusy(true);
+    setIsGoogleBusy(true);
     setError("");
     try {
       const client = supabase;
@@ -45,7 +47,7 @@ function LoginPage() {
       }
     } catch (googleError) {
       setError(googleError instanceof Error ? googleError.message : "Google sign-in failed.");
-      setBusy(false);
+      setIsGoogleBusy(false);
     }
   };
 
@@ -84,7 +86,7 @@ function LoginPage() {
       setError("Enter the 8-digit code from your email.");
       return;
     }
-    setBusy(true);
+    setIsEmailBusy(true);
     setError("");
     try {
       await verifyRegistrationOtp(pendingEmail, code);
@@ -94,12 +96,12 @@ function LoginPage() {
         verifyError instanceof Error ? verifyError.message : "That code didn't work. Try again.",
       );
     } finally {
-      setBusy(false);
+      setIsEmailBusy(false);
     }
   };
 
   const handleResend = async () => {
-    setBusy(true);
+    setIsEmailBusy(true);
     setError("");
     try {
       await resendRegistrationOtp(pendingEmail);
@@ -107,7 +109,7 @@ function LoginPage() {
     } catch (resendError) {
       setError(resendError instanceof Error ? resendError.message : "Couldn't resend the code.");
     } finally {
-      setBusy(false);
+      setIsEmailBusy(false);
     }
   };
 
@@ -215,7 +217,7 @@ function LoginPage() {
                     disabled={busy}
                     className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                   >
-                    {busy ? "VERIFYING..." : "VERIFY & ENTER ACCOUNT"}
+                    {isEmailBusy ? "VERIFYING..." : "VERIFY & ENTER ACCOUNT"}
                   </button>
 
                   <div className="mt-8 flex flex-col gap-4 text-center text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
@@ -286,7 +288,7 @@ function LoginPage() {
                     className="mt-8 space-y-5"
                     onSubmit={async (event) => {
                       event.preventDefault();
-                      setBusy(true);
+                      setIsEmailBusy(true);
                       setError("");
                       setInfo("");
                       const data = new FormData(event.currentTarget);
@@ -312,7 +314,7 @@ function LoginPage() {
                             : "We couldn't complete that request.",
                         );
                       } finally {
-                        setBusy(false);
+                        setIsEmailBusy(false);
                       }
                     }}
                   >
@@ -343,7 +345,7 @@ function LoginPage() {
                       disabled={busy}
                       className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                     >
-                      {busy
+                      {isEmailBusy
                         ? "PLEASE WAIT..."
                         : mode === "login"
                           ? "ENTER ACCOUNT"
@@ -362,7 +364,7 @@ function LoginPage() {
                     disabled={busy}
                     className="flex h-14 w-full items-center justify-center border border-[#1A1A1A] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white disabled:opacity-50"
                   >
-                    {busy ? "PLEASE WAIT..." : "CONTINUE WITH GOOGLE"}
+                    {isGoogleBusy ? "PLEASE WAIT..." : "CONTINUE WITH GOOGLE"}
                   </button>
                 </motion.div>
               </>
