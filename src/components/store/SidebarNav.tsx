@@ -10,12 +10,7 @@ interface SidebarNavProps {
 }
 
 const shopLinks = [
-  { label: "ALL PIECES", to: "/shop" },
-  { label: "828", to: "/category/828" },
-  { label: "ASK ME ABOUT JESUS", to: "/category/ask-me-about-jesus" },
-  { label: "BABE, I LOVE JESUS", to: "/category/babe-i-love-jesus" },
-  { label: "PRETTY AND PRAYED UP", to: "/category/pretty-and-prayed-up" },
-  { label: "SELAH GIRL SOCIETY", to: "/category/selah-girl-society" },
+  { label: "SHOP ALL", to: "/shop" },
 ];
 
 export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
@@ -27,26 +22,28 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/20 transition-opacity"
+          className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar with White Glassmorphism + Soft Pink tint */}
       <div
         className={cn(
-          "fixed top-0 left-0 bottom-0 z-50 flex h-full w-full flex-col bg-[#1A1A1A] text-white transition-transform duration-300 ease-in-out sm:w-[400px]",
+          "fixed top-0 left-0 bottom-0 z-50 flex h-full w-full flex-col bg-[#FDF0F5]/85 backdrop-blur-xl border-r border-white/60 text-[#1A1A1A] shadow-2xl transition-transform duration-300 ease-in-out sm:w-[400px]",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        {/* Header Tabs - fixed height, never shrinks */}
-        <div className="flex h-14 shrink-0 items-center border-b border-[#333333] md:h-20">
+        {/* Header Tabs */}
+        <div className="flex h-14 shrink-0 items-center border-b border-black/5 md:h-20 font-['Alumni_Sans',sans-serif]">
           <button
             onClick={() => setActiveTab("SHOP")}
             className={cn(
-              "flex h-full flex-1 items-center justify-center text-[11px] font-bold uppercase tracking-[0.2em] transition-colors",
-              activeTab === "SHOP" ? "bg-[#1A1A1A] text-white" : "bg-[#2A2A2A] text-[#777777]"
+              "flex h-full flex-1 items-center justify-center text-sm font-bold uppercase tracking-[0.2em] transition-colors",
+              activeTab === "SHOP" 
+                ? "bg-white/90 text-[#1A1A1A] shadow-sm" 
+                : "bg-white/30 text-[#777777] hover:text-[#1A1A1A]"
             )}
           >
             SHOP
@@ -54,24 +51,26 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
           <button
             onClick={() => setActiveTab("EXPLORE")}
             className={cn(
-              "flex h-full flex-1 items-center justify-center text-[11px] font-bold uppercase tracking-[0.2em] transition-colors",
-              activeTab === "EXPLORE" ? "bg-[#1A1A1A] text-white" : "bg-[#2A2A2A] text-[#777777]"
+              "flex h-full flex-1 items-center justify-center text-sm font-bold uppercase tracking-[0.2em] transition-colors",
+              activeTab === "EXPLORE" 
+                ? "bg-white/90 text-[#1A1A1A] shadow-sm" 
+                : "bg-white/30 text-[#777777] hover:text-[#1A1A1A]"
             )}
           >
             EXPLORE
           </button>
           <button
             onClick={onClose}
-            className="flex h-full w-14 items-center justify-center bg-[#2A2A2A] text-[#777777] hover:text-white md:w-24"
+            className="flex h-full w-14 items-center justify-center bg-white/40 text-[#555555] hover:text-black md:w-20 transition-colors"
             aria-label="Close menu"
           >
             <X className="size-5" strokeWidth={1.5} />
           </button>
         </div>
 
-        {/* Scrollable content area - ALL content scrolls together */}
+        {/* Scrollable Content Area */}
         <div className="min-h-0 flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <div className="px-8 py-10">
+          <div className="px-8 py-10 font-['Alumni_Sans',sans-serif]">
             {activeTab === "SHOP" && (
               <div className="space-y-6">
                 {shopLinks.map((link) => (
@@ -79,7 +78,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                     <Link
                       to={link.to}
                       onClick={onClose}
-                      className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#E5E5E5] transition-colors hover:text-white"
+                      className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]"
                     >
                       {link.label}
                     </Link>
@@ -93,7 +92,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                   <Link
                     to="/about"
                     onClick={onClose}
-                    className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#E5E5E5] transition-colors hover:text-white"
+                    className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]"
                   >
                     ABOUT US
                   </Link>
@@ -102,7 +101,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                   <Link
                     to="/pakistan-journey"
                     onClick={onClose}
-                    className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#E5E5E5] transition-colors hover:text-white"
+                    className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]"
                   >
                     PAKISTAN JOURNEY
                   </Link>
@@ -111,10 +110,10 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
             )}
           </div>
 
-          {/* Subscribe + Footer - INSIDE scrollable area */}
-          <div className="border-t border-[#4F4F4F] px-7 py-8">
+          {/* Subscribe + Footer Section */}
+          <div className="border-t border-black/10 px-7 py-8 font-['Alumni_Sans',sans-serif] bg-white/30">
             <form 
-              className="relative mb-6 border-b border-[#888888] pb-3"
+              className="relative mb-6 border-b border-black/20 pb-3"
               onSubmit={(event) => {
                 event.preventDefault();
                 if (!email.includes("@")) {
@@ -130,41 +129,43 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-transparent text-[13px] text-white placeholder-gray-500 focus:outline-none"
+                className="w-full bg-transparent text-base text-[#1A1A1A] placeholder-gray-500 focus:outline-none"
                 required
               />
               <button
                 type="submit"
-                className="absolute right-0 top-0 text-[13px] font-semibold tracking-wide text-white"
+                className="absolute right-0 top-0 text-base font-semibold tracking-wider uppercase text-[#1A1A1A] hover:text-[#E5348A] transition-colors"
               >
                 Subscribe
               </button>
             </form>
 
-            <p className="mb-6 text-[11px] leading-relaxed text-gray-500">
+            <p className="mb-6 text-xs leading-relaxed text-gray-500 font-sans">
               By providing your email address, you agree to our{" "}
-              <Link to="/" className="underline hover:text-white">
+              <Link to="/" className="underline hover:text-black">
                 Privacy Policy
               </Link>
               .
             </p>
 
-            <div className="space-y-3 text-[13px] font-medium tracking-wide text-white">
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Client Services</Link>
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Legal & Privacy</Link>
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Careers</Link>
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Instagram</Link>
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Guarantee of Conformity</Link>
-              <Link to="/" onClick={onClose} className="block hover:text-gray-300">Accessibility</Link>
+            <div className="space-y-3 text-base md:text-lg font-medium tracking-wide text-[#1A1A1A]">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="block hover:text-[#E5348A] transition-colors"
+              >
+                Instagram
+              </a>
             </div>
 
-            <div className="mt-8 text-[13px] font-medium text-white">
-              <button className="flex items-center hover:text-gray-300">
+            <div className="mt-8 text-base font-medium text-[#1A1A1A]">
+              <button className="flex items-center hover:text-[#E5348A] transition-colors">
                 Shipping To: GB / £ GBP
               </button>
             </div>
 
-            <div className="mt-6 text-[11px] text-gray-500">
+            <div className="mt-6 text-xs text-gray-500 font-sans">
               © 2026 Selah Girl Society
             </div>
           </div>

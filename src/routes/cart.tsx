@@ -4,7 +4,6 @@ import { StoreLayout } from "@/components/store/StoreLayout";
 import { OrderSummary } from "@/components/shared/OrderSummary";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/format";
-import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/cart")({ component: CartPage });
 
@@ -13,41 +12,38 @@ function CartPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-12 md:py-20">
+      <div className="container-page py-12 md:py-20 font-['Alumni_Sans',sans-serif]">
         <header className="mb-12 flex flex-col items-center text-center">
-          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#777777]">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#E5348A]">
             Your Selection
           </p>
-          <h1
-            className="text-4xl text-[#1A1A1A] md:text-5xl"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-          >
+          <h1 className="text-3xl md:text-5xl font-light uppercase tracking-wide text-[#1A1A1A]">
             Shopping Bag
           </h1>
         </header>
 
         {cart.items.length === 0 ? (
-          <div className="flex flex-col items-center border-y border-[#E5E5E5] py-32 text-center">
-            <p className="mb-8 text-[13px] leading-relaxed text-[#444444]">
+          <div className="flex flex-col items-center border-y border-black/10 py-32 text-center bg-[#FDF0F5]/30">
+            <p className="mb-8 text-lg md:text-xl tracking-wide text-gray-600 font-sans">
               Your bag is waiting for something considered.
             </p>
             <Link
               to="/shop"
-              className="inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+              className="inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-base font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#E5348A]"
             >
-              CONTINUE SHOPPING
+              Continue Shopping
             </Link>
           </div>
         ) : (
           <div className="grid gap-12 lg:grid-cols-[1fr_380px] lg:gap-20">
-            <div className="border-t border-[#E5E5E5]">
+            <div className="border-t border-black/10">
               {cart.items.map((item) => (
                 <article
                   key={item.id}
-                  className="flex gap-6 border-b border-[#E5E5E5] py-8"
+                  className="flex gap-6 border-b border-black/10 py-8"
                 >
                   <Link to="/product/$slug" params={{ slug: item.slug }} className="shrink-0">
-                    <div className="h-40 w-32 bg-[#f4f4f4]">
+                    <div className="h-40 w-32 bg-[#FDF0F5] p-1 flex items-center justify-center">
                       <img
                         src={item.image}
                         alt={item.name}
@@ -62,42 +58,42 @@ function CartPage() {
                         <Link
                           to="/product/$slug"
                           params={{ slug: item.slug }}
-                          className="text-[14px] font-medium text-[#1A1A1A] hover:underline hover:decoration-[#E5E5E5] underline-offset-4"
+                          className="text-lg md:text-xl font-medium uppercase tracking-wide text-[#1A1A1A] hover:text-[#E5348A] transition-colors"
                         >
                           {item.name}
                         </Link>
                         <button
                           aria-label={`Remove ${item.name}`}
                           onClick={() => cart.remove(item.id)}
-                          className="text-[#777777] transition-colors hover:text-[#1A1A1A]"
+                          className="text-gray-400 transition-colors hover:text-[#E5348A]"
                         >
                           <Trash2 className="size-4" strokeWidth={1.5} />
                         </button>
                       </div>
-                      <p className="mt-2 text-[12px] text-[#777777]">
-                        Size: <span className="text-[#1A1A1A]">{item.size}</span>
+                      <p className="mt-2 text-sm md:text-base text-gray-500 uppercase tracking-wide">
+                        Size: <span className="text-[#1A1A1A] font-semibold">{item.size}</span>
                       </p>
                     </div>
 
-                    <div className="flex items-end justify-between">
-                      <div className="flex h-12 w-32 items-center border border-[#E5E5E5]">
+                    <div className="flex items-end justify-between mt-4">
+                      <div className="flex h-10 w-28 items-center border border-black/10 bg-white">
                         <button
-                          className="flex h-full w-10 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-[#f4f4f4]"
-                          onClick={() => cart.setQuantity(item.id, item.quantity - 1)}
+                          className="flex h-full w-9 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-black/5"
+                          onClick={() => cart.setQuantity(item.id, Math.max(1, item.quantity - 1))}
                         >
                           <Minus className="size-3" strokeWidth={1.5} />
                         </button>
-                        <span className="flex-1 text-center text-[13px] font-medium text-[#1A1A1A]">
+                        <span className="flex-1 text-center text-base font-semibold text-[#1A1A1A]">
                           {item.quantity}
                         </span>
                         <button
-                          className="flex h-full w-10 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-[#f4f4f4]"
+                          className="flex h-full w-9 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-black/5"
                           onClick={() => cart.setQuantity(item.id, item.quantity + 1)}
                         >
                           <Plus className="size-3" strokeWidth={1.5} />
                         </button>
                       </div>
-                      <span className="text-[14px] font-medium tracking-wide text-[#1A1A1A]">
+                      <span className="text-base md:text-lg font-semibold tracking-wide text-[#1A1A1A]">
                         {formatPrice(item.price * item.quantity)}
                       </span>
                     </div>
@@ -122,4 +118,3 @@ function CartPage() {
     </StoreLayout>
   );
 }
-
