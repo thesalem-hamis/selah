@@ -1,10 +1,5 @@
 import type { SVGProps } from "react";
 
-/**
- * Hairline icon set (1.1px strokes on a 24px grid, round caps).
- * Size them with Tailwind (size-5, size-[22px]); colour follows currentColor.
- * Put this file at src/components/store/icons.tsx
- */
 type IconProps = SVGProps<SVGSVGElement>;
 
 function Svg({ children, ...props }: IconProps) {
@@ -67,5 +62,23 @@ export const CloseIcon = (p: IconProps) => (
 export const ArrowRightIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" />
+  </Svg>
+);
+
+/* NEW: Ship Icon */
+export const ShipIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3 17h18l-1.5-6h-15z" />
+    <path d="M6 11V6a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v5" />
+    <path d="M8 20a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+    <path d="M16 20a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+  </Svg>
+);
+
+/* NEW: Pickup Icon */
+export const PickupIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z" />
+    <circle cx="12" cy="11" r="2" />
   </Svg>
 );

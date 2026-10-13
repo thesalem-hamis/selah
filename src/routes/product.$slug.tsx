@@ -5,6 +5,7 @@ import {
   Heart,
   Star,
   ChevronRight,
+  ChevronLeft,
   ChevronDown
 } from "lucide-react";
 import { useState } from "react";
@@ -145,29 +146,45 @@ function ProductPage() {
 
           {/* Center Column - Main Image */}
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
-            <div className="bg-[#f4f4f4] w-full relative flex items-center justify-center p-4 md:p-8 aspect-[4/5]">
+            <div className="bg-[#f4f4f4] w-full relative flex items-center justify-center p-4 md:p-8 aspect-[4/5] group overflow-hidden">
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
                 alt={product.name}
-                className="w-full h-full object-cover md:object-contain"
+                className="w-full h-full object-cover md:object-contain transition-opacity duration-300"
               />
-            </div>
-            {product.images.length > 1 && (
-              <div className="flex flex-wrap gap-3">
-                {product.images.map((img, i) => (
+              
+              {product.images.length > 1 && (
+                <>
                   <button
-                    key={i}
-                    onClick={() => setActiveImageIndex(i)}
-                    className={cn(
-                      "bg-[#f4f4f4] w-12 md:w-16 aspect-[4/5] p-1 flex items-center justify-center transition-all",
-                      activeImageIndex === i ? "ring-1 ring-[#1A1A1A] ring-offset-2" : "opacity-70 hover:opacity-100"
-                    )}
+                    onClick={() => setActiveImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 flex size-10 items-center justify-center rounded-full bg-white/80 text-[#1A1A1A] opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
+                    aria-label="Previous image"
                   >
-                    <img src={img} alt={`${product.name} ${i + 1}`} className="w-full h-full object-cover" />
+                    <ChevronLeft className="size-5" strokeWidth={1.5} />
                   </button>
-                ))}
-              </div>
-            )}
+                  <button
+                    onClick={() => setActiveImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 flex size-10 items-center justify-center rounded-full bg-white/80 text-[#1A1A1A] opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="size-5" strokeWidth={1.5} />
+                  </button>
+                  
+                  {/* Indicator dots */}
+                  <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {product.images.map((_, i) => (
+                      <span
+                        key={i}
+                        className={cn(
+                          "block size-1.5 rounded-full transition-colors",
+                          i === activeImageIndex ? "bg-[#1A1A1A]" : "bg-[#1A1A1A]/30"
+                        )}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Right Column - Size & Add to Bag */}

@@ -5,7 +5,7 @@ import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 export function CartSidebar() {
-  const { isCartOpen, closeCart, items, total, remove, setQuantity } = useCart();
+  const { isCartOpen, closeCart, items, total, subtotal, remove, setQuantity } = useCart();
 
   return (
     <>
@@ -135,14 +135,10 @@ export function CartSidebar() {
 
         {/* Footer / Checkout Section */}
         {items.length > 0 && (
-          <div className="border-t border-black/10 bg-white/40 p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="text-[13px] font-bold tracking-[0.1em] uppercase text-[#1A1A1A]">
-                SUBTOTAL
-              </span>
-              <span className="text-[14px] font-bold text-[#1A1A1A]">
-                {formatPrice(total)}
-              </span>
+          <div className="border-t border-[#E5E5E5] bg-[#FDFDFD] p-6">
+            <div className="mb-6 flex items-center justify-between">
+              <span className="text-[13px] font-bold tracking-[0.1em] text-[#1A1A1A]">SUBTOTAL</span>
+              <span className="text-[14px] font-medium text-[#1A1A1A]">{formatPrice(total)}</span>
             </div>
             <p className="mb-6 text-[11px] text-gray-500">
               Shipping, taxes, and discounts calculated at checkout.

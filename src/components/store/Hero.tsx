@@ -1,138 +1,80 @@
+// import { useState, useRef, useEffect } from "react";
 // import { Link } from "@tanstack/react-router";
+// import { Volume2, VolumeX } from "lucide-react";
 
 // export function Hero() {
-//   return (
-//     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#FFF5F7]">
-//       <div
-
-//         className="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 pt-20 pb-8 transition-opacity hover:opacity-95"
-//       >
-//         <Link
-//           to="/collections"
-//         >
-//           <img
-//             src="/heromain.png"
-//             alt="Shop the Collection"
-//             className="h-[80vh] md:h-[88vh] w-auto max-w-full object-contain drop-shadow-2xl"
-//           />
-//         </Link>
-//       </div>
-//     </section>
-//   );
-// }
-
-
-// import { Link } from "@tanstack/react-router";
-
-// export function Hero() {
-//   return (
-//     <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#FFF5F7]">
-//       {/* =====================================================
-//           BACKGROUND IMAGE
-//           Fills the entire hero section like the background video.
-//       ====================================================== */}
-//       <img
-//         src="/heromain.png"
-//         alt="Hero Collection"
-//         className="absolute inset-0 h-full w-full object-cover"
-//       />
-
-//       {/* =====================================================
-//           GLASS OVERLAY
-//           Softens the image slightly so the header/logo/icons
-//           remain visible without hiding the background.
-//       ====================================================== */}
-//       <div className="pointer-events-none absolute inset-0 bg-white/[0.14] backdrop-blur-[1.5px]" />
-
-//       {/* =====================================================
-//           SUBTLE CONTRAST OVERLAY
-//           Helps dark logo/icons stand out.
-//       ====================================================== */}
-//       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-black/[0.04]" />
-//     </section>
-//   );
-// }
-
-// import { useEffect, useRef, useState } from "react";
-// import { Icon } from "@iconify/react";
-
-// export function Hero() {
-//   const audioRef = useRef<HTMLAudioElement | null>(null);
 //   const [isMuted, setIsMuted] = useState(false);
+//   const audioRef = useRef<HTMLAudioElement | null>(null);
 
 //   useEffect(() => {
-//     const audio = audioRef.current;
-//     if (!audio) return;
-
-//     audio.volume = 0.25; // Soft ambient volume level
-
-//     // Attempt direct unmuted autoplay
-//     const playPromise = audio.play();
-
-//     if (playPromise !== undefined) {
-//       playPromise.catch(() => {
-//         // Fallback: If autoplay is blocked by browser policy, play automatically on first user interaction
-//         const handleFirstInteraction = () => {
-//           audio.play().catch(() => {});
-//           window.removeEventListener("click", handleFirstInteraction);
-//           window.removeEventListener("touchstart", handleFirstInteraction);
-//           window.removeEventListener("keydown", handleFirstInteraction);
-//         };
-
-//         window.addEventListener("click", handleFirstInteraction, { once: true });
-//         window.addEventListener("touchstart", handleFirstInteraction, { once: true });
-//         window.addEventListener("keydown", handleFirstInteraction, { once: true });
+//     // Attempt automatic playback on mount
+//     if (audioRef.current) {
+//       audioRef.current.volume = 0.4;
+//       audioRef.current.play().catch(() => {
+//         // Autoplay may be restricted by the browser until user interaction
 //       });
 //     }
 //   }, []);
 
 //   const toggleMute = () => {
-//     if (!audioRef.current) return;
-//     const newMutedState = !isMuted;
-//     audioRef.current.muted = newMutedState;
-//     setIsMuted(newMutedState);
+//     if (audioRef.current) {
+//       audioRef.current.muted = !isMuted;
+//       setIsMuted(!isMuted);
+//     }
 //   };
 
 //   return (
-//     <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#FFF5F7]">
-//       {/* BACKGROUND IMAGE (full screen)
-//           md:object-top keeps the top of the image (her head) in view on desktop */}
+//     <section className="relative h-[85vh] w-full overflow-hidden bg-black">
+//       {/* Background Ambient Audio */}
+//       <audio ref={audioRef} src="/audio/ambient.mp3" loop autoPlay />
+
+//       {/* Hero Background Image */}
 //       <img
-//         src="/selah-main.jpeg"
-//         alt="Hero Collection"
-//         className="absolute inset-0 h-full w-full object-cover object-center md:object-top"
+//         src="/heromain.png"
+//         alt="Selah Girl Society Hero"
+//         className="absolute inset-0 h-full w-full object-cover scale-105 transition-transform duration-1000 ease-out"
 //       />
 
-//       {/* MINIMAL OVERLAY & GRADIENT */}
-//       <div className="pointer-events-none absolute inset-0 bg-white/[0.05] backdrop-blur-[0.5px]" />
-//       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/10" />
+//       {/* Subtle Dark Overlay with Soft Blur */}
+//       <div className="absolute inset-0 bg-black/35 backdrop-blur-[2px]" />
 
-//       {/* MUTE / UNMUTE BUTTON */}
-//       <div className="absolute bottom-6 right-6 z-20">
-//         <button
-//           type="button"
-//           onClick={toggleMute}
-//           aria-label={isMuted ? "Unmute background music" : "Mute background music"}
-//           className={`grid size-10 place-items-center rounded-full shadow-md ring-1 transition-all duration-300 hover:scale-105 active:scale-95 ${
-//             isMuted
-//               ? "bg-[#1a1a1a] text-white ring-black/20 hover:bg-black"
-//               : "bg-white/70 text-[#1a1a1a] ring-white/60 backdrop-blur-md hover:bg-white"
-//           }`}
+//       {/* Centered Hero Content */}
+//       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white">
+//         <span className="mb-3 text-xs md:text-sm uppercase tracking-[0.3em] font-medium opacity-90">
+//           Modest • Intentional • Beautiful
+//         </span>
+
+//         <h1
+//           className="mb-6 text-5xl md:text-7xl lg:text-8xl font-light leading-none uppercase tracking-wider font-['Alumni_Sans',sans-serif] drop-shadow-md"
 //         >
-//           <Icon
-//             icon={isMuted ? "ph:speaker-slash-fill" : "ph:speaker-high-light"}
-//             className="size-5"
-//           />
-//         </button>
+//           Selah Girl Society
+//         </h1>
+
+//         <p className="max-w-md text-sm md:text-base font-light text-white/85 leading-relaxed mb-8">
+//           Clothing designed for daughters of the King choosing to live with purpose and grace.
+//         </p>
+
+//         <Link
+//           to="/shop"
+//           className="inline-flex h-10 md:h-11 items-center justify-center border border-white bg-white/10 backdrop-blur-md px-8 md:px-10 font-['Alumni_Sans',sans-serif] text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
+//         >
+//           EXPLORE COLLECTION
+//         </Link>
 //       </div>
 
-//       {/* AUTOMATIC BACKGROUND AUDIO */}
-//       <audio
-//         ref={audioRef}
-//         loop
-//         preload="auto"
-//         src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"
-//       />
+//       {/* Discreet Mute/Unmute Toggle in Corner */}
+//       <button
+//         type="button"
+//         onClick={toggleMute}
+//         aria-label={isMuted ? "Unmute background audio" : "Mute background audio"}
+//         className="absolute bottom-6 right-6 z-20 flex size-10 items-center justify-center rounded-full bg-black/80 text-white shadow-md transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95"
+//       >
+//         {isMuted ? (
+//           <VolumeX className="size-4 stroke-[1.5]" />
+//         ) : (
+//           <Volume2 className="size-4 stroke-[1.5]" />
+//         )}
+//       </button>
 //     </section>
 //   );
 // }

@@ -20,7 +20,7 @@ export function OrderSummary({
 }) {
   return (
     <aside className="border border-[#E5E5E5] bg-white p-8">
-      <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
+      <h2 className="mb-8 text-[18px] font-semibold uppercase tracking-[0.2em] text-[#1A1A1A]">
         Order Summary
       </h2>
       <dl className="space-y-4 text-[13px]">
@@ -56,7 +56,7 @@ export function OrderSummary({
           ) : (
             <button
               onClick={onAction}
-              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[15px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
             >
               {actionLabel}
             </button>
