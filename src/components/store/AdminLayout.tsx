@@ -348,7 +348,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 }
 
 export function AdminLogin() {
-  const { adminLogin, user, isAdmin } = useAuth();
+  const { adminLogin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -362,10 +362,7 @@ export function AdminLogin() {
       const form = new FormData(event.currentTarget);
       await adminLogin(String(form.get("email")), String(form.get("password")));
     } catch (err) {
-      setError("Invalid administrator credentials. Redirecting to customer sign-in...");
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1500);
+      setError(err instanceof Error ? err.message : "Administrator sign-in failed.");
     } finally {
       setIsLoading(false);
     }
@@ -442,7 +439,6 @@ export function AdminLogin() {
                 <input
                   name="email"
                   type="email"
-                  defaultValue="admin@selah.store"
                   required
                   placeholder="admin@selah.store"
                   className="h-11 w-full rounded-lg border border-input bg-background pl-9 pr-3 transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
@@ -457,7 +453,6 @@ export function AdminLogin() {
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  defaultValue="password"
                   required
                   placeholder="Enter your password"
                   className="h-11 w-full rounded-lg border border-input bg-background pl-9 pr-11 transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
