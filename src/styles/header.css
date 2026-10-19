@@ -1,0 +1,252 @@
+.selah-header {
+  position: fixed;
+  z-index: 40;
+  inset: 0 0 auto;
+  color: var(--selah-charcoal);
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    top 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 300ms ease,
+    color 300ms ease;
+}
+
+.selah-header.is-transparent {
+  color: white;
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 25%));
+}
+
+.selah-header.is-transparent .selah-header__count {
+  background: var(--selah-ivory);
+  color: var(--selah-charcoal);
+}
+
+.selah-header.is-scrolled {
+  background: var(--selah-ivory);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 6%);
+  backdrop-filter: blur(14px);
+}
+
+.selah-header.is-home-top {
+  top: 5.25rem;
+}
+
+.selah-header.is-hidden {
+  transform: translateY(-110%);
+}
+
+.selah-header__inner {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.selah-header__row {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.selah-header__mobile-menu {
+  display: flex;
+  width: 20%;
+  align-items: center;
+}
+
+.selah-header__menu-button,
+.selah-header__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.selah-header__menu-button {
+  width: 44px;
+  height: 44px;
+}
+
+.selah-header__menu-button:hover,
+.selah-header__action:hover,
+.selah-header__nav a:hover {
+  opacity: 0.65;
+}
+
+.selah-header__menu-button svg {
+  width: 30px;
+  height: 30px;
+  stroke-width: 1;
+}
+
+.selah-header__nav {
+  display: none;
+}
+
+.selah-header__brand {
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+}
+
+.selah-header__brand-link {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+}
+
+.selah-header__logo {
+  width: auto;
+  height: 56px;
+  object-fit: contain;
+  transition:
+    transform 300ms ease,
+    filter 300ms ease;
+}
+
+.selah-header.is-transparent .selah-header__logo {
+  filter: brightness(0) invert(1);
+}
+
+.selah-header__brand-link:hover .selah-header__logo {
+  transform: scale(1.04);
+}
+
+.selah-header__actions {
+  display: flex;
+  width: 20%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.selah-header__action {
+  position: relative;
+  min-width: 40px;
+  height: 40px;
+}
+
+.selah-header__action span {
+  display: none;
+}
+
+.selah-header__icon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1;
+  transition: transform 300ms ease;
+}
+
+.selah-header__icon.is-bumping,
+.selah-header__count.is-bumping {
+  animation: pop 360ms ease;
+}
+
+.selah-header__count {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  display: grid;
+  min-width: 17px;
+  height: 17px;
+  place-items: center;
+  border-radius: 999px;
+  padding: 0 4px;
+  background: var(--selah-charcoal);
+  color: var(--selah-ivory);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .selah-header.is-home-top {
+    top: 5.75rem;
+  }
+
+  .selah-header__inner {
+    padding: 0 4.5%;
+  }
+
+  .selah-header__row {
+    height: 80px;
+  }
+
+  .selah-header__mobile-menu {
+    display: none;
+  }
+
+  .selah-header__nav {
+    display: flex;
+    width: 42%;
+    align-items: center;
+    gap: 28px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .selah-header__nav a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 180ms ease;
+  }
+
+  .selah-header__brand {
+    width: 16%;
+  }
+
+  .selah-header__brand-link {
+    height: 80px;
+  }
+
+  .selah-header__logo {
+    height: 82px;
+  }
+
+  .selah-header__actions {
+    width: 42%;
+    gap: 20px;
+  }
+
+  .selah-header__action {
+    width: auto;
+    gap: 8px;
+  }
+
+  .selah-header__action span {
+    display: inline;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .selah-header__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .selah-header__count {
+    top: 0;
+    right: -8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .selah-header,
+  .selah-header__logo,
+  .selah-header__action,
+  .selah-header__icon {
+    transition: none;
+  }
+}

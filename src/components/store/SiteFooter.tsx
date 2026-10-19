@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/accordion";
 
 const customerService = [
-  { label: "Shipping & delivery", to: "/about" },
-  { label: "Returns & refunds", to: "/about" },
-  { label: "Size guide", to: "/about" },
-  { label: "Contact us", to: "/about" },
+  { label: "Shipping", to: "/about" },
+  { label: "Orders & payments", to: "/about" },
+  { label: "Refunds & returns", to: "/about" },
+  { label: "Contact us directly", to: "/about" },
 ];
 
 const company = [
@@ -48,7 +48,7 @@ function NewsletterForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="Email address"
-        className="h-12 min-w-0 flex-1 rounded-full border border-border bg-surface px-5 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/40"
+        className="h-12 shrink-0 min-w-0 flex-1 rounded-full border border-border bg-surface px-5 py-5 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/40"
       />
       <button
         type="submit"
@@ -64,14 +64,16 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border bg-sand/50">
       <div className="container-page py-14">
+        <div className="home-footer-wordmark">
+          <Link to="/" className="mb-16" aria-label="Selah Girl Society home">selah</Link>
+        </div>
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link to="/" className="font-display text-2xl tracking-tight">
               Selah
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Modest clothing made in small batches in UK - considered cuts, natural fabrics and
-              finishing you can feel.
+              Faith and fashion, beautifully aligned. Everyday essentials for the modern believer.
             </p>
             <div className="mt-6 flex items-center gap-2">
               {[Instagram, Facebook, Twitter, Mail].map((Icon, index) => (
@@ -204,8 +206,8 @@ export function SiteFooter() {
             <Link to="/about" className="transition-colors hover:text-foreground">
               Terms
             </Link>
-            <Link to="/about" className="transition-colors hover:text-foreground">
-              Privacy
+            <Link to="/about#privacy" className="transition-colors hover:text-foreground">
+              Privacy Policy
             </Link>
             <Link to="/about" className="transition-colors hover:text-foreground">
               Refund policy
