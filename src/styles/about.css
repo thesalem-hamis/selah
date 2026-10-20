@@ -722,8 +722,24 @@
   background-position: center, 58% 42%, right 18% top 12%;
 }
 
-/* Use the same shared cloud and silver canvas as the shop route. */
+/* Let a soft sky wash sit behind the About page content. */
 .about-page {
   background-color: transparent;
-  background-image: none;
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 40%), rgb(255 255 255 / 0%)),
+    url("/sky.PNG");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 250px, 100% 250px;
+  background-position: center top, center top;
+}
+
+.about-values {
+  background-color: white;
+  background-image:
+    linear-gradient(135deg, rgb(255 255 255 / 68%), rgb(255 247 251 / 58%)),
+    url("/gradient.PNG"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: cover, cover, 176px 176px;
+  background-position: center, center, right 18% top 12%;
 }

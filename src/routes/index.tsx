@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import { NewsTicker } from "@/components/store/NewsTricker";
+import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
+import { ChromeOrnament } from "@/components/store/ChromeOrnament";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,15 +20,6 @@ export const Route = createFileRoute("/")({
 
 const collections = [
   {
-    eyebrow: "Romans 8:28 · limited edition",
-    title: "the 828 collection",
-    description: "Wear the promise. A considered collaboration with Saint Angelo.",
-    image: "/sg2.jpg",
-    href: "/shop?collection=828-series",
-    className: "home-collection-828",
-    action: "discover the drop",
-  },
-  {
     eyebrow: "the everyday edit",
     title: "white baby tees",
     description: "A little reminder of what matters, made for every day.",
@@ -37,17 +29,17 @@ const collections = [
     action: "shop the tees",
   },
   {
-    eyebrow: "soft staples · made to be lived in",
-    title: "everyday pieces",
-    description: "Easy layers for days spent doing what matters.",
-    image: "/selah4.jpeg",
-    href: "/shop",
-    className: "home-collection-everyday",
-    action: "shop the edit",
+    eyebrow: "Romans 8:28 · limited edition",
+    title: "the 828 collection",
+    description: "Wear the promise. A considered collaboration with Saint Angelo.",
+    image: "/sg2.jpg",
+    href: "/shop?collection=828-series",
+    className: "home-collection-828",
+    action: "discover the drop",
   },
 ];
 
-const heroImages = ["/selahmain.jpeg", "/selah7.jpeg", "/selah5.jpeg"];
+const heroImages = ["/selah8.png", "/selah9.png", "/selah7.jpeg"];
 
 function HomeHero() {
   const [activeImage, setActiveImage] = useState(0);
@@ -77,7 +69,8 @@ function HomeHero() {
         <h1>the drop is here</h1>
         {/* <p>Wear the promise. Faith and fashion, beautifully aligned.</p> */}
         <Link to="/shop" className="home-metal-button">
-          shop the collection 
+          shop Selah
+          <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
         </Link>
       </div>
       <div className="home-hero-controls" aria-label="Hero slides">
@@ -95,21 +88,123 @@ function HomeHero() {
   );
 }
 
+const homeStories = [
+  {
+    eyebrow: "about selah",
+    title: "Faith and fashion, beautifully aligned.",
+    description:
+      "Founded by two women who love Jesus, Selah Girl Society makes soft, premium everyday basics for women choosing to live intentionally, boldly, and unapologetically for Christ.",
+    image: "/selah5.jpeg",
+    imageAlt: "A moment from the Selah Girl Society lookbook",
+    href: "/about",
+    action: "our story",
+  },
+  {
+    eyebrow: "our purpose · pakistan",
+    title: "A future shaped by freedom and dignity.",
+    description:
+      "A percentage of every Selah purchase supports Christian families trapped in debt bondage through our partnership with Inner City Mission: Freedom Pakistan. Thank you for being part of this work when you shop.",
+    image: "/selah-main.jpeg",
+    imageAlt: "Selah Girl Society campaign portrait",
+    href: "/pakistan-journey",
+    action: "our Pakistan journey",
+  },
+];
+
+function HomeStories() {
+  const [activeStory, setActiveStory] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = window.setInterval(() => {
+      setActiveStory((current) => (current + 1) % homeStories.length);
+    }, 20_000);
+
+    return () => window.clearInterval(interval);
+  }, [isPaused]);
+
+  return (
+    <section className="home-purpose" aria-label="About Selah and our Pakistan partnership">
+      <div className="home-purpose-copy">
+        <ChromeOrnament variant="star" className="chrome-ornament--purpose" />
+        <ChromeOrnament variant="heart" className="chrome-ornament--purpose-drift" />
+        <ChromeOrnament variant="star" className="chrome-ornament--purpose-tiny" />
+        <div className="home-purpose-story-stack">
+          {homeStories.map((story, index) => (
+            <article
+              key={story.eyebrow}
+              className={`home-purpose-story ${activeStory === index ? "is-active" : ""}`}
+              aria-hidden={activeStory !== index}
+            >
+              <span className="home-kicker">{story.eyebrow}</span>
+              <h2>{story.title}</h2>
+              <p>{story.description}</p>
+              <Link to={story.href} className="home-outline-button">
+                {story.action} <span>↗</span>
+                <ChromeOrnament
+                  variant={index === 0 ? "heart" : "star"}
+                  className="chrome-button-mark chrome-button-mark--bottom-right"
+                />
+              </Link>
+            </article>
+          ))}
+        </div>
+        <nav
+          className="home-purpose-tabs"
+          aria-label="Explore Selah stories"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {homeStories.map((story, index) => (
+            <button
+              key={story.eyebrow}
+              type="button"
+              aria-pressed={activeStory === index}
+              onMouseEnter={() => setActiveStory(index)}
+              onFocus={() => setActiveStory(index)}
+              onClick={() => setActiveStory(index)}
+            >
+              {index === 0 ? "About" : "Our Pakistan journey"}
+            </button>
+          ))}
+        </nav>
+      </div>
+      <div className="home-purpose-image">
+        {homeStories.map((story, index) => (
+          <img
+            key={story.image}
+            className={activeStory === index ? "is-active" : ""}
+            src={story.image}
+            alt={story.imageAlt}
+            loading="eager"
+            decoding="async"
+            aria-hidden={activeStory !== index}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Home() {
   return (
     <StoreLayout>
-      <div className="home-shipping-note">Complimentary shipping on orders over £50</div>
+      <AnnouncementSlider />
       <HomeHero />
-      <NewsTicker />
 
       <section id="collections" className="home-collections">
+        <ChromeOrnament variant="star" className="chrome-ornament--collections" />
+        <ChromeOrnament variant="heart" className="chrome-ornament--collections-drift" />
+        <ChromeOrnament variant="star" className="chrome-ornament--collections-tiny" />
         <div className="home-section-heading">
           <span className="home-kicker">made for the life you lead</span>
           <h2>Pieces with a little more meaning.</h2>
         </div>
         <div className="home-collection-grid">
           {collections.map((item) => (
-            <article key={item.title} className={`home-collection-card ${item.className}`}>
+            <article key={item.title} className={`home-collection-card shadow-sm ${item.className}`}>
               <img src={item.image} alt="Selah Girl Society collection lookbook" />
               <div className="home-collection-shade" />
               <div className="home-collection-copy">
@@ -118,6 +213,12 @@ function Home() {
                 <p>{item.description}</p>
                 <Link to={item.href} className="home-metal-button">
                   {item.action} <span>↗</span>
+                  <ChromeOrnament
+                    variant={item.title === "white baby tees" ? "star" : "heart"}
+                    className={item.title === "white baby tees"
+                      ? "chrome-button-mark chrome-button-mark--bottom-left"
+                      : "chrome-button-mark chrome-button-mark--top-left"}
+                  />
                 </Link>
               </div>
             </article>
@@ -126,7 +227,9 @@ function Home() {
       </section>
 
       <section className="home-editorial-feature">
+        <ChromeOrnament variant="heart" className="chrome-ornament--editorial" />
         <div className="home-editorial-copy">
+          <ChromeOrnament variant="star" className="chrome-ornament--editorial-tiny" />
           <span className="home-kicker">Romans 8:28 · Saint Angelo x Selah</span>
           <h2>Wear the promise.</h2>
           <p>
@@ -135,6 +238,7 @@ function Home() {
           </p>
           <Link to="/shop?collection=828-series" className="home-outline-button">
             explore the 828 edition <span>↗</span>
+            <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
           </Link>
         </div>
         <div className="home-editorial-image">
@@ -142,75 +246,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="home-social">
-        <div className="home-social-heading">
-          <div>
-            <span className="home-kicker">faith in every thread</span>
-            <h2>Selah, in real life.</h2>
-          </div>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noreferrer"
-            className="home-outline-button"
-          >
-            find us on social <span>↗</span>
-          </a>
-        </div>
-        <div className="home-social-rail">
-          {["/selah2.jpeg", "/selah4.jpeg", "/sg2.jpg", "/selah6.jpeg"].map((src, index) => (
-            <img
-              key={src}
-              src={src}
-              alt={`Selah Girl Society lookbook ${index + 1}`}
-              loading="lazy"
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="home-story">
-        <div className="home-story-image">
-          <img
-            src="/selah5.jpeg"
-            alt="A moment from the Selah Girl Society lookbook"
-            loading="lazy"
-          />
-        </div>
-        <div className="home-story-copy">
-          <span className="home-kicker">welcome to the society</span>
-          <h2>For the trendy version of you, rooted in something deeper.</h2>
-          <p>
-            Founded by two women who love Jesus and believe style and devotion can coexist, Selah
-            creates soft, premium everyday basics for women choosing to live intentionally, boldly,
-            and unapologetically for Christ.
-          </p>
-          <Link to="/about" className="home-text-link">
-            get to know us <span>↗</span>
-          </Link>
-        </div>
-      </section>
-
-      <section className="home-manifesto">
-        <span>“</span>
-        <p>
-          Everyday essentials
-          <br />
-          for the modern believer.
-        </p>
-        <small>SELAH GIRL SOCIETY</small>
-      </section>
-
-      <section className="home-bottom-cta">
-        <img src="/selah7.jpeg" alt="Selah Girl Society collection" />
-        <div>
-          <span className="home-kicker">your new everyday</span>
-          <h2>Welcome to the society.</h2>
-          <Link to="/shop" className="home-metal-button">
-            shop all <span>↗</span>
-          </Link>
-        </div>
-      </section>
+      <HomeStories />
     </StoreLayout>
   );
 }

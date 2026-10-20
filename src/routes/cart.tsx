@@ -12,7 +12,7 @@ function CartPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-12 md:py-20 font-['Alumni_Sans',sans-serif]">
+      <div className="container-page py-12 md:py-20 font-sans">
         <header className="mb-12 flex flex-col items-center text-center">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#E5348A]">
             Your Selection

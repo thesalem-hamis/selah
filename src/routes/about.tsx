@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/store/StoreLayout";
+import { ChromeOrnament } from "@/components/store/ChromeOrnament";
 import "@/styles/about.css";
 
 export const Route = createFileRoute("/about")({
@@ -61,6 +62,8 @@ function About() {
             <span className="about-photo-note">Selah Girl Society</span>
           </div>
           <div className="about-founders__text">
+            <ChromeOrnament variant="heart" className="chrome-ornament--founders" />
+            <ChromeOrnament variant="star" className="chrome-ornament--founders-tiny" />
             <p className="about-eyebrow">Our Story</p>
             <h2 id="founders-title">Selah, where faith and fashion beautifully align.</h2>
             <p>
@@ -73,11 +76,15 @@ function About() {
             </blockquote>
             <Link to="/collections" className="about-pill">
               Explore the collections <span aria-hidden="true">↗</span>
+              <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--bottom-left" />
             </Link>
           </div>
         </section>
 
         <section className="about-values" aria-labelledby="values-title">
+          <ChromeOrnament variant="star" className="chrome-ornament--values" />
+          <ChromeOrnament variant="heart" className="chrome-ornament--values-heart" />
+          <ChromeOrnament variant="star" className="chrome-ornament--values-drift" />
           <div className="about-values__heading">
             <p className="about-eyebrow">The heart of Selah</p>
             <h2 id="values-title">Welcome to the society.</h2>
@@ -109,10 +116,13 @@ function About() {
           </p>
           <Link to="/shop" className="about-pill about-pill--light">
             Shop new season <span aria-hidden="true">↗</span>
+            <ChromeOrnament variant="heart" className="chrome-button-mark chrome-button-mark--top-right" />
           </Link>
         </section>
 
         <section id="faq" className="container-page py-20 md:py-28" aria-labelledby="faq-title">
+          <ChromeOrnament variant="star" className="chrome-ornament--faq" />
+          <ChromeOrnament variant="heart" className="chrome-ornament--faq-drift" />
           <p className="about-eyebrow">A few helpful things</p>
           <h2 id="faq-title" className="mb-8 text-3xl md:text-5xl">Frequently asked questions</h2>
           <div className="mx-auto max-w-3xl divide-y divide-[#B9B8B5]/60 border-y border-[#B9B8B5]/60">

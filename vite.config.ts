@@ -31,7 +31,7 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     allowedHosts: [
-    "waves-marijuana-transparent-appearance.trycloudflare.com",
+     "minor-poor-individuals-fare.trycloudflare.com",
     ],
   },
 });

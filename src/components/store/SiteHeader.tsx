@@ -385,11 +385,12 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                 onToggle={syncMobileMenu}
               >
                 <summary
-                  aria-label="Open menu"
+                  aria-label={menuOpen ? "Close menu" : "Open menu"}
                   aria-controls="store-menu"
-                  className="selah-header__menu-button"
+                  aria-expanded={menuOpen}
+                  // className="selah-header__menu-button"
                 >
-                  <MenuIcon className="size-8 stroke-[1]" />
+                  <MenuIcon className="size-8 stroke-[2]" />
                 </summary>
                 <SidebarNav isOpen={menuOpen} onClose={closeMobileMenu} />
               </details>
@@ -398,8 +399,8 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
             <nav aria-label="Main navigation" className="selah-header__nav">
               <Link to="/shop">Shop Selah</Link>
               <Link to="/about">About</Link>
-              <Link to="/account">Rewards</Link>
-              <Link to="/about">Support</Link>
+              <Link to="/rewards">Rewards</Link>
+              <Link to="/support">Support</Link>
             </nav>
 
             <div className="selah-header__brand">

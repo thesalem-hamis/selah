@@ -228,9 +228,22 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Selah Studio. All rights reserved.</p>
-          <div className="flex flex-wrap gap-5">
+        <div className="mt-12 grid grid-cols-1 gap-5 border-t border-border pt-6 text-xs text-muted-foreground sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+          <p className="text-center sm:text-left">© {new Date().getFullYear()} Selah Studio. All rights reserved.</p>
+          <div className="flex items-center justify-center gap-2">
+            <label htmlFor="footer-currency" className="shrink-0">Currency</label>
+            <select
+              id="footer-currency"
+              aria-label="Choose country and currency"
+              defaultValue="GBP"
+              className="max-w-full bg-transparent font-semibold text-foreground outline-none"
+            >
+              <option value="GBP">United Kingdom (GBP £)</option>
+              <option value="USD">United States (USD $)</option>
+              <option value="NGN">Nigeria (NGN ₦)</option>
+            </select>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5 sm:justify-end">
             <Link to="/support" className="transition-colors hover:text-foreground">
               Support
             </Link>

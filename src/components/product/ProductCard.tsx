@@ -43,7 +43,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       </div>
 
       {/* TEXT CONTENT - ALIGNED LEFT */}
-      <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-['Alumni_Sans',sans-serif]">
+      <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-sans">
         <Link
           to="/product/$slug"
           params={{ slug: product.slug }}

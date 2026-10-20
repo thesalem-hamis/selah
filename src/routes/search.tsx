@@ -66,7 +66,7 @@ function SearchResults() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-10 md:py-16 font-['Alumni_Sans',sans-serif]">
+      <div className="container-page py-10 md:py-16 font-sans">
         
         {/* 1. CENTERED PAGE TITLE */}
         <h1 className="text-3xl md:text-5xl font-light uppercase tracking-wide text-center text-[#1A1A1A] mb-8">
