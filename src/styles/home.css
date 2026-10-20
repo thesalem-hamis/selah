@@ -607,6 +607,49 @@
   color: var(--selah-pink);
 }
 
+/* Silver remains the dominant canvas; the pink cloud tint stays atmospheric. */
+main:has(.home-shipping-note) {
+  background: transparent;
+}
+
+.home-collections,
+.home-social,
+.home-manifesto {
+  background-color: oklch(0.84 0.006 255);
+  background-image:
+    radial-gradient(ellipse at 8% 5%, oklch(0.95 0.025 350 / 0.36), transparent 32%),
+    radial-gradient(ellipse at 94% 95%, oklch(0.71 0.008 255 / 0.3), transparent 34%),
+    linear-gradient(140deg, oklch(0.88 0.004 255 / 0.98), oklch(0.82 0.006 255 / 0.9));
+}
+
+/* Let the silver site canvas carry through the full home page. */
+main:has(.home-shipping-note) {
+  background: var(--background);
+}
+
+.home-collections,
+.home-social,
+.home-manifesto {
+  background-color: oklch(0.84 0.006 255);
+  background-image:
+    radial-gradient(ellipse at 8% 5%, oklch(0.95 0.025 350 / 0.36), transparent 32%),
+    radial-gradient(ellipse at 94% 95%, oklch(0.71 0.008 255 / 0.3), transparent 34%),
+    linear-gradient(140deg, oklch(0.88 0.004 255 / 0.98), oklch(0.82 0.006 255 / 0.9));
+}
+
+.home-manifesto {
+  background-image:
+    linear-gradient(110deg, rgb(247 244 239 / 54%), rgb(255 247 251 / 42%)),
+    url("/cloud.png");
+  background-position: center, center 42%;
+  background-size: cover, cover;
+  color: var(--selah-charcoal);
+}
+
+.home-manifesto > span {
+  color: var(--selah-pink);
+}
+
 /* Airy blush clouds and delicate heart outlines, kept behind the content. */
 .home-collections,
 .home-social,
@@ -862,7 +905,7 @@
   padding-top: 28px;
 }
 main:has(.home-shipping-note) {
-  background: white;
+  background: transparent;
 }
 footer {
   border-color: var(--selah-silver) !important;
@@ -1197,14 +1240,31 @@ footer {
   text-transform: lowercase;
 }
 
+.home-story-copy {
+  background-image:
+    linear-gradient(135deg, rgb(247 244 239 / 66%), rgb(255 247 251 / 52%)),
+    url("/cloud.png");
+  background-position: center, 58% 48%;
+  background-size: cover, cover;
+}
+
+.cloud-accent {
+  background-color: var(--selah-ivory);
+  background-image:
+    linear-gradient(115deg, rgb(247 244 239 / 62%), rgb(255 247 251 / 55%)),
+    url("/cloud.png");
+  background-position: center, center 46%;
+  background-size: cover, cover;
+}
+
 .home-collections,
 .home-social,
 .home-manifesto {
-  background-color: #fff;
+  background-color: oklch(0.84 0.006 255);
   background-image:
-    radial-gradient(ellipse at 8% 5%, rgb(229 52 138 / 6%), transparent 32%),
-    radial-gradient(ellipse at 94% 95%, rgb(185 184 181 / 16%), transparent 34%),
-    linear-gradient(140deg, rgb(255 255 255 / 98%), rgb(247 244 239 / 88%));
+    radial-gradient(ellipse at 8% 5%, oklch(0.95 0.025 350 / 0.36), transparent 32%),
+    radial-gradient(ellipse at 94% 95%, oklch(0.71 0.008 255 / 0.3), transparent 34%),
+    linear-gradient(140deg, oklch(0.88 0.004 255 / 0.98), oklch(0.82 0.006 255 / 0.9));
 }
 
 .home-shipping-note {

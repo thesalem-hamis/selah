@@ -111,6 +111,23 @@ function About() {
             Shop new season <span aria-hidden="true">↗</span>
           </Link>
         </section>
+
+        <section id="faq" className="container-page py-20 md:py-28" aria-labelledby="faq-title">
+          <p className="about-eyebrow">A few helpful things</p>
+          <h2 id="faq-title" className="mb-8 text-3xl md:text-5xl">Frequently asked questions</h2>
+          <div className="mx-auto max-w-3xl divide-y divide-[#B9B8B5]/60 border-y border-[#B9B8B5]/60">
+            {[
+              ["What is Selah Girl Society?", "A faith-based community and clothing label making soft, premium everyday essentials for the modern believer."],
+              ["Where can I find the 828 collection?", "Explore the limited 828 edition in our shop. It is a separate collection from our white baby tees."],
+              ["How do I get help with an order?", "Visit Support for shipping, order and payment, returns, and direct contact information."],
+            ].map(([question, answer]) => (
+              <details key={question} className="group py-5">
+                <summary className="cursor-pointer list-none text-lg font-medium marker:hidden">{question}<span className="float-right text-[#E5348A] transition-transform group-open:rotate-45">+</span></summary>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#635A56]">{answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </main>
     </StoreLayout>
   );

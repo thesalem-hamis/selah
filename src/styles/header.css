@@ -12,7 +12,6 @@
 
 .selah-header.is-transparent {
   color: white;
-  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 25%));
 }
 
 .selah-header.is-transparent .selah-header__count {
@@ -54,6 +53,35 @@
   align-items: center;
 }
 
+.selah-menu-details {
+  position: static;
+  display: inline-flex;
+}
+
+.selah-menu-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.selah-menu-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.selah-menu-details[open]::before {
+  position: fixed;
+  z-index: 49;
+  inset: 0;
+  background: rgb(0 0 0 / 30%);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  content: "";
+}
+
+.selah-menu-details[open] #store-menu {
+  transform: translateX(0) !important;
+  translate: none !important;
+}
+
 .selah-header__menu-button,
 .selah-header__action {
   display: inline-flex;
@@ -68,8 +96,17 @@
 }
 
 .selah-header__menu-button {
-  width: 44px;
-  height: 44px;
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 999px;
+  color: var(--selah-charcoal);
+  background: var(--selah-pink, #e5348a);
+  box-shadow: 0 3px 14px rgb(41 39 36 / 18%);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .selah-header__menu-button:hover,
@@ -79,9 +116,19 @@
 }
 
 .selah-header__menu-button svg {
-  width: 30px;
-  height: 30px;
-  stroke-width: 1;
+  width: 26px;
+  height: 26px;
+  stroke-width: 2;
+}
+
+.selah-header__menu-button:focus-visible {
+  outline: 3px solid var(--selah-charcoal);
+  outline-offset: 3px;
+}
+
+.selah-header.is-transparent .selah-header__menu-button {
+  color: var(--selah-charcoal);
+  filter: none;
 }
 
 .selah-header__nav {
@@ -115,6 +162,8 @@
 
 .selah-header.is-transparent .selah-header__logo {
   filter: brightness(0) invert(1);
+
+  height: 100px;
 }
 
 .selah-header__brand-link:hover .selah-header__logo {

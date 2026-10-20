@@ -101,6 +101,10 @@ function ProfileDashboard() {
                   {activeTab === item.id && <ChevronRight className="size-3" strokeWidth={1.5} />}
                 </button>
               ))}
+              <Link to="/rewards" className="w-full flex items-center justify-between py-3 text-[12px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] border-b border-transparent">
+                Rewards
+                <ChevronRight className="size-3" strokeWidth={1.5} />
+              </Link>
             </aside>
 
             {/* Main Content Area */}

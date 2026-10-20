@@ -16,7 +16,7 @@ export function StoreLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="storefront-shell flex min-h-screen flex-col bg-background">
       <SiteHeader onSearch={() => setSearchOpen(true)} />
       <main className={`flex-1 ${pathname !== "/" ? "pt-16 md:pt-20" : ""}`}>{children}</main>
       <SiteFooter />

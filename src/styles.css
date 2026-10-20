@@ -91,11 +91,12 @@
   --selah-pink: #e5348a;
 
   /* Selah Girl Society - cloud white / pink / sky / chrome palette */
-  --background: oklch(1 0 0);
+  /* A clean silver canvas is the storefront's dominant surface. */
+  --background: oklch(0.84 0.006 255);
   --foreground: oklch(0.2 0.015 330);
-  --surface: oklch(1 0 0);
+  --surface: oklch(0.92 0.004 255);
   --sand: oklch(0.93 0.035 350);
-  --card: oklch(1 0 0);
+  --card: oklch(0.97 0.003 255);
   --card-foreground: oklch(0.2 0.015 330);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0.015 330);
@@ -113,8 +114,8 @@
   --success-foreground: oklch(0.98 0.012 84);
   --warning: oklch(0.72 0.13 75);
   --warning-foreground: oklch(0.25 0.02 132);
-  --border: oklch(0.83 0.01 285);
-  --input: oklch(0.83 0.01 285);
+  --border: oklch(0.73 0.008 255);
+  --input: oklch(0.73 0.008 255);
   --ring: oklch(0.55 0.11 350);
   --chart-1: oklch(0.55 0.11 350);
   --chart-2: oklch(0.84 0.08 350);
@@ -188,6 +189,21 @@
     background: var(--accent);
     color: var(--accent-foreground);
   }
+}
+
+/* Shared silver cloud backdrop for every storefront route. */
+.storefront-shell {
+  background-color: var(--background);
+  background-image:
+    linear-gradient(oklch(0.84 0.006 255 / 0.48), oklch(0.84 0.006 255 / 0.48)),
+    url("/cloud.png");
+  background-position: center, center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+}
+
+.storefront-shell > main {
+  background: transparent;
 }
 
 @utility container-page {

@@ -304,6 +304,7 @@
 // }
 
 import { Link, useRouterState } from "@tanstack/react-router";
+import type { SyntheticEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { SidebarNav } from "./SidebarNav";
@@ -320,6 +321,8 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const mobileMenuRef = useRef<HTMLDetailsElement>(null);
+  const previousPathname = useRef(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bump, setBump] = useState(false);
 
@@ -337,7 +340,12 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
   }, []);
 
   useEffect(() => {
-    setMenuOpen(false);
+    if (previousPathname.current === pathname) return;
+    previousPathname.current = pathname;
+    setHidden(false);
+    const currentY = window.scrollY;
+    lastScrollY.current = currentY;
+    setScrolled(currentY > 12);
   }, [pathname]);
 
   useEffect(() => {
@@ -349,6 +357,19 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
 
   const isHome = pathname === "/";
   const isTransparent = !scrolled && isHome;
+  const syncMobileMenu = (event: SyntheticEvent<HTMLDetailsElement>) => {
+    const open = event.currentTarget.open;
+    setMenuOpen(open);
+    if (open) setHidden(false);
+  };
+  const closeMobileMenu = () => {
+    if (mobileMenuRef.current) mobileMenuRef.current.open = false;
+    setMenuOpen(false);
+  };
+
+  useEffect(() => {
+    setMenuOpen(mobileMenuRef.current?.open ?? false);
+  }, []);
 
   return (
     <>
@@ -358,15 +379,20 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
         <div className="selah-header__inner">
           <div className="selah-header__row">
             <div className="selah-header__mobile-menu">
-              <button
-                type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={menuOpen}
-                className="selah-header__menu-button"
+              <details
+                ref={mobileMenuRef}
+                className="selah-menu-details"
+                onToggle={syncMobileMenu}
               >
-                <MenuIcon className="size-8 stroke-[1]" />
-              </button>
+                <summary
+                  aria-label="Open menu"
+                  aria-controls="store-menu"
+                  className="selah-header__menu-button"
+                >
+                  <MenuIcon className="size-8 stroke-[1]" />
+                </summary>
+                <SidebarNav isOpen={menuOpen} onClose={closeMobileMenu} />
+              </details>
             </div>
 
             <nav aria-label="Main navigation" className="selah-header__nav">
@@ -427,7 +453,6 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
         </div>
       </header>
 
-      <SidebarNav isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   );
 }

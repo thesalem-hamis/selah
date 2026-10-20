@@ -11,17 +11,20 @@ import {
 } from "@/components/ui/accordion";
 
 const customerService = [
-  { label: "Shipping", to: "/about" },
-  { label: "Orders & payments", to: "/about" },
-  { label: "Refunds & returns", to: "/about" },
-  { label: "Contact us directly", to: "/about" },
+  { label: "Shipping", to: "/support#shipping" },
+  { label: "Orders & payments", to: "/support#orders-and-payments" },
+  { label: "Refunds & returns", to: "/support#returns" },
+  { label: "Contact us directly", to: "/support#contact" },
 ];
 
 const company = [
   { label: "Our story", to: "/about" },
+  { label: "Inner City Mission", to: "/pakistan-journey" },
+  { label: "Rewards", to: "/rewards" },
+  { label: "FAQ", to: "/about#faq" },
   { label: "Collections", to: "/collections" },
   { label: "New arrivals", to: "/new-arrivals" },
-  { label: "Terms of service", to: "/about" },
+  { label: "Privacy Policy", to: "/privacy-policy" },
 ];
 
 function NewsletterForm() {
@@ -228,13 +231,13 @@ export function SiteFooter() {
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Selah Studio. All rights reserved.</p>
           <div className="flex flex-wrap gap-5">
-            <Link to="/about" className="transition-colors hover:text-foreground">
-              Terms
+            <Link to="/support" className="transition-colors hover:text-foreground">
+              Support
             </Link>
-            <Link to="/about#privacy" className="transition-colors hover:text-foreground">
+            <Link to="/privacy-policy" className="transition-colors hover:text-foreground">
               Privacy Policy
             </Link>
-            <Link to="/about" className="transition-colors hover:text-foreground">
+            <Link to="/support#returns" className="transition-colors hover:text-foreground">
               Refund policy
             </Link>
           </div>

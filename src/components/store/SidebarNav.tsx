@@ -10,7 +10,9 @@ interface SidebarNavProps {
 }
 
 const shopLinks = [
-  { label: "SHOP ALL", to: "/shop" },
+  { label: "SHOP SELAH · FULL RANGE", to: "/shop" },
+  { label: "THE 828 COLLECTION", to: "/shop?collection=828-series" },
+  { label: "WHITE BABY TEES", to: "/shop?collection=white-baby-tees" },
 ];
 
 export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
@@ -30,6 +32,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
 
       {/* Sidebar with White Glassmorphism + Soft Pink tint */}
       <div
+        id="store-menu"
         className={cn(
           "fixed top-0 left-0 bottom-0 z-50 flex h-full w-full flex-col bg-[#FDF0F5]/85 backdrop-blur-xl border-r border-white/60 text-[#1A1A1A] shadow-2xl transition-transform duration-300 ease-in-out sm:w-[400px]",
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -103,8 +106,20 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                     onClick={onClose}
                     className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]"
                   >
-                    PAKISTAN JOURNEY
+                    INNER CITY MISSION · FREEDOM PAKISTAN
                   </Link>
+                </div>
+                <div>
+                  <Link to="/about#faq" onClick={onClose} className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]">FAQ</Link>
+                </div>
+                <div>
+                  <Link to="/rewards" onClick={onClose} className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]">REWARDS</Link>
+                </div>
+                <div>
+                  <Link to="/support" onClick={onClose} className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]">SUPPORT</Link>
+                </div>
+                <div>
+                  <Link to="/account" onClick={onClose} className="text-lg md:text-xl font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors hover:text-[#E5348A]">ACCOUNT</Link>
                 </div>
               </div>
             )}
@@ -142,7 +157,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
 
             <p className="mb-6 text-xs leading-relaxed text-gray-500 font-sans">
               By providing your email address, you agree to our{" "}
-              <Link to="/" className="underline hover:text-black">
+              <Link to="/privacy-policy" className="underline hover:text-black">
                 Privacy Policy
               </Link>
               .
@@ -160,9 +175,14 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
             </div>
 
             <div className="mt-8 text-base font-medium text-[#1A1A1A]">
-              <button className="flex items-center hover:text-[#E5348A] transition-colors">
-                Shipping To: GB / £ GBP
-              </button>
+              <label className="flex items-center gap-3">
+                <span>Currency</span>
+                <select aria-label="Choose currency" defaultValue="GBP" className="rounded-full border border-black/15 bg-white/60 px-3 py-1.5 text-sm">
+                  <option value="GBP">GBP £</option>
+                  <option value="USD">USD $</option>
+                  <option value="NGN">Naira ₦</option>
+                </select>
+              </label>
             </div>
 
             <div className="mt-6 text-xs text-gray-500 font-sans">
