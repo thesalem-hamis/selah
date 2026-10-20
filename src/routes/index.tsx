@@ -73,11 +73,11 @@ function HomeHero() {
       ))}
       <div className="home-hero-shade" />
       <div className="home-hero-copy">
-        <span className="home-kicker">Selah Girl Society · Romans 8:28</span>
+        {/* <span className="home-kicker">Selah Girl Society · Romans 8:28</span> */}
         <h1>the drop is here</h1>
-        <p>Wear the promise. Faith and fashion, beautifully aligned.</p>
+        {/* <p>Wear the promise. Faith and fashion, beautifully aligned.</p> */}
         <Link to="/shop" className="home-metal-button">
-          shop the collection <span>↗</span>
+          shop the collection 
         </Link>
       </div>
       <div className="home-hero-controls" aria-label="Hero slides">

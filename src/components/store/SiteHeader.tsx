@@ -395,7 +395,7 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                 aria-label="Search"
                 className="selah-header__action selah-header__search"
               >
-                {/* <SearchIcon className="selah-header__icon" /> */}
+                <SearchIcon className="selah-header__icon sm:hidden" />
                 <span>Search</span>
               </button>
 
@@ -405,7 +405,7 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                 aria-label="Account"
                 className="selah-header__action selah-header__account"
               >
-                {/* <UserIcon className="selah-header__icon" /> */}
+                <UserIcon className="selah-header__icon sm:hidden" />
                 <span>Account</span>
               </Link>
 
@@ -414,9 +414,9 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                 type="button"
                 onClick={openCart}
                 aria-label={`Bag, ${count} items`}
-                className="selah-header__action selah-header__cart"
+                className="selah-header__action  selah-header__cart"
               >
-                {/* <BagIcon className={`selah-header__icon${bump ? " is-bumping" : ""}`} /> */}
+                <BagIcon className={`selah-header__icon${bump ? " is-bumping" : ""} sm:hidden`} />
                 <span>Cart ({count})</span>
                 {count > 0 && (
                   <span className={`selah-header__count${bump ? " is-bumping" : ""}`}>{count}</span>

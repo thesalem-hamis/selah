@@ -91,13 +91,13 @@
   --selah-pink: #e5348a;
 
   /* Selah Girl Society - cloud white / pink / sky / chrome palette */
-  --background: oklch(0.997 0.003 20);
+  --background: oklch(1 0 0);
   --foreground: oklch(0.2 0.015 330);
-  --surface: oklch(0.997 0.003 20);
+  --surface: oklch(1 0 0);
   --sand: oklch(0.93 0.035 350);
-  --card: oklch(0.997 0.003 20);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.015 330);
-  --popover: oklch(0.997 0.003 20);
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0.015 330);
   --primary: oklch(0.84 0.08 350);
   --primary-foreground: oklch(0.2 0.015 330);
@@ -121,7 +121,7 @@
   --chart-3: oklch(0.93 0.03 220);
   --chart-4: oklch(0.83 0.01 285);
   --chart-5: oklch(0.91 0.04 310);
-  --sidebar: oklch(0.997 0.003 20);
+  --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.2 0.015 330);
   --sidebar-primary: oklch(0.55 0.11 350);
   --sidebar-primary-foreground: oklch(0.997 0.003 20);

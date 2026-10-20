@@ -1,0 +1,711 @@
+.about-page {
+  --about-ink: var(--selah-charcoal, #292724);
+  --about-ivory: var(--selah-ivory, #f7f4ef);
+  --about-earth: var(--selah-earth, #756354);
+  --about-silver: var(--selah-silver, #b9b8b5);
+  color: var(--about-ink);
+  padding: 1.25rem clamp(1rem, 2.2vw, 2.5rem) 2.5rem;
+  display: grid;
+  gap: clamp(4.5rem, 9vw, 9rem);
+}
+
+.about-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.2em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.about-intro {
+  position: relative;
+  display: grid;
+  min-height: min(67vw, 680px);
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(3.5rem, 8vw, 7rem) 1.5rem;
+  border-radius: 1rem;
+  background: var(--about-earth);
+  color: white;
+  text-align: center;
+}
+
+.about-intro__content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 1050px);
+}
+
+.about-intro h1 {
+  margin: 0;
+  color: white;
+  font-family: var(--font-selah, var(--font-display));
+  font-size: clamp(3.5rem, 7.4vw, 7rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.about-intro__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  animation: about-hero-drift 22s ease-in-out infinite alternate;
+}
+
+.about-intro__shade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: rgb(25 22 20 / 38%);
+}
+
+.about-intro__caption {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 2;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about-hero {
+  position: relative;
+  display: grid;
+  min-height: min(78vw, 760px);
+  overflow: hidden;
+  isolation: isolate;
+  align-items: end;
+  border-radius: 1.1rem;
+  background: var(--about-earth);
+  color: white;
+}
+
+.about-hero__image,
+.about-hero__shade {
+  position: absolute;
+  inset: 0;
+}
+
+.about-hero__image {
+  overflow: hidden;
+}
+
+.about-hero__image img,
+.about-founders__portrait img,
+.about-manifesto__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-hero__image--main img {
+  object-position: center 38%;
+  animation: about-hero-drift 22s ease-in-out infinite alternate;
+}
+
+.about-hero__image--top,
+.about-hero__image--bottom {
+  z-index: 1;
+  inset: auto 3.2% auto auto;
+  width: clamp(150px, 19vw, 285px);
+  height: clamp(175px, 22vw, 330px);
+  border: 5px solid rgba(247, 244, 239, 0.86);
+  border-radius: 0.75rem;
+  box-shadow: 0 12px 36px #211b1852;
+}
+
+.about-hero__image--top {
+  top: 12%;
+  transform: rotate(4deg);
+}
+
+.about-hero__image--bottom {
+  top: 48%;
+  right: 8%;
+  transform: rotate(-4deg);
+}
+
+.about-hero__image--top img,
+.about-hero__image--bottom img {
+  transition: transform 800ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.about-hero__image--top:hover img,
+.about-hero__image--bottom:hover img {
+  transform: scale(1.06);
+}
+
+.about-hero__shade {
+  z-index: 2;
+  background: linear-gradient(90deg, rgb(24 21 19 / 58%) 0%, rgb(24 21 19 / 20%) 52%, transparent 100%),
+    linear-gradient(0deg, rgb(24 21 19 / 26%), transparent 42%);
+}
+
+.about-hero__copy {
+  position: relative;
+  z-index: 3;
+  max-width: 750px;
+  padding: clamp(2rem, 7vw, 6.5rem);
+  animation: about-copy-rise 850ms both;
+}
+
+.about-hero__copy h1,
+.about-founders__text h2,
+.about-values__heading h2,
+.about-invite h2 {
+  font-family: var(--font-selah, var(--font-display));
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.about-hero__copy h1 {
+  max-width: 700px;
+  margin: 1rem 0 0.65rem;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.88;
+}
+
+.about-hero__copy > p:not(.about-eyebrow) {
+  margin: 1.25rem 0 1.8rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+}
+
+.about-hero__caption {
+  position: absolute;
+  z-index: 3;
+  right: 2rem;
+  bottom: 2rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.about-pill {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.35rem;
+  border: 1px solid var(--about-ink);
+  border-radius: 99px;
+  color: var(--about-ink);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.about-pill:hover {
+  border-color: var(--about-earth);
+  background: var(--about-earth);
+  color: white;
+}
+
+.about-pill--light {
+  border-color: rgb(255 255 255 / 85%);
+  color: white;
+}
+
+.about-pill--light:hover {
+  border-color: white;
+  background: white;
+  color: var(--about-ink);
+}
+
+.about-founders {
+  display: grid;
+  max-width: 1440px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: clamp(2rem, 8vw, 9rem);
+  align-items: center;
+  margin: 0 auto;
+}
+
+.about-founders__portrait {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  background: var(--about-ivory);
+}
+
+.about-founders__portrait img {
+  object-position: center 40%;
+  transition: transform 900ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.about-founders__portrait:hover img {
+  transform: scale(1.035);
+}
+
+.about-photo-note {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 99px;
+  background: rgb(247 244 239 / 88%);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.about-founders__text {
+  max-width: 590px;
+  padding: 2rem 1rem 2rem 0;
+}
+
+.about-founders__text h2,
+.about-values__heading h2 {
+  margin: 1.3rem 0 1.6rem;
+  font-size: clamp(2.8rem, 5.3vw, 5.6rem);
+  line-height: 0.98;
+}
+
+.about-founders__text > p:not(.about-eyebrow, .about-founders__signoff) {
+  max-width: 540px;
+  margin: 0 0 1.1rem;
+  color: color-mix(in srgb, var(--about-ink), transparent 18%);
+  font-size: 0.98rem;
+  line-height: 1.85;
+}
+
+.about-founders__signoff {
+  margin: 2rem 0 1.6rem;
+  color: var(--about-earth);
+  font-family: var(--font-selah, var(--font-display));
+  font-size: 1.8rem;
+  font-style: italic;
+}
+
+.about-values {
+  padding: clamp(3rem, 7vw, 6.5rem) clamp(1.5rem, 6vw, 6rem);
+  border-radius: 1rem;
+  background: var(--about-ivory);
+}
+
+.about-values__heading {
+  max-width: 760px;
+  margin: 0 auto clamp(3rem, 6vw, 5.5rem);
+  text-align: center;
+}
+
+.about-values__heading h2 {
+  margin-bottom: 0;
+}
+
+.about-values__grid {
+  display: grid;
+  max-width: 1360px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin: 0 auto;
+}
+
+.about-value {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--about-silver);
+}
+
+.about-value__number {
+  color: var(--about-earth);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+}
+
+.about-value h3 {
+  margin: 1.8rem 0 0.8rem;
+  font-family: var(--font-selah, var(--font-display));
+  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.about-value p {
+  max-width: 370px;
+  margin: 0;
+  color: color-mix(in srgb, var(--about-ink), transparent 22%);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.about-manifesto {
+  display: grid;
+  min-height: 520px;
+  grid-template-columns: 1.1fr 0.9fr;
+  margin: clamp(4rem, 9vw, 8rem) 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #efede9;
+}
+
+.about-manifesto__image {
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.about-manifesto__image img {
+  transition: transform 1s cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.about-manifesto:hover .about-manifesto__image img {
+  transform: scale(1.035);
+}
+
+.about-manifesto__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2rem, 7vw, 7rem);
+}
+
+.about-manifesto__line {
+  margin: 1.5rem 0 0.75rem;
+  font-family: var(--font-selah, var(--font-display));
+  font-size: clamp(2.8rem, 5vw, 5.6rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.about-manifesto__copy > p:last-child {
+  color: var(--about-earth);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.about-invite {
+  position: relative;
+  display: flex;
+  min-height: 420px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 4rem 1.5rem;
+  border-radius: 1rem;
+  background: var(--about-earth);
+  color: white;
+  text-align: center;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.about-invite__image,
+.about-invite__shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.about-invite__image {
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 42%;
+  transition: transform 900ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.about-invite:hover .about-invite__image {
+  transform: scale(1.035);
+}
+
+.about-invite__shade {
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(33 28 25 / 62%), rgb(33 28 25 / 38%));
+}
+
+.about-invite h2 {
+  margin: 1rem 0 0.8rem;
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 0.95;
+}
+
+.about-invite > p:not(.about-eyebrow) {
+  margin: 0 0 1.8rem;
+  color: rgb(255 255 255 / 82%);
+  font-size: 0.95rem;
+}
+
+@keyframes about-hero-drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.055); }
+}
+
+@keyframes about-copy-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 760px) {
+  .about-page {
+    padding: 0.65rem 0.65rem 1rem;
+    gap: 4rem;
+  }
+
+  .about-intro {
+    min-height: 115vw;
+    padding: 4rem 1rem 3rem;
+    border-radius: 0.75rem;
+  }
+
+  .about-intro h1 {
+    font-size: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .about-hero {
+    min-height: 760px;
+    min-height: min(190vw, 760px);
+    align-items: end;
+    border-radius: 0.75rem;
+  }
+
+  .about-hero__image--main img {
+    object-position: 48% center;
+  }
+
+  .about-hero__image--top,
+  .about-hero__image--bottom {
+    width: clamp(112px, 31vw, 180px);
+    height: clamp(145px, 39vw, 230px);
+    border-width: 3px;
+  }
+
+  .about-hero__image--top {
+    top: 8%;
+    right: 7%;
+  }
+
+  .about-hero__image--bottom {
+    top: 32%;
+    right: 14%;
+  }
+
+  .about-hero__shade {
+    background: linear-gradient(0deg, rgb(24 21 19 / 68%) 0%, rgb(24 21 19 / 20%) 60%, transparent 100%);
+  }
+
+  .about-hero__copy {
+    padding: 2rem 1.35rem 3.2rem;
+  }
+
+  .about-hero__copy h1 {
+    max-width: 500px;
+    font-size: clamp(3.5rem, 15vw, 6rem);
+  }
+
+  .about-hero__caption {
+    right: 1rem;
+    bottom: 0.9rem;
+    font-size: 0.55rem;
+  }
+
+  .about-founders {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 4rem 0;
+  }
+
+  .about-founders__portrait {
+    min-height: 110vw;
+    max-height: 620px;
+  }
+
+  .about-founders__text {
+    padding: 0 0.75rem;
+  }
+
+  .about-founders__text h2,
+  .about-values__heading h2 {
+    font-size: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .about-values {
+    padding: 3rem 1.35rem;
+  }
+
+  .about-values__heading {
+    margin-bottom: 2.5rem;
+    text-align: left;
+  }
+
+  .about-values__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-value h3 {
+    margin-top: 1rem;
+  }
+
+  .about-manifesto {
+    grid-template-columns: 1fr;
+    margin: 3rem 0;
+  }
+
+  .about-manifesto__image {
+    min-height: 100vw;
+    max-height: 580px;
+  }
+
+  .about-manifesto__copy {
+    padding: 2.5rem 1.5rem 3rem;
+  }
+
+  .about-manifesto__line {
+    font-size: clamp(3rem, 13vw, 4.7rem);
+  }
+
+  .about-invite {
+    min-height: 350px;
+    padding: 3.5rem 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-intro__image,
+  .about-hero__image--main img,
+  .about-hero__copy {
+    animation: none;
+  }
+
+  .about-hero__image img,
+  .about-invite__image,
+  .about-founders__portrait img,
+  .about-manifesto__image img {
+    transition: none;
+  }
+}
+
+/* Shared typography with gentle pink and cloud accents. */
+.about-page {
+  font-family: var(--font-sans);
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-pill,
+.about-eyebrow,
+.about-hero__caption,
+.about-photo-note,
+.about-founders__signoff {
+  font-family: var(--font-sans);
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-pill,
+.about-eyebrow,
+.about-hero__caption,
+.about-photo-note,
+.about-founders__signoff {
+  text-transform: lowercase;
+}
+
+.about-eyebrow,
+.about-value__number {
+  color: var(--selah-pink);
+}
+
+.about-values {
+  background:
+    radial-gradient(ellipse at 8% 5%, rgb(229 52 138 / 6%), transparent 33%),
+    radial-gradient(ellipse at 94% 92%, rgb(185 184 181 / 16%), transparent 34%),
+    linear-gradient(140deg, #fff, var(--about-ivory));
+}
+
+.about-pill:hover {
+  border-color: var(--selah-pink);
+  background: var(--selah-pink);
+}
+
+.about-pill--light:hover {
+  border-color: var(--selah-pink);
+  background: var(--selah-pink);
+  color: white;
+}
+
+.about-pill,
+.about-pill--light {
+  border-color: var(--selah-pink);
+  background: var(--selah-pink);
+  color: var(--selah-charcoal);
+  box-shadow: 0 3px 14px rgb(229 52 138 / 20%);
+}
+
+.about-pill:hover,
+.about-pill--light:hover {
+  border-color: #c91d72;
+  background: #c91d72;
+  color: var(--selah-ivory);
+}
+
+.about-page {
+  background-image:
+    radial-gradient(ellipse 52% 26% at -3% 20%, rgb(244 164 198 / 38%), transparent 82%),
+    radial-gradient(ellipse 50% 30% at 103% 78%, rgb(158 207 231 / 48%), transparent 82%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.16' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 172px 172px;
+  background-position: center, center, 24px 18px;
+}
+
+.about-founders__text,
+.about-values {
+  background-color: #eaf5fa;
+  background-image:
+    radial-gradient(ellipse 58% 44% at 0% 0%, rgb(244 164 198 / 54%), transparent 82%),
+    radial-gradient(ellipse 52% 44% at 100% 100%, rgb(158 207 231 / 65%), transparent 82%),
+    radial-gradient(ellipse 38% 34% at 87% 6%, rgb(255 217 231 / 76%), transparent 82%),
+    linear-gradient(135deg, #dceef7 0%, #fff2f8 54%, #e5f3f8 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.18' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: auto, auto, auto, cover, 160px 160px;
+  background-position: center, center, center, center, right 18% top 12%;
+}
+
+/* Airy cloud layers and transparent heart details around the About content. */
+.about-page {
+  background-image:
+    radial-gradient(ellipse 42% 24% at 0% 18%, rgb(242 174 205 / 22%), transparent 82%),
+    radial-gradient(ellipse 48% 30% at 100% 78%, rgb(171 215 235 / 36%), transparent 82%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 190px 190px;
+  background-position: center, center, 24px 32px;
+}
+
+.about-founders__text,
+.about-values {
+  background-color: #f8f8fb;
+  background-image:
+    radial-gradient(ellipse 48% 38% at 5% 3%, rgb(242 174 205 / 30%), transparent 82%),
+    radial-gradient(ellipse 50% 42% at 96% 100%, rgb(171 215 235 / 44%), transparent 82%),
+    radial-gradient(ellipse 36% 31% at 87% 8%, rgb(255 224 236 / 54%), transparent 82%),
+    linear-gradient(135deg, #eaf5fa 0%, #fff8fb 52%, #eff7fb 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.13' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: auto, auto, auto, cover, 176px 176px;
+  background-position: center, center, center, center, right 18% top 12%;
+}
+
+.about-founders__text {
+  border-radius: 1rem;
+  padding: clamp(2rem, 4vw, 3.5rem);
+}

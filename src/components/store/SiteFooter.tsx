@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Twitter, Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { categories } from "@/data/catalog";
 import {
@@ -61,11 +61,36 @@ function NewsletterForm() {
 }
 
 export function SiteFooter() {
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const updateScrollDirection = () => {
+      const currentY = window.scrollY;
+      const distance = currentY - lastScrollY.current;
+      if (Math.abs(distance) > 2) {
+        setScrollDirection(distance > 0 ? "down" : "up");
+        lastScrollY.current = currentY;
+      }
+    };
+
+    window.addEventListener("scroll", updateScrollDirection, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollDirection);
+  }, []);
+
   return (
-    <footer className="mt-20 border-t border-border bg-sand/50">
+    <footer className="sm:m-8 m-3 border-border rounded-4xl bg-sand/50">
       <div className="container-page py-14">
         <div className="home-footer-wordmark">
-          <Link to="/" className="mb-16" aria-label="Selah Girl Society home">selah</Link>
+          <Link
+            to="/"
+            className={`home-footer-wordmark__text is-scroll-${scrollDirection}`}
+            aria-label="Selah Girl Society home"
+          >
+            selah
+          </Link>
         </div>
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
