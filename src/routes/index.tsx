@@ -32,14 +32,14 @@ const collections = [
     eyebrow: "Romans 8:28 · limited edition",
     title: "the 828 collection",
     description: "Wear the promise. A considered collaboration with Saint Angelo.",
-    image: "/sg2.jpg",
+    image: "/828.png",
     href: "/shop?collection=828-series",
     className: "home-collection-828",
     action: "discover the drop",
   },
 ];
 
-const heroImages = ["/selah8.png", "/selah9.png", "/selah7.jpeg"];
+const heroImages = ["/selah11.png", "/selah10.png", "/selah7.jpeg"];
 
 function HomeHero() {
   const [activeImage, setActiveImage] = useState(0);
@@ -103,7 +103,7 @@ const homeStories = [
     eyebrow: "our purpose · pakistan",
     title: "A future shaped by freedom and dignity.",
     description:
-      "A percentage of every Selah purchase supports Christian families trapped in debt bondage through our partnership with Inner City Mission: Freedom Pakistan. Thank you for being part of this work when you shop.",
+      "A percentage of every Selah purchase supports Christian families trapped in debt bondage through our partnership with InnerCity Mission: Freedom Pakistan. Thank you for being part of this work when you shop.",
     image: "/selah-main.jpeg",
     imageAlt: "Selah Girl Society campaign portrait",
     href: "/pakistan-journey",
@@ -195,16 +195,21 @@ function Home() {
       <HomeHero />
 
       <section id="collections" className="home-collections">
-        <ChromeOrnament variant="star" className="chrome-ornament--collections" />
         <ChromeOrnament variant="heart" className="chrome-ornament--collections-drift" />
-        <ChromeOrnament variant="star" className="chrome-ornament--collections-tiny" />
-        <div className="home-section-heading">
-          <span className="home-kicker">made for the life you lead</span>
-          <h2>Pieces with a little more meaning.</h2>
+        <div className="home-section-heading ">
+          <p className="home-kicker text-2xl ">made for the set-apart girl</p>
+          <h2>pause, reflect, wear.</h2>
+          {/* <p className="text-xs ">
+            your purchase has purpose. A percentage of every sale goes to Inner City Mission:
+            Freedom Mission.
+          </p> */}
         </div>
         <div className="home-collection-grid">
           {collections.map((item) => (
-            <article key={item.title} className={`home-collection-card shadow-sm ${item.className}`}>
+            <article
+              key={item.title}
+              className={`home-collection-card shadow-sm ${item.className}`}
+            >
               <img src={item.image} alt="Selah Girl Society collection lookbook" />
               <div className="home-collection-shade" />
               <div className="home-collection-copy">
@@ -215,9 +220,11 @@ function Home() {
                   {item.action} <span>↗</span>
                   <ChromeOrnament
                     variant={item.title === "white baby tees" ? "star" : "heart"}
-                    className={item.title === "white baby tees"
-                      ? "chrome-button-mark chrome-button-mark--bottom-left"
-                      : "chrome-button-mark chrome-button-mark--top-left"}
+                    className={
+                      item.title === "white baby tees"
+                        ? "chrome-button-mark chrome-button-mark--bottom-left"
+                        : "chrome-button-mark chrome-button-mark--top-left"
+                    }
                   />
                 </Link>
               </div>
@@ -230,11 +237,10 @@ function Home() {
         <ChromeOrnament variant="heart" className="chrome-ornament--editorial" />
         <div className="home-editorial-copy">
           <ChromeOrnament variant="star" className="chrome-ornament--editorial-tiny" />
-          <span className="home-kicker">Romans 8:28 · Saint Angelo x Selah</span>
+          <span className="home-kicker">Romans 8:28 · The 828 Collection Drop</span>
           <h2>Wear the promise.</h2>
           <p>
-            This season, we made something meaningful. Meet the limited 828 edition, created to
-            remind you that all things work together for good.
+            This season, limited edition in collaboration with Saint Angelo.
           </p>
           <Link to="/shop?collection=828-series" className="home-outline-button">
             explore the 828 edition <span>↗</span>

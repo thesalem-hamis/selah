@@ -19,7 +19,7 @@ const customerService = [
 
 const company = [
   { label: "Our story", to: "/about" },
-  { label: "Inner City Mission", to: "/pakistan-journey" },
+  { label: "InnerCity Mission", to: "/pakistan-journey" },
   { label: "Rewards", to: "/rewards" },
   { label: "FAQ", to: "/about#faq" },
   { label: "Collections", to: "/collections" },

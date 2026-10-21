@@ -125,7 +125,7 @@
   color: white;
   background: var(--selah-earth);
 }
-.home-collection-card img {
+.home-collection-card > img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -133,7 +133,7 @@
   object-fit: cover;
   transition: transform 0.8s;
 }
-.home-collection-card:hover img {
+.home-collection-card:hover > img {
   transform: scale(1.035);
 }
 .home-collection-shade {
@@ -168,7 +168,7 @@
 .home-collection-828 {
   background: var(--selah-earth);
 }
-.home-collection-828 img {
+.home-collection-828 > img {
   filter: saturate(0.72) sepia(0.11);
 }
 .home-collection-tees {
@@ -375,8 +375,8 @@
 .home-hero {
   margin: 0 2.2vw 18px;
   width: 95.6%;
-  height: min(85svh, 980px);
-  min-height: 570px;
+  height: min(78svh, 760px);
+  min-height: 460px;
   border-radius: 16px;
 }
 .home-hero-slide {
@@ -395,10 +395,6 @@
   height: 100%;
   object-fit: cover;
   object-position: center 36%;
-  transform: scale(1.02);
-}
-.home-hero-slide.is-active img {
-  animation: hero-image-drift 7.4s ease-out both;
 }
 .home-hero-copy {
   left: 2.4%;
@@ -486,11 +482,11 @@
   background: var(--selah-ivory);
   color: var(--selah-charcoal);
 }
-.home-collection-card img {
-  height: 76%;
-  inset: 10% 0 auto;
-  object-fit: contain;
-  mix-blend-mode: multiply;
+.home-collection-card > img {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  mix-blend-mode: normal;
 }
 .home-collection-shade {
   background: linear-gradient(180deg, transparent 42%, rgb(247 244 239 / 97%) 70%);
@@ -529,7 +525,7 @@
 .home-collection-tees {
   background: var(--selah-ivory);
 }
-.home-collection-828 img {
+.home-collection-828 > img {
   filter: saturate(0.84) sepia(0.05);
 }
 .home-editorial-feature {
@@ -551,7 +547,7 @@
   padding: clamp(35px, 7vw, 110px);
 }
 .home-editorial-copy .home-kicker {
-  color: var(--selah-ivory);
+  color: var(--selah-pink)!important;
 }
 .home-editorial-copy h2 {
   margin: 17px 0 14px;
@@ -1072,12 +1068,13 @@ main:has(.home-shipping-note) {
   position: absolute;
   top: 8px;
   right: clamp(10px, 4vw, 48px);
-  width: clamp(42px, 6vw, 76px);
-  aspect-ratio: 1;
-  background: url("/xoxo.PNG") center / contain no-repeat;
-  content: "";
-  opacity: 0.68;
-  mix-blend-mode: multiply;
+  color: var(--selah-pink);
+  font-family: "Monsieur La Doulaise", cursive;
+  font-size: clamp(80px, 4vw, 60px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  content: "girls";
   pointer-events: none;
 }
 .home-footer-wordmark__text {
@@ -1111,14 +1108,6 @@ footer {
 .home-bottom-cta:hover > img {
   transform: scale(1.04);
 }
-@keyframes hero-image-drift {
-  from {
-    transform: scale(1.02);
-  }
-  to {
-    transform: scale(1.1);
-  }
-}
 @media (max-width: 767px) {
   .home-shipping-note {
     min-height: 40px;
@@ -1129,8 +1118,8 @@ footer {
   .home-hero {
     width: auto;
     margin: 0 12px 12px;
-    min-height: 570px;
-    height: 76svh;
+    min-height: 420px;
+    height: min(72svh, 640px);
     border-radius: 12px;
   }
   .home-hero-copy {
@@ -1162,8 +1151,8 @@ footer {
     aspect-ratio: 1 / 1.12;
     border-radius: 10px;
   }
-  .home-collection-card img {
-    height: 72%;
+  .home-collection-card > img {
+    height: 100%;
   }
   .home-collection-copy {
     padding: 17px;
@@ -1207,8 +1196,16 @@ footer {
     border-radius: 12px;
   }
   .home-footer-wordmark {
-    font-size: 31vw;
+    font-size: 28vw;
     margin-bottom: 15px;
+    padding-top: 30px;
+  }
+  .home-footer-wordmark::after {
+    position: absolute;
+    top: 0vw;
+    z-index: 5000;
+    right: 1vw;
+    /* font-size: 10.2vw; */
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1251,10 +1248,10 @@ footer {
   isolation: isolate;
 }
 
-.home-collection-card img {
-  inset: 3% 0 auto;
+.home-collection-card > img {
+  inset: 0;
   width: 100%;
-  height: 70%;
+  height: 100%;
 }
 
 .home-collection-copy {
@@ -1357,9 +1354,9 @@ footer {
     z-index: 3;
   }
 
-  .home-collection-card img {
-    inset: 2% 0 auto;
-    height: 66%;
+  .home-collection-card > img {
+    inset: 0;
+    height: 100%;
   }
 
   .home-collection-copy {
@@ -1505,19 +1502,20 @@ footer {
 
 .home-collection-card .home-collection-shade,
 .home-collection-828 .home-collection-shade {
-  background: linear-gradient(180deg, transparent 35%, rgb(250 249 247 / 93%) 72%);
+  background: linear-gradient(180deg, transparent 45%, rgb(20 18 16 / 72%) 100%);
 }
 
-.home-collection-828 img,
-.home-collection-tees img {
+.home-collection-828 > img,
+.home-collection-tees > img {
   filter: none;
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
 
 .home-collection-copy .home-kicker,
 .home-collection-copy h3,
 .home-collection-copy p {
-  color: var(--selah-charcoal);
+  color: #fff;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 45%);
 }
 
 .home-editorial-feature {
@@ -1658,16 +1656,16 @@ footer {
 .chrome-ornament--collections-drift {
   top: 20px;
   left: 30%;
-  width: 25px;
-  height: 25px;
+  width: 65px;
+  height: 65px;
   opacity: 0.62;
 }
 
 .chrome-ornament--collections-tiny {
   top: 30px;
   left: 8%;
-  width: 16px;
-  height: 16px;
+  width: 76px;
+  height: 76px;
   opacity: 0.55;
 }
 
@@ -1681,8 +1679,8 @@ footer {
 .chrome-ornament--editorial-tiny {
   top: 28px;
   left: 25px;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   opacity: 0.58;
 }
 
@@ -1844,8 +1842,8 @@ footer {
   .chrome-ornament--collections-tiny {
     top: 18px;
     left: 12px;
-    width: 13px;
-    height: 13px;
+    width: 63px;
+    height: 63px;
   }
 
   .chrome-ornament--editorial {
@@ -1858,15 +1856,15 @@ footer {
   .chrome-ornament--editorial-tiny {
     top: 17px;
     left: 14px;
-    width: 16px;
-    height: 16px;
+    width: 26px;
+    height: 26px;
   }
 
   .chrome-ornament--purpose {
     top: 12px;
     right: 12px;
-    width: 26px;
-    height: 26px;
+    width: 3%;
+    height: 36px;
   }
 
   .chrome-ornament--purpose-drift {
@@ -1951,5 +1949,143 @@ footer {
     bottom: -13px;
     width: 14px;
     height: 14px;
+  }
+}
+
+
+.storefront-main {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Irregularly scattered chrome hearts in the shared page margins. */
+.storefront-shell {
+  background-image: url("/chrome2.png"), url("/chrome5.png"), url("/heart.png");
+  background-position: 3% 22%, 96% 57%, 7% 88%;
+  background-size: 38px, 55px, 28px;
+  background-repeat: no-repeat;
+}
+.storefront-hearts {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+.storefront-heart {
+  position: absolute;
+  width: clamp(24px, 3.5vw, 52px);
+  height: auto;
+  opacity: 0.65;
+}
+.storefront-heart--1 {
+  top: 18%;
+  left: 0.5%;
+  transform: rotate(-22deg);
+}
+.storefront-heart--2 {
+  top: 38%;
+  right: 1%;
+  width: clamp(20px, 2.5vw, 38px);
+  transform: rotate(17deg);
+}
+.storefront-heart--3 {
+  top: 61%;
+  left: 1.2%;
+  width: clamp(28px, 4vw, 60px);
+  transform: rotate(12deg);
+}
+.storefront-heart--4 {
+  top: 79%;
+  right: 0.6%;
+  transform: rotate(-28deg);
+}
+.storefront-heart--5 {
+  bottom: 18px;
+  left: 18%;
+  width: clamp(18px, 2vw, 30px);
+  transform: rotate(28deg);
+}
+@media (max-width: 767px) {
+  .storefront-heart {
+    max-width: 28px;
+    opacity: 0.45;
+  }
+}
+
+/* Keep the chrome image assets proportional in existing ornament slots. */
+.chrome-ornament,
+.storefront-heart {
+  object-fit: contain;
+  user-select: none;
+}
+
+/* Slow, staggered movement preserves each accent's original rotation. */
+.storefront-heart {
+  animation: storefront-chrome-float 9s ease-in-out infinite;
+}
+.storefront-heart--2 {
+  animation-duration: 11s;
+  animation-delay: -4s;
+}
+.storefront-heart--3 {
+  mix-blend-mode: multiply;
+  animation-duration: 13s;
+  animation-delay: -7s;
+}
+.storefront-heart--4 {
+  width: clamp(32px, 4.5vw, 65px);
+  transform: rotate(-8deg);
+  animation-duration: 12s;
+  animation-delay: -3s;
+}
+.storefront-heart--5 {
+  animation-delay: -6s;
+}
+.storefront-heart--6 {
+  top: 48%;
+  left: 0.8%;
+  width: clamp(22px, 3vw, 42px);
+  transform: rotate(-15deg);
+  animation-duration: 14s;
+  animation-delay: -9s;
+}
+@keyframes storefront-chrome-float {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
+  }
+}
+@media (max-width: 767px) {
+  .storefront-heart--4 {
+    max-width: 40px;
+    right: 0.6%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storefront-heart {
+    animation: none;
+  }
+}
+
+
+/* Keep every chrome accent clear without changing its placement. */
+.chrome-ornament,
+.storefront-heart {
+  opacity: 1;
+  filter: drop-shadow(0 3px 4px rgb(35 39 44 / 25%));
+}
+.chrome-ornament:not(.chrome-button-mark),
+.storefront-heart {
+  scale: 1.2;
+}
+.storefront-heart--3 {
+  mix-blend-mode: normal;
+}
+@media (max-width: 767px) {
+  .storefront-heart {
+    max-width: 40px;
   }
 }
