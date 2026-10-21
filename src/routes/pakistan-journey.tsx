@@ -1,13 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/store/StoreLayout";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { TreePalm } from "lucide-react";
 
 export const Route = createFileRoute("/pakistan-journey")({
   head: () => ({
     meta: [
-      { title: "Our Pakistan Journey - Selah Girl Society" },
+      { title: "InnerCity Mission: Freedom Pakistan | Selah Girl Society" },
       {
         name: "description",
-        content: "Discover the heart behind our manufacturing process and the incredible artisans we partner with in Pakistan.",
+        content:
+          "Discover Selah Girl Society's partnership with InnerCity Mission, Freedom Pakistan Mission.",
       },
     ],
   }),
@@ -17,94 +19,121 @@ export const Route = createFileRoute("/pakistan-journey")({
 function PakistanJourney() {
   return (
     <StoreLayout>
-      {/* Hero Section */}
-      <section 
-        className="relative h-[70vh] min-h-[600px] w-full overflow-hidden bg-[#1A1A1A] bg-cover bg-center"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?q=80&w=2940&auto=format&fit=crop")' }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative h-full container-page flex flex-col items-center justify-center text-center">
-          <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.3em] text-[#E5E5E5]">
-            Our Story
-          </p>
-          <h1
-            className="text-4xl text-white md:text-6xl lg:text-8xl leading-[1.1] max-w-4xl drop-shadow-sm"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-          >
-            The Pakistan Journey
-          </h1>
-        </div>
-      </section>
-
-      {/* Intro Text */}
-      <section className="container-page py-24 md:py-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-[15px] leading-relaxed text-[#444444] md:text-[18px]">
-            When we set out to create Selah Girl Society, we knew that our commitment to honoring God had to extend beyond the designs and messages printed on our garments. It had to be woven into the very fabric of how we do business. That conviction led us on a remarkable journey to Pakistan, where we found partners who shared our dedication to craftsmanship, ethical labor, and uncompromising quality.
-          </p>
-        </div>
-      </section>
-
-      {/* Grid Story */}
-      <section className="container-page pb-24 md:pb-32">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24 items-center">
-          <div className="aspect-[4/5] w-full bg-[#f4f4f4] overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1605374828135-eeefb1dc6a92?q=80&w=2000&auto=format&fit=crop" 
-              alt="Artisan Craftsmanship in Pakistan" 
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-            />
-          </div>
-          
-          <div className="max-w-xl space-y-12">
-            <div>
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] mb-5">
-                Ethical Craftsmanship
-              </h2>
-              <p className="text-[14px] leading-relaxed text-[#444444]">
-                In the heart of Pakistan's rich textile industry, we partner with family-owned facilities that prioritize the well-being of their artisans. Every piece of Selah clothing is cut, sewn, and finished by skilled workers who receive fair wages, work in safe conditions, and take immense pride in their craft.
+      <main className="bg-[#f7f3e7] text-[#123e32]">
+        <section className="relative isolate overflow-hidden bg-[#123e32] px-6 py-16 md:py-24">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_#468564_0%,_transparent_65%)]"
+          />
+          <TreePalm
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-16 -left-20 h-80 w-80 -rotate-12 text-[#a8c891]/15 md:h-[32rem] md:w-[32rem]"
+            strokeWidth={0.7}
+          />
+          <TreePalm
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-20 -top-16 h-80 w-80 rotate-[155deg] text-[#a8c891]/15"
+            strokeWidth={0.7}
+          />
+          <div className="container-page relative grid items-center gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
+            <div className="max-w-3xl text-center text-[#fff9e9] lg:text-left">
+              <p className="mb-5 text-xs uppercase tracking-[0.28em] text-[#d4e3ac]">
+                Our faith in action
               </p>
+              <h1 className="font-display text-4xl leading-tight md:text-6xl">
+                InnerCity Mission:
+                <br />
+                Freedom Pakistan
+              </h1>
+              <p className="mx-auto mt-6 max-w-lg text-base leading-8 text-[#e0ead5] lg:mx-0">
+                Faith taking root. Freedom bringing new beginnings. Discover the mission woven into
+                every Selah purchase.
+              </p>
+              <a
+                href="#mission-film"
+                className="mt-8 inline-flex rounded-full bg-[#e5edbc] px-7 py-3 text-sm font-medium text-[#123e32] transition hover:bg-white"
+              >
+                Watch the mission film{" "}
+                <span aria-hidden="true" className="ml-3">
+                  ↘
+                </span>
+              </a>
             </div>
-            
-            <div>
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] mb-5">
-                Premium Materials
-              </h2>
-              <p className="text-[14px] leading-relaxed text-[#444444]">
-                Our signature heavyweight cottons and luxurious blends are sourced locally in Pakistan, renowned for producing some of the world's finest textiles. This direct relationship allows us to develop custom fabrics that offer the perfect drape, durability, and comfort necessary for the modern Christian woman.
+            <div className="mx-auto w-full max-w-sm rounded-t-[45%] rounded-b-3xl border border-[#d5dfb8] bg-white p-5 shadow-[0_24px_70px_rgba(0,0,0,.15)] sm:p-8">
+              <img
+                src="/pakistan-logo.png"
+                alt="Freedom Mission Pakistan — InnerCity Mission"
+                className="aspect-[4/3] w-full object-contain"
+              />
+              <p className="mt-3 text-center text-[10px] uppercase tracking-[0.22em] text-[#41654b]">
+                A partnership with purpose
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Quote Section */}
-      <section className="bg-[#FFF5F7] py-24 md:py-32">
-        <div className="container-page">
-          <blockquote
-            className="mx-auto max-w-4xl text-center text-3xl text-[#1A1A1A] md:text-5xl leading-[1.3] italic"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+        </section>
+        <section className="container-page grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2 lg:gap-20">
+          <figure
+            id="mission-film"
+            className="w-full scroll-mt-28 self-start overflow-hidden rounded-[2rem] border border-[#c5d4b8] bg-[#e9eedc] p-3 shadow-[0_18px_55px_rgba(18,62,50,.10)] lg:sticky lg:top-28"
           >
-            "We believe that true luxury is found not just in the final product, but in the dignity of the hands that made it."
-          </blockquote>
-        </div>
-      </section>
-
-      {/* Outro */}
-      <section className="container-page py-24 md:py-32 text-center">
-        <h2 className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
-          Wear The Story
-        </h2>
-        <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-[#444444] mb-12">
-          When you wear Selah Girl Society, you aren't just making a statement of faith. You are supporting ethical manufacturing and standing with artisans across the globe.
-        </p>
-        <Link
-          to="/shop"
-          className="inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
-        >
-          SHOP THE COLLECTION
-        </Link>
-      </section>
+            <div className="flex items-center justify-between gap-4 px-3 py-4 text-[#315b44]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em]">
+                Inside the mission
+              </p>
+              <TreePalm aria-hidden="true" className="h-6 w-6" strokeWidth={1.3} />
+            </div>
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="InnerCity Mission Pakistan film"
+              className="aspect-video w-full rounded-[1.4rem] bg-[#123e32] object-contain"
+            >
+              <source src="/icm.mp4" type="video/mp4" />
+              Your browser does not support embedded video.{" "}
+              <a href="/icm.mp4">Watch the mission film</a>.
+            </video>
+            <figcaption className="px-3 pb-3 pt-5 text-sm leading-6 text-[#41654b]">
+              InnerCity Mission · Freedom Pakistan
+            </figcaption>
+          </figure>
+          <div className="relative max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#52734c]">
+              A purpose woven through every purchase
+            </p>
+            <h2 className="mt-4 font-display text-3xl leading-tight md:text-5xl">
+              A future shaped by freedom and dignity.
+            </h2>
+            <div className="mt-7 space-y-5 text-sm leading-7 text-[#4d6555] md:text-base">
+              <p>
+                When we started Selah Girl Society, we knew that our commitment to honoring God had
+                to extend far beyond the quality, designs and messages printed on our garments. True
+                devotion must be woven into the very fabric of how we do business.
+              </p>
+              <p>
+                That conviction led us on a remarkable journey to partner with InnerCity Mission,
+                Freedom Pakistan Mission.
+              </p>
+              <p>
+                A dedicated percentage of every single purchase you make with Selah goes directly
+                toward securing freedom for Christian families trapped in brutal debt bondage. In
+                Pakistan, the marginalized minority Christian community faces extreme hardship, with
+                generations enslaved across more than 20,000 brick kilns. To date, InnerCity Mission
+                Mission cessfully freed thousands (to be confirmed) of families from these harsh
+                harsh tions restoring their dignity, their freedom, and their future.
+              </p>
+              <p>Thank you for partnering with us when you shop.</p>
+            </div>
+            <Link
+              to="/shop"
+              className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#24664a] px-7 py-3 text-sm font-medium text-white transition hover:bg-[#123e32]"
+            >
+              Shop Selah
+              <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </section>
+      </main>
     </StoreLayout>
   );
 }

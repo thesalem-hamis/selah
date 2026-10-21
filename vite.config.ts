@@ -26,4 +26,10 @@ export default defineConfig({
       noExternals: true,
     }),
   ],
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+    strictPort: true,
+    allowedHosts: ["forecasts-magazine-lou-assumed.trycloudflare.com"],
+  },
 });

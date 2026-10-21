@@ -1,117 +1,258 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import { ProductCard } from "@/components/product/ProductCard";
-import { Collections } from "@/components/store/Collection";
-// import { Showcase } from "@/components/store/Showcase";
-import { ErrorState } from "@/components/shared/states";
-import { Skeleton } from "@/components/ui/skeleton";
-import { productService } from "@/services/productService";
-import { useProductReviewSummary } from "@/hooks/useProductReviews";
-import { products } from "@/data/catalog";
-import { Hero } from "@/components/store/Hero";
-import { NewsTicker } from "@/components/store/NewsTricker";
-import p4 from "@/assets/p4.jpg";
-import p5 from "@/assets/p5.jpg";
-import p6 from "@/assets/p6.jpg";
-import p7 from "@/assets/p7.jpg";
+import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
+import { ChromeOrnament } from "@/components/store/ChromeOrnament";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Selah Girl Society - Modest Fashion for Women of Faith" },
+      { title: "Selah Girl Society — Everyday essentials for the modern believer" },
       {
         name: "description",
-        content: "Faith-led modest fashion for women choosing to live intentionally. Designed for daughters of the King.",
+        content:
+          "Faith and fashion, beautifully aligned. Discover soft everyday essentials for the modern believer at Selah Girl Society.",
       },
     ],
   }),
   component: Home,
 });
 
-const firstDropFilters = { sort: "featured" as const };
+const collections = [
+  {
+    eyebrow: "the everyday edit",
+    title: "white baby tees",
+    description: "A little reminder of what matters, made for every day.",
+    image: "/selah3.jpeg",
+    href: "/shop?collection=white-baby-tees",
+    className: "home-collection-tees",
+    action: "shop the tees",
+  },
+  {
+    eyebrow: "Romans 8:28 · limited edition",
+    title: "the 828 collection",
+    description: "Wear the promise. A considered collaboration with Saint Angelo.",
+    image: "/828.png",
+    href: "/shop?collection=828-series",
+    className: "home-collection-828",
+    action: "discover the drop",
+  },
+];
 
-const moreCollection = [p4, p5, p6, p7].map((image, index) => ({
-  image,
-  ...products[index + 3],
-}));
+const heroImages = ["/selah11.png", "/selah10.png", "/selah7.jpeg"];
 
-function Home() {
-  const firstDropQuery = useQuery({
-    queryKey: ["products", firstDropFilters],
-    queryFn: () => productService.list(firstDropFilters),
-  });
+function HomeHero() {
+  const [activeImage, setActiveImage] = useState(0);
 
-  const firstDrop = useMemo(
-    () => (firstDropQuery.data ?? []).slice(0, 4),
-    [firstDropQuery.data],
-  );
-  const firstDropReviews = useProductReviewSummary(firstDrop.map((product) => product.id));
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const interval = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % heroImages.length);
+    }, 7000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   return (
-    <StoreLayout>
-      {/* Hero */}
-      <Hero />
+    <section className="home-hero">
+      {heroImages.map((src, index) => (
+        <div
+          key={src}
+          className={`home-hero-slide ${index === activeImage ? "is-active" : ""}`}
+          aria-hidden="true"
+        >
+          <img src={src} alt="" />
+        </div>
+      ))}
+      <div className="home-hero-shade" />
+      <div className="home-hero-copy">
+        {/* <span className="home-kicker">Selah Girl Society · Romans 8:28</span> */}
+        <h1>the drop is here</h1>
+        {/* <p>Wear the promise. Faith and fashion, beautifully aligned.</p> */}
+        <Link to="/shop" className="home-metal-button">
+          shop Selah
+          <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
+        </Link>
+      </div>
+      <div className="home-hero-controls" aria-label="Hero slides">
+        {heroImages.map((src, index) => (
+          <button
+            key={src}
+            type="button"
+            aria-label={`Show lookbook image ${index + 1}`}
+            aria-current={index === activeImage}
+            onClick={() => setActiveImage(index)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
-      {/* News Ticker */}
-      <NewsTicker />
+const homeStories = [
+  {
+    eyebrow: "about selah",
+    title: "Faith and fashion, beautifully aligned.",
+    description:
+      "Founded by two women who love Jesus, Selah Girl Society makes soft, premium everyday basics for women choosing to live intentionally, boldly, and unapologetically for Christ.",
+    image: "/selah5.jpeg",
+    imageAlt: "A moment from the Selah Girl Society lookbook",
+    href: "/about",
+    action: "our story",
+  },
+  {
+    eyebrow: "our purpose · pakistan",
+    title: "A future shaped by freedom and dignity.",
+    description:
+      "A percentage of every Selah purchase supports Christian families trapped in debt bondage through our partnership with InnerCity Mission: Freedom Pakistan. Thank you for being part of this work when you shop.",
+    image: "/selah-main.jpeg",
+    imageAlt: "Selah Girl Society campaign portrait",
+    href: "/pakistan-journey",
+    action: "our Pakistan journey",
+  },
+];
 
-      {/* First Drop - Clean White Grid */}
-      <section id="first-drop" className="bg-white py-20 md:py-28">
-        <div className="container-page">
-          <div className="mb-16 flex flex-col items-center text-center">
-            <h2
-              className="text-4xl md:text-5xl text-[#1a1a1a]"
-              style={{ fontFamily: "var(--font-selah)", fontWeight: 400 }}
+function HomeStories() {
+  const [activeStory, setActiveStory] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = window.setInterval(() => {
+      setActiveStory((current) => (current + 1) % homeStories.length);
+    }, 20_000);
+
+    return () => window.clearInterval(interval);
+  }, [isPaused]);
+
+  return (
+    <section className="home-purpose" aria-label="About Selah and our Pakistan partnership">
+      <div className="home-purpose-copy">
+        <ChromeOrnament variant="star" className="chrome-ornament--purpose" />
+        <ChromeOrnament variant="heart" className="chrome-ornament--purpose-drift" />
+        <ChromeOrnament variant="star" className="chrome-ornament--purpose-tiny" />
+        <div className="home-purpose-story-stack">
+          {homeStories.map((story, index) => (
+            <article
+              key={story.eyebrow}
+              className={`home-purpose-story ${activeStory === index ? "is-active" : ""}`}
+              aria-hidden={activeStory !== index}
             >
-              NEW ARRIVALS
-            </h2>
-            {/* <p className="mt-6 max-w-lg text-[14px] leading-relaxed text-[#444444]">
-              Each piece is a declaration: modest, intentional, and unapologetically beautiful. 
-              Limited garments, crafted with prayer and purpose.
-            </p> */}
-          </div>
-
-          {firstDropQuery.isError ? (
-            <ErrorState onRetry={() => void firstDropQuery.refetch()} />
-          ) : firstDropQuery.isLoading ? (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div key={index}>
-                  <Skeleton className="aspect-[3/4] w-full bg-[#f4f4f4]" />
-                  <Skeleton className="mt-4 h-4 w-3/4 bg-[#eaeaea]" />
-                  <Skeleton className="mt-2 h-3 w-1/3 bg-[#eaeaea]" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-              {firstDrop.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
+              <span className="home-kicker">{story.eyebrow}</span>
+              <h2>{story.title}</h2>
+              <p>{story.description}</p>
+              <Link to={story.href} className="home-outline-button">
+                {story.action} <span>↗</span>
+                <ChromeOrnament
+                  variant={index === 0 ? "heart" : "star"}
+                  className="chrome-button-mark chrome-button-mark--bottom-right"
                 />
-              ))}
-            </div>
-          )}
-
-          <div className="mt-12 md:mt-16 flex justify-center">
-            <Link
-              to="/shop"
-              className="flex h-9 md:h-10 items-center justify-center border border-transparent bg-[#1A1A1A] px-6 md:px-8 text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-white hover:text-black hover:border-black font-['Alumni_Sans',sans-serif]"
+              </Link>
+            </article>
+          ))}
+        </div>
+        <nav
+          className="home-purpose-tabs"
+          aria-label="Explore Selah stories"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {homeStories.map((story, index) => (
+            <button
+              key={story.eyebrow}
+              type="button"
+              aria-pressed={activeStory === index}
+              onMouseEnter={() => setActiveStory(index)}
+              onFocus={() => setActiveStory(index)}
+              onClick={() => setActiveStory(index)}
             >
-              VIEW ALL
-            </Link>
-          </div>
+              {index === 0 ? "About" : "Our Pakistan journey"}
+            </button>
+          ))}
+        </nav>
+      </div>
+      <div className="home-purpose-image">
+        {homeStories.map((story, index) => (
+          <img
+            key={story.image}
+            className={activeStory === index ? "is-active" : ""}
+            src={story.image}
+            alt={story.imageAlt}
+            loading="eager"
+            decoding="async"
+            aria-hidden={activeStory !== index}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Home() {
+  return (
+    <StoreLayout>
+      <AnnouncementSlider />
+      <HomeHero />
+
+      <section id="collections" className="home-collections">
+        <ChromeOrnament variant="heart" className="chrome-ornament--collections-drift" />
+        <div className="home-section-heading ">
+          <p className="home-kicker text-2xl ">made for the set-apart girl</p>
+          <h2>pause, reflect, wear.</h2>
+          {/* <p className="text-xs ">
+            your purchase has purpose. A percentage of every sale goes to Inner City Mission:
+            Freedom Mission.
+          </p> */}
+        </div>
+        <div className="home-collection-grid">
+          {collections.map((item) => (
+            <article
+              key={item.title}
+              className={`home-collection-card shadow-sm ${item.className}`}
+            >
+              <img src={item.image} alt="Selah Girl Society collection lookbook" />
+              <div className="home-collection-shade" />
+              <div className="home-collection-copy">
+                <span className="home-kicker">{item.eyebrow}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <Link to={item.href} className="home-metal-button">
+                  {item.action} <span>↗</span>
+                  <ChromeOrnament
+                    variant={item.title === "white baby tees" ? "star" : "heart"}
+                    className={
+                      item.title === "white baby tees"
+                        ? "chrome-button-mark chrome-button-mark--bottom-left"
+                        : "chrome-button-mark chrome-button-mark--top-left"
+                    }
+                  />
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Collections Section */}
-      <Collections />
+      <section className="home-editorial-feature">
+        <ChromeOrnament variant="heart" className="chrome-ornament--editorial" />
+        <div className="home-editorial-copy">
+          <ChromeOrnament variant="star" className="chrome-ornament--editorial-tiny" />
+          <span className="home-kicker">Romans 8:28 · The 828 Collection Drop</span>
+          <h2>Wear the promise.</h2>
+          <p>
+            This season, limited edition in collaboration with Saint Angelo.
+          </p>
+          <Link to="/shop?collection=828-series" className="home-outline-button">
+            explore the 828 edition <span>↗</span>
+            <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
+          </Link>
+        </div>
+        <div className="home-editorial-image">
+          <img src="/sg1.jpeg" alt="The 828 Edition campaign" />
+        </div>
+      </section>
 
-      {/* Interactive Rail Showcase Section */}
-      {/* <Showcase /> */}
+      <HomeStories />
     </StoreLayout>
   );
 }

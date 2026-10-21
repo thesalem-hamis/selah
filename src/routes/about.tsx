@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import editorial from "@/assets/editorial.jpg";
-import promo from "@/assets/p8.jpg";
+import { ChromeOrnament } from "@/components/store/ChromeOrnament";
+import "@/styles/about.css";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -42,80 +42,103 @@ const pillars = [
 function About() {
   return (
     <StoreLayout>
-      <section className="container-page py-24 md:py-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-8 text-[11px] font-bold uppercase tracking-[0.3em] text-[#777777]">
-            Our Story
-          </p>
-          <h1
-            className="text-4xl text-[#1A1A1A] md:text-6xl lg:text-7xl leading-[1.15]"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-          >
-            Fashion for the woman who chooses to live set apart.
-          </h1>
-          <p className="mx-auto mt-12 max-w-2xl text-[15px] leading-relaxed text-[#444444] md:text-[16px]">
-            Selah Girl Society was founded by two women who love Jesus and believe faith and fashion
-            can exist beautifully together. We create trendy Christian basics for women who want to
-            live intentionally, boldly, and unapologetically for Jesus.
-          </p>
-          <blockquote
-            className="mx-auto mt-20 max-w-2xl text-3xl text-[#1A1A1A] md:text-4xl leading-[1.4] italic"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-          >
-            "Pause. Reflect. Wear. Declare."
-          </blockquote>
-        </div>
-      </section>
-
-      <section className="container-page pb-20 md:pb-32">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="aspect-[3/4] w-full bg-[#f4f4f4]">
-            <img src={editorial} alt="Selah studio in UK" loading="lazy" className="h-full w-full object-cover" />
+      <main className="about-page">
+        <section className="about-intro" aria-labelledby="about-title">
+          <img
+            className="about-intro__image"
+            src="/selahmain.jpeg"
+            alt="Selah Girl Society campaign portrait"
+          />
+          <div className="about-intro__shade" />
+          <div className="about-intro__content">
+            <h1 id="about-title">Fashion for the woman who chooses to live set apart.</h1>
           </div>
-          <div className="aspect-[3/4] w-full bg-[#f4f4f4]">
-            <img src={promo} alt="Selah campaign imagery" loading="lazy" className="h-full w-full object-cover" />
+          <span className="about-intro__caption">Selah Girl Society</span>
+        </section>
+
+        <section className="about-founders" id="founders-note" aria-labelledby="founders-title">
+          <div className="about-founders__portrait">
+            <img src="/selah-main.jpeg" alt="Selah Girl Society campaign imagery" loading="lazy" />
+            <span className="about-photo-note">Selah Girl Society</span>
           </div>
-        </div>
-      </section>
+          <div className="about-founders__text">
+            <ChromeOrnament variant="heart" className="chrome-ornament--founders" />
+            <ChromeOrnament variant="star" className="chrome-ornament--founders-tiny" />
+            <p className="about-eyebrow">Our Story</p>
+            <h2 id="founders-title">Selah, where faith and fashion beautifully align.</h2>
+            <p>
+              Selah Girl Society was founded by two women who love Jesus and believe faith and
+              fashion can exist beautifully together. We create trendy Christian basics for women
+              who want to live intentionally, boldly, and unapologetically for Jesus.
+            </p>
+            <blockquote className="about-founders__signoff">
+              “Pause. Reflect. Wear. Declare.”
+            </blockquote>
+            <Link to="/collections" className="about-pill">
+              Explore the collections <span aria-hidden="true">↗</span>
+              <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--bottom-left" />
+            </Link>
+          </div>
+        </section>
 
-      <section className="container-page pb-24 md:pb-32">
-        <div className="grid gap-12 md:grid-cols-3 md:gap-16 border-t border-[#E5E5E5] pt-20">
-          {pillars.map((pillar, index) => (
-            <article key={pillar.title} className="text-center md:text-left">
-              <span className="text-[12px] font-bold text-[#1A1A1A] tracking-[0.1em]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h2 className="mt-6 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
-                {pillar.title}
-              </h2>
-              <p className="mt-5 text-[14px] leading-relaxed text-[#444444]">
-                {pillar.body}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <section className="about-values" aria-labelledby="values-title">
+          <ChromeOrnament variant="star" className="chrome-ornament--values" />
+          <ChromeOrnament variant="heart" className="chrome-ornament--values-heart" />
+          <ChromeOrnament variant="star" className="chrome-ornament--values-drift" />
+          <div className="about-values__heading">
+            <p className="about-eyebrow">The heart of Selah</p>
+            <h2 id="values-title">Welcome to the society.</h2>
+          </div>
+          <div className="about-values__grid">
+            {pillars.map((pillar, index) => (
+              <article className="about-value" key={pillar.title}>
+                <span className="about-value__number">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
-      <section className="container-page pb-24 md:pb-32">
-        <div className="bg-[#1A1A1A] px-6 py-20 text-center text-white md:px-16 md:py-32">
-          <h2
-            className="text-4xl md:text-6xl"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-          >
-            Welcome to the society
-          </h2>
-          <p className="mx-auto mt-8 max-w-xl text-[14px] leading-relaxed text-[#BBBBBB]">
+        <section className="about-invite" aria-labelledby="invite-title">
+          <img
+            className="about-invite__image"
+            src="/selah7.jpeg"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <div className="about-invite__shade" />
+          <h2 id="invite-title">Welcome to the society</h2>
+          <p>
             A community for the woman of God who wants to look good, feel good, and keep Christ at
             the centre. Pause, reflect, wear, and declare it with us.
           </p>
-          <Link
-            to="/shop"
-            className="mt-12 inline-flex h-14 items-center justify-center bg-white px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#E5E5E5]"
-          >
-            SHOP NEW SEASON
+          <Link to="/shop" className="about-pill about-pill--light">
+            Shop new season <span aria-hidden="true">↗</span>
+            <ChromeOrnament variant="heart" className="chrome-button-mark chrome-button-mark--top-right" />
           </Link>
-        </div>
-      </section>
+        </section>
+
+        <section id="faq" className="container-page py-20 md:py-28" aria-labelledby="faq-title">
+          <ChromeOrnament variant="star" className="chrome-ornament--faq" />
+          <ChromeOrnament variant="heart" className="chrome-ornament--faq-drift" />
+          <p className="about-eyebrow">A few helpful things</p>
+          <h2 id="faq-title" className="mb-8 text-3xl md:text-5xl">Frequently asked questions</h2>
+          <div className="mx-auto max-w-3xl divide-y divide-[#B9B8B5]/60 border-y border-[#B9B8B5]/60">
+            {[
+              ["What is Selah Girl Society?", "A faith-based community and clothing label making soft, premium everyday essentials for the modern believer."],
+              ["Where can I find the 828 collection?", "Explore the limited 828 edition in our shop. It is a separate collection from our white baby tees."],
+              ["How do I get help with an order?", "Visit Support for shipping, order and payment, returns, and direct contact information."],
+            ].map(([question, answer]) => (
+              <details key={question} className="group py-5">
+                <summary className="cursor-pointer list-none text-lg font-medium marker:hidden">{question}<span className="float-right text-[#E5348A] transition-transform group-open:rotate-45">+</span></summary>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#635A56]">{answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </main>
     </StoreLayout>
   );
 }

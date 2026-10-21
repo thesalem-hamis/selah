@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Twitter, Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { categories } from "@/data/catalog";
 import {
@@ -11,17 +11,20 @@ import {
 } from "@/components/ui/accordion";
 
 const customerService = [
-  { label: "Shipping & delivery", to: "/about" },
-  { label: "Returns & refunds", to: "/about" },
-  { label: "Size guide", to: "/about" },
-  { label: "Contact us", to: "/about" },
+  { label: "Shipping", to: "/support#shipping" },
+  { label: "Orders & payments", to: "/support#orders-and-payments" },
+  { label: "Refunds & returns", to: "/support#returns" },
+  { label: "Contact us directly", to: "/support#contact" },
 ];
 
 const company = [
   { label: "Our story", to: "/about" },
+  { label: "InnerCity Mission", to: "/pakistan-journey" },
+  { label: "Rewards", to: "/rewards" },
+  { label: "FAQ", to: "/about#faq" },
   { label: "Collections", to: "/collections" },
   { label: "New arrivals", to: "/new-arrivals" },
-  { label: "Terms of service", to: "/about" },
+  { label: "Privacy Policy", to: "/privacy-policy" },
 ];
 
 function NewsletterForm() {
@@ -48,7 +51,7 @@ function NewsletterForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="Email address"
-        className="h-12 min-w-0 flex-1 rounded-full border border-border bg-surface px-5 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/40"
+        className="h-12 shrink-0 min-w-0 flex-1 rounded-full border border-border bg-surface px-5 py-5 text-sm outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring/40"
       />
       <button
         type="submit"
@@ -61,17 +64,44 @@ function NewsletterForm() {
 }
 
 export function SiteFooter() {
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const updateScrollDirection = () => {
+      const currentY = window.scrollY;
+      const distance = currentY - lastScrollY.current;
+      if (Math.abs(distance) > 2) {
+        setScrollDirection(distance > 0 ? "down" : "up");
+        lastScrollY.current = currentY;
+      }
+    };
+
+    window.addEventListener("scroll", updateScrollDirection, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollDirection);
+  }, []);
+
   return (
-    <footer className="mt-20 border-t border-border bg-sand/50">
+    <footer className="sm:m-8 m-3 border-border rounded-4xl bg-sand/50">
       <div className="container-page py-14">
+        <div className="home-footer-wordmark">
+          <Link
+            to="/"
+            className={`home-footer-wordmark__text is-scroll-${scrollDirection}`}
+            aria-label="Selah Girl Society home"
+          >
+            selah
+          </Link>
+        </div>
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link to="/" className="font-display text-2xl tracking-tight">
               Selah
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Modest clothing made in small batches in UK - considered cuts, natural fabrics and
-              finishing you can feel.
+              Faith and fashion, beautifully aligned. Everyday essentials for the modern believer.
             </p>
             <div className="mt-6 flex items-center gap-2">
               {[Instagram, Facebook, Twitter, Mail].map((Icon, index) => (
@@ -198,16 +228,29 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Selah Studio. All rights reserved.</p>
-          <div className="flex flex-wrap gap-5">
-            <Link to="/about" className="transition-colors hover:text-foreground">
-              Terms
+        <div className="mt-12 grid grid-cols-1 gap-5 border-t border-border pt-6 text-xs text-muted-foreground sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+          <p className="text-center sm:text-left">© {new Date().getFullYear()} Selah Studio. All rights reserved.</p>
+          <div className="flex items-center justify-center gap-2">
+            <label htmlFor="footer-currency" className="shrink-0">Currency</label>
+            <select
+              id="footer-currency"
+              aria-label="Choose country and currency"
+              defaultValue="GBP"
+              className="max-w-full bg-transparent font-semibold text-foreground outline-none"
+            >
+              <option value="GBP">United Kingdom (GBP £)</option>
+              <option value="USD">United States (USD $)</option>
+              <option value="NGN">Nigeria (NGN ₦)</option>
+            </select>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5 sm:justify-end">
+            <Link to="/support" className="transition-colors hover:text-foreground">
+              Support
             </Link>
-            <Link to="/about" className="transition-colors hover:text-foreground">
-              Privacy
+            <Link to="/privacy-policy" className="transition-colors hover:text-foreground">
+              Privacy Policy
             </Link>
-            <Link to="/about" className="transition-colors hover:text-foreground">
+            <Link to="/support#returns" className="transition-colors hover:text-foreground">
               Refund policy
             </Link>
           </div>

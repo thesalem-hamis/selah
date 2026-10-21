@@ -49,13 +49,13 @@ export function Collections() {
 
               {/* Centered Content */}
               <div className="relative z-10 flex flex-col items-center justify-center px-4 text-center text-white">
-                <h2 className="mb-4 font-['Alumni_Sans',sans-serif] text-3xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-wider text-white drop-shadow-sm">
+                <h2 className="mb-4 font-sans text-3xl md:text-4xl lg:text-5xl font-semibold uppercase tracking-wider text-white drop-shadow-sm">
                   {item.title}
                 </h2>
 
                 <Link
                   to={item.href}
-                  className="inline-flex h-9 md:h-10 items-center justify-center border border-white bg-transparent px-8 md:px-10 font-['Alumni_Sans',sans-serif] text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FFF5F7] hover:text-[#1A1A1A] hover:border-[#FFF5F7]"
+                  className="inline-flex h-9 md:h-10 items-center justify-center border border-white bg-transparent px-8 md:px-10 font-sans text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FFF5F7] hover:text-[#1A1A1A] hover:border-[#FFF5F7]"
                 >
                   {item.buttonText}
                 </Link>

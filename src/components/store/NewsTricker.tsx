@@ -1,8 +1,8 @@
 const MESSAGES = [
-  "Free delivery on orders over £50",
-  "Modest fashion for daughters of the King",
-  "The first drop is here",
-  "Ethically made in Pakistan",
+  "the drop is here",
+  "wear the promise · romans 8:28",
+  "everyday essentials for the modern believer",
+  "welcome to the society",
 ];
 
 function TickerRow({ hidden = false }: { hidden?: boolean }) {
@@ -10,7 +10,7 @@ function TickerRow({ hidden = false }: { hidden?: boolean }) {
     <div className="flex shrink-0 items-center" aria-hidden={hidden}>
       {MESSAGES.map((message) => (
         <div key={message} className="flex items-center">
-          <span className="whitespace-nowrap px-6 text-[11px] font-semibold uppercase tracking-[0.2em] md:px-10 md:text-xs">
+            <span className="whitespace-nowrap px-6 text-[10px] font-medium tracking-[0.18em] md:px-10 md:text-[11px]">
             {message}
           </span>
           <span className="text-[10px] opacity-80">✦</span>
@@ -23,7 +23,7 @@ function TickerRow({ hidden = false }: { hidden?: boolean }) {
 export function NewsTicker() {
   return (
     <div
-      className="ticker relative flex h-9 w-full items-center overflow-hidden bg-[#E5348A] text-white"
+      className="ticker relative flex h-9 w-full mb-8 items-center overflow-hidden"
       role="region"
       aria-label="Announcements"
     >

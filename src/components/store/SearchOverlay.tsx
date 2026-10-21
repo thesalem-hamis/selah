@@ -87,7 +87,7 @@ export function SearchOverlay({ open, onClose }: SearchOverlayProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex flex-col bg-[#FDF0F5]/90 backdrop-blur-xl text-[#1A1A1A] font-['Alumni_Sans',sans-serif]"
+      className="fixed inset-0 z-[100] flex flex-col bg-[#FDF0F5]/90 backdrop-blur-xl text-[#1A1A1A] font-sans"
       role="dialog"
       aria-modal="true"
       aria-label="Search"

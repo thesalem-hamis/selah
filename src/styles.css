@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100..900&display=swap");
 @import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
@@ -19,14 +18,10 @@
  * 2. Register it in @theme inline as --color-<name>: var(--<name>)
  */
 
-
 @theme inline {
-  /* --font-display: "Inter", Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-selah: "Inter", Georgia, serif; */
-  --font-display: "Alumni Sans", sans-serif;
---font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
---font-selah: "Alumni Sans", sans-serif;
+  --font-display: "Poppins", sans-serif;
+  --font-sans: "Poppins", sans-serif;
+  --font-selah: "Poppins", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -34,8 +29,10 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --shadow-soft: 0 1px 2px oklch(0.2 0.015 330 / 0.04), 0 8px 24px -12px oklch(0.2 0.015 330 / 0.14);
-  --shadow-lift: 0 2px 6px oklch(0.2 0.015 330 / 0.06), 0 24px 48px -24px oklch(0.2 0.015 330 / 0.2);
+  --shadow-soft:
+    0 1px 2px oklch(0.2 0.015 330 / 0.04), 0 8px 24px -12px oklch(0.2 0.015 330 / 0.14);
+  --shadow-lift:
+    0 2px 6px oklch(0.2 0.015 330 / 0.06), 0 24px 48px -24px oklch(0.2 0.015 330 / 0.2);
   --shadow-nav: 0 -1px 0 oklch(0.2 0.015 330 / 0.06), 0 -12px 32px -18px oklch(0.2 0.015 330 / 0.2);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
@@ -82,14 +79,22 @@
 :root {
   --radius: 0.75rem;
 
+  /* Selah landing page palette */
+  --selah-ivory: #f7f4ef;
+  --selah-earth: #756354;
+  --selah-charcoal: #292724;
+  --selah-silver: #b9b8b5;
+  --selah-pink: #e5348a;
+
   /* Selah Girl Society - cloud white / pink / sky / chrome palette */
-  --background: oklch(0.997 0.003 20);
+  /* White is the storefront's dominant canvas. */
+  --background: oklch(1 0 0);
   --foreground: oklch(0.2 0.015 330);
-  --surface: oklch(0.997 0.003 20);
+  --surface: oklch(0.92 0.004 255);
   --sand: oklch(0.93 0.035 350);
-  --card: oklch(0.997 0.003 20);
+  --card: oklch(0.97 0.003 255);
   --card-foreground: oklch(0.2 0.015 330);
-  --popover: oklch(0.997 0.003 20);
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2 0.015 330);
   --primary: oklch(0.84 0.08 350);
   --primary-foreground: oklch(0.2 0.015 330);
@@ -105,15 +110,15 @@
   --success-foreground: oklch(0.98 0.012 84);
   --warning: oklch(0.72 0.13 75);
   --warning-foreground: oklch(0.25 0.02 132);
-  --border: oklch(0.83 0.01 285);
-  --input: oklch(0.83 0.01 285);
+  --border: oklch(0.73 0.008 255);
+  --input: oklch(0.73 0.008 255);
   --ring: oklch(0.55 0.11 350);
   --chart-1: oklch(0.55 0.11 350);
   --chart-2: oklch(0.84 0.08 350);
   --chart-3: oklch(0.93 0.03 220);
   --chart-4: oklch(0.83 0.01 285);
   --chart-5: oklch(0.91 0.04 310);
-  --sidebar: oklch(0.997 0.003 20);
+  --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.2 0.015 330);
   --sidebar-primary: oklch(0.55 0.11 350);
   --sidebar-primary-foreground: oklch(0.997 0.003 20);
@@ -182,6 +187,16 @@
   }
 }
 
+/* Shared crisp silver canvas for every storefront route. */
+.storefront-shell {
+  background-color: var(--background);
+  background-image: none;
+}
+
+.storefront-shell > main {
+  background: transparent;
+}
+
 @utility container-page {
   width: 100%;
   margin-inline: auto;
@@ -208,7 +223,13 @@
 }
 
 @utility selah-gradient {
-  background-image: linear-gradient(135deg, oklch(0.997 0.003 20), oklch(0.93 0.035 350), oklch(0.84 0.08 350), oklch(0.93 0.03 220));
+  background-image: linear-gradient(
+    135deg,
+    oklch(0.997 0.003 20),
+    oklch(0.93 0.035 350),
+    oklch(0.84 0.08 350),
+    oklch(0.93 0.03 220)
+  );
 }
 
 @utility no-scrollbar {
@@ -274,7 +295,8 @@
 }
 
 @keyframes pulse-slow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -285,7 +307,8 @@
 }
 
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {

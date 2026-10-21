@@ -19,8 +19,11 @@ import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NewArrivalsRouteImport } from './routes/new-arrivals'
 import { Route as PakistanJourneyRouteImport } from './routes/pakistan-journey'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
@@ -80,6 +83,16 @@ const PakistanJourneyRoute = PakistanJourneyRouteImport.update({
   path: '/pakistan-journey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -88,6 +101,11 @@ const SearchRoute = SearchRouteImport.update({
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WishlistRoute = WishlistRouteImport.update({
@@ -142,8 +160,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/pakistan-journey': typeof PakistanJourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/rewards': typeof RewardsRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/wishlist': typeof WishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/customers': typeof AdminCustomersRoute
@@ -164,8 +185,11 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/pakistan-journey': typeof PakistanJourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/rewards': typeof RewardsRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/wishlist': typeof WishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/customers': typeof AdminCustomersRoute
@@ -187,8 +211,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/new-arrivals': typeof NewArrivalsRoute
   '/pakistan-journey': typeof PakistanJourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/rewards': typeof RewardsRoute
   '/search': typeof SearchRoute
   '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/wishlist': typeof WishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/customers': typeof AdminCustomersRoute
@@ -211,8 +238,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/new-arrivals'
     | '/pakistan-journey'
+    | '/privacy-policy'
+    | '/rewards'
     | '/search'
     | '/shop'
+    | '/support'
     | '/wishlist'
     | '/admin/analytics'
     | '/admin/customers'
@@ -233,8 +263,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/new-arrivals'
     | '/pakistan-journey'
+    | '/privacy-policy'
+    | '/rewards'
     | '/search'
     | '/shop'
+    | '/support'
     | '/wishlist'
     | '/admin/analytics'
     | '/admin/customers'
@@ -255,8 +288,11 @@ export interface FileRouteTypes {
     | '/login'
     | '/new-arrivals'
     | '/pakistan-journey'
+    | '/privacy-policy'
+    | '/rewards'
     | '/search'
     | '/shop'
+    | '/support'
     | '/wishlist'
     | '/admin/analytics'
     | '/admin/customers'
@@ -278,8 +314,11 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   NewArrivalsRoute: typeof NewArrivalsRoute
   PakistanJourneyRoute: typeof PakistanJourneyRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RewardsRoute: typeof RewardsRoute
   SearchRoute: typeof SearchRoute
   ShopRoute: typeof ShopRoute
+  SupportRoute: typeof SupportRoute
   WishlistRoute: typeof WishlistRoute
   CategorySlugRoute: typeof CategorySlugRoute
   OrderIdRoute: typeof OrderIdRoute
@@ -358,6 +397,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PakistanJourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -370,6 +423,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wishlist': {
@@ -458,8 +518,11 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   NewArrivalsRoute: NewArrivalsRoute,
   PakistanJourneyRoute: PakistanJourneyRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RewardsRoute: RewardsRoute,
   SearchRoute: SearchRoute,
   ShopRoute: ShopRoute,
+  SupportRoute: SupportRoute,
   WishlistRoute: WishlistRoute,
   CategorySlugRoute: CategorySlugRoute,
   OrderIdRoute: OrderIdRoute,

@@ -14,16 +14,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <article className={cn("group flex flex-col gap-3", className)}>
       {/* IMAGE CONTAINER WITH LIGHT PINK BACKGROUND */}
       <div className="relative overflow-hidden bg-[#FDF0F5] w-full p-3 md:p-6 aspect-[4/5] flex items-center justify-center">
-        <Link
-          to="/product/$slug"
-          params={{ slug: product.slug }}
-          className="block w-full h-full"
-        >
+        <Link to="/product/$slug" params={{ slug: product.slug }} className="block w-full h-full">
           <img
             src={product.images[0]}
             alt={product.name}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cove transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
 
@@ -43,7 +39,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       </div>
 
       {/* TEXT CONTENT - ALIGNED LEFT */}
-      <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-['Alumni_Sans',sans-serif]">
+      <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-sans">
         <Link
           to="/product/$slug"
           params={{ slug: product.slug }}

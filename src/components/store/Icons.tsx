@@ -21,8 +21,8 @@ function Svg({ children, ...props }: IconProps) {
 }
 
 export const MenuIcon = (p: IconProps) => (
-  <Svg {...p}>
-    <path d="M5 9h14M5 15h9" />
+  <Svg {...p} strokeWidth={1.8}>
+    <path d="M4 6.5h16M4 12h16M4 17.5h16" />
   </Svg>
 );
 

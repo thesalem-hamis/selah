@@ -115,7 +115,7 @@ export function CheckoutPage() {
           </h1>
           <Link
             to="/shop"
-            className="inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-8 text-sm font-light text-white transition-all hover:bg-black/80 font-['Alumni_Sans',sans-serif] tracking-widest uppercase"
+            className="inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-8 text-sm font-light text-white transition-all hover:bg-black/80 font-sans tracking-widest uppercase"
           >
             Shop the Collection
           </Link>
