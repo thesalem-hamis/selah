@@ -30,6 +30,6 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 3000,
     strictPort: true,
-    allowedHosts: ["gravity-numerical-lamp-athletes.trycloudflare.com"],
+    allowedHosts: ["forecasts-magazine-lou-assumed.trycloudflare.com"],
   },
 });

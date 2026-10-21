@@ -1061,13 +1061,13 @@ main:has(.home-shipping-note) {
   line-height: 0.68;
   text-align: center;
   text-decoration: none;
-  padding-bottom: 68px;
+  padding-bottom: 88px;
 }
 
 .home-footer-wordmark::after {
   position: absolute;
-  top: 8px;
-  right: clamp(10px, 4vw, 48px);
+  bottom: 18px;
+  right: clamp(70px, 4vw, 48px);
   color: var(--selah-pink);
   font-family: "Monsieur La Doulaise", cursive;
   font-size: clamp(80px, 4vw, 60px);
@@ -1202,9 +1202,9 @@ footer {
   }
   .home-footer-wordmark::after {
     position: absolute;
-    top: 0vw;
+    bottom: 18px!important;
     z-index: 5000;
-    right: 1vw;
+    right: 6vw;
     /* font-size: 10.2vw; */
   }
 }
