@@ -32,6 +32,7 @@ export interface CheckoutPayload {
   items: CartItem[];
   subtotal: number;
   discount: number;
+  couponCode?: string;
   shipping: number;
   total: number;
 }
@@ -72,15 +73,18 @@ export const orderService = {
   async create(payload: CheckoutPayload) {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");
-    const id = `SLH-${Math.floor(10500 + Math.random() * 400)}`;
-    const reference = `PSK_${id.replace("SLH-", "")}`;
+    const token = crypto.randomUUID();
+    const id = `SLH-${token}`;
+    const reference = `SLH-${token.replaceAll("-", "").toUpperCase()}`;
     const order = {
       id,
       reference,
       customer_id: payload.customer.id ?? "cus-001",
       customer_name: payload.customer.name,
       customer_email: payload.customer.email,
+      coupon_code: payload.couponCode ?? null,
       items: payload.items.map((item) => ({
+        product_id: item.productId,
         name: item.name,
         slug: item.slug,
         image: item.image,
@@ -93,8 +97,8 @@ export const orderService = {
       discount: payload.discount,
       shipping: payload.shipping,
       total: payload.total,
-      status: "confirmed" as OrderStatus,
-      payment_status: "paid" as PaymentStatus,
+      status: "pending" as OrderStatus,
+      payment_status: "unpaid" as PaymentStatus,
       payment_method: payload.paymentMethod,
       delivery_method: payload.deliveryMethod,
       address: payload.address,

@@ -1,16 +1,32 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Check } from "lucide-react";
+import { useState } from "react";
+import { Check, CreditCard } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { orderService } from "@/services/orderService";
+import { paymentService } from "@/services/paymentService";
 import { formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/order/$id")({ component: OrderPage });
 
 function OrderPage() {
   const { id } = Route.useParams();
+  const [paymentBusy, setPaymentBusy] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
   const query = useQuery({ queryKey: ["order", id], queryFn: () => orderService.byId(id) });
   const order = query.data;
+
+  const retryPayment = async () => {
+    setPaymentBusy(true);
+    setPaymentError("");
+    try {
+      const payment = await paymentService.initialise(id);
+      window.location.assign(payment.authorizationUrl);
+    } catch (error) {
+      setPaymentError(error instanceof Error ? error.message : "Payment could not be started.");
+      setPaymentBusy(false);
+    }
+  };
 
   return (
     <StoreLayout>
@@ -20,7 +36,7 @@ function OrderPage() {
             Thank you for your order.
           </h1>
           <p className="text-[13px] text-[#444444]">
-            Your order has been confirmed and is being processed.
+            {order?.paymentStatus === "paid" ? "Your payment is confirmed and your order is being processed." : "Your order is saved. Payment confirmation is still pending."}
           </p>
           {order && (
             <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]">
@@ -46,7 +62,21 @@ function OrderPage() {
                 <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] mb-1">Status</p>
                 <p className="text-[13px] text-[#1A1A1A] capitalize">{order.status}</p>
               </div>
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] mb-1">Payment</p>
+                <p className="text-[13px] text-[#1A1A1A] capitalize">{order.paymentStatus}</p>
+              </div>
             </div>
+
+            {order.paymentStatus === "unpaid" && order.paymentMethod.toLowerCase().includes("flutterwave") ? (
+              <div className="mb-8 border border-[#E5E5E5] bg-white p-5">
+                <p className="text-sm">Complete payment to confirm this order.</p>
+                <button type="button" onClick={() => void retryPayment()} disabled={paymentBusy} className="mt-4 inline-flex h-11 items-center justify-center gap-2 bg-[#1A1A1A] px-5 text-[11px] font-bold uppercase tracking-[0.1em] text-white disabled:opacity-50">
+                  <CreditCard className="size-4" /> {paymentBusy ? "Opening payment..." : "Pay with Flutterwave"}
+                </button>
+                {paymentError ? <p role="alert" className="mt-3 text-sm text-red-700">{paymentError}</p> : null}
+              </div>
+            ) : null}
 
             <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] mb-6">
               Order Details

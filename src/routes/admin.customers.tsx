@@ -35,6 +35,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InstagramReviewPanel } from "@/components/store/InstagramReviewPanel";
 import type { Customer } from "@/types";
 
 export const Route = createFileRoute("/admin/customers")({ component: CustomersAdmin });
@@ -217,6 +218,8 @@ function CustomersAdmin() {
           </motion.div>
         ))}
       </motion.div>
+
+      <InstagramReviewPanel />
 
       {/* Toolbar */}
       <motion.div

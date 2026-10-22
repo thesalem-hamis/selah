@@ -63,6 +63,8 @@ export function RealtimeSync() {
         }
 
         if (table === "orders") {
+          const mappedOrder = mapSupabaseOrder(newRow);
+          queryClient.setQueryData(["order", recordId], mappedOrder);
           queryClient.setQueriesData<Record<string, unknown>[]>(
             { queryKey: ["admin-orders"] },
             (prev) => {
@@ -70,7 +72,7 @@ export function RealtimeSync() {
               const index = list.findIndex((item) => item.id === recordId);
               if (index >= 0) {
                 const updated = [...list];
-                updated[index] = mapSupabaseOrder(newRow);
+                updated[index] = mappedOrder;
                 return updated;
               }
               return list;
@@ -83,7 +85,7 @@ export function RealtimeSync() {
               const index = list.findIndex((item) => item.id === recordId);
               if (index >= 0) {
                 const updated = [...list];
-                updated[index] = mapSupabaseOrder(newRow);
+                updated[index] = mappedOrder;
                 return updated;
               }
               return list;

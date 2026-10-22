@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
-import type { OrderStatus } from "@/types";
+import type { OrderStatus, PaymentStatus } from "@/types";
 import { formatPrice } from "@/lib/format";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
@@ -46,6 +46,7 @@ function OrdersAdmin() {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [paymentMessage, setPaymentMessage] = useState("");
   const itemsPerPage = 10;
 
   const query = useQuery({ 
@@ -118,6 +119,20 @@ function OrdersAdmin() {
       await client.invalidateQueries({ queryKey: ["admin-orders"] });
     } catch (error) {
       console.error('Failed to update order status:', error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handlePaymentUpdate = async (orderId: string, paymentStatus: PaymentStatus) => {
+    setIsUpdating(true);
+    setPaymentMessage("");
+    try {
+      await orderService.updatePayment(orderId, paymentStatus);
+      await client.invalidateQueries({ queryKey: ["admin-orders"] });
+      setPaymentMessage("Refund recorded. Points from this order have been reversed.");
+    } catch (error) {
+      setPaymentMessage(error instanceof Error ? error.message : "The refund could not be recorded.");
     } finally {
       setIsUpdating(false);
     }
@@ -555,6 +570,27 @@ function OrdersAdmin() {
               </div>
               {/* Detailed order information */}
               {(() => { const order = query.data?.find((item) => item.id === selectedOrder); return order ? <div className="mt-8 grid gap-6 text-sm sm:grid-cols-2"><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Customer</p><p className="mt-2 text-[14px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{order.customerName}</p><p className="mt-1 text-[12px] text-[#777777]">{order.customerEmail}</p></div><div className="p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Total</p><p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{formatPrice(order.total)}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">{order.paymentStatus}</p></div><div className="sm:col-span-2 p-4 border border-[#E5E5E5]"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Delivery address</p><p className="mt-2 text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A]">{order.address.street}, {order.address.city}, {order.address.state}</p></div><div className="sm:col-span-2"><p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777] mb-4">Items</p><div className="space-y-3">{order.items.map((item) => <div key={`${item.slug}-${item.size}`} className="flex justify-between border border-[#E5E5E5] p-4"><span className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{item.name} × {item.quantity}</span><span className="text-[12px] font-bold text-[#1A1A1A]">{formatPrice(item.price * item.quantity)}</span></div>)}</div></div></div> : null; })()}
+              {query.data?.find((item) => item.id === selectedOrder)?.paymentStatus === "paid" ? (
+                <div className="mt-6 border-t border-[#E5E5E5] pt-5">
+                  <p className="text-xs text-[#777777]">Record this after the customer’s money has been refunded.</p>
+                  <button
+                    type="button"
+                    disabled={isUpdating}
+                    onClick={() => {
+                      if (window.confirm("Confirm the customer has received their refund? The points from this order will be removed.")) {
+                        void handlePaymentUpdate(selectedOrder, "refunded");
+                      }
+                    }}
+                    className="mt-3 h-10 border border-red-300 px-4 text-[10px] font-bold uppercase tracking-[0.1em] text-red-700 disabled:opacity-50"
+                  >
+                    Mark refund complete
+                  </button>
+                  {paymentMessage ? <p role="status" className="mt-3 text-sm">{paymentMessage}</p> : null}
+                </div>
+              ) : null}
+              {paymentMessage && query.data?.find((item) => item.id === selectedOrder)?.paymentStatus !== "paid" ? (
+                <p role="status" className="mt-4 text-sm">{paymentMessage}</p>
+              ) : null}
             </motion.div>
           </motion.div>
         )}

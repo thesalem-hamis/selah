@@ -133,7 +133,7 @@ export function CheckoutPage() {
       ? 7000
       : 9000;
 
-  const finalTotal = cart.total + shippingCost;
+  const finalTotal = Math.max(0, cart.subtotal - cart.discount) + shippingCost;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -175,12 +175,15 @@ export function CheckoutPage() {
         items: cart.items,
         subtotal: cart.subtotal,
         discount: cart.discount,
+        couponCode: cart.coupon?.code,
         shipping: shippingCost,
         total: finalTotal,
       });
 
       if (paymentMethod === "flutterwave") {
-        await paymentService.initialise(finalTotal, formData.email);
+        const payment = await paymentService.initialise(order.id);
+        window.location.assign(payment.authorizationUrl);
+        return;
       }
 
       await customerService.recordOrder({
@@ -195,7 +198,9 @@ export function CheckoutPage() {
       await navigate({ to: "/order/$id", params: { id: order.id } });
     } catch (error) {
       console.error("Checkout error:", error);
-      setErrors({ submit: "Failed to process order. Please try again." });
+      setErrors({
+        submit: error instanceof Error ? error.message : "Failed to process order. Please try again.",
+      });
     } finally {
       setBusy(false);
     }

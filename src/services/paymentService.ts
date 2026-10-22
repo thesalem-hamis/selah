@@ -1,32 +1,35 @@
 import type { Coupon } from "@/types";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { coupons as seed } from "@/data/store";
+import { supabase } from "@/lib/supabase";
 import { ApiError, request } from "./http";
 
 let coupons: Coupon[] = [...seed];
 
 export interface PaymentIntent {
+  authorizationUrl: string;
   reference: string;
-  status: "success" | "failed";
-  provider: "paystack";
-  amount: number;
+  provider: "flutterwave";
 }
 
-/**
- * Payment is intentionally isolated here. Connecting Paystack later means
- * replacing `initialise` with a call that returns an authorization URL and
- * verifying the reference server-side - no UI changes required.
- */
 export const paymentService = {
-  async initialise(amount: number, email: string): Promise<PaymentIntent> {
-    return request<PaymentIntent>("/payments/initialise", () => ({
-      reference: `PSK_${Date.now().toString().slice(-8)}`,
-      status: "success",
-      provider: "paystack",
-      amount,
-    }), {
-      method: "POST",
-      body: JSON.stringify({ amount, email }),
+  async initialise(orderId: string): Promise<PaymentIntent> {
+    const client = supabase;
+    if (!client) throw new Error("Supabase is not configured");
+    const { data, error } = await client.functions.invoke<PaymentIntent>("flutterwave-payments", {
+      body: { orderId },
     });
+    if (error) {
+      if (error instanceof FunctionsHttpError) {
+        const payload = await error.context.clone().json().catch(() => null) as { error?: string } | null;
+        throw new ApiError(payload?.error ?? error.message, error.context.status);
+      }
+      throw new ApiError(error.message, 400);
+    }
+    if (!data?.authorizationUrl || !data.reference) {
+      throw new ApiError("Flutterwave did not return a payment link", 502);
+    }
+    return data;
   },
   listCoupons() {
     return request<Coupon[]>("/admin/coupons", () => coupons);

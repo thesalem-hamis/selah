@@ -180,13 +180,13 @@ alter table public.orders enable row level security;
 drop policy if exists "Users can view own orders" on public.orders;
 create policy "Users can view own orders"
   on public.orders for select using (
-    auth.uid() in ( select id from public.profiles where email = orders.customer_email )
+    auth.uid()::text = orders.customer_id
     or exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' )
   );
 
 drop policy if exists "Authenticated users can insert orders" on public.orders;
 create policy "Authenticated users can insert orders"
-  on public.orders for insert with check ( auth.uid() is not null );
+  on public.orders for insert with check ( auth.uid()::text = customer_id );
 
 drop policy if exists "Admins can update orders" on public.orders;
 create policy "Admins can update orders"
@@ -343,6 +343,147 @@ from auth.users au
 left join public.profiles p on p.id = au.id
 where p.id is null
 on conflict (id) do nothing;
+
+-- ============================================================
+-- DATE OF BIRTH on profiles (for birthday rewards)
+-- ============================================================
+alter table public.profiles add column if not exists date_of_birth timestamptz;
+
+-- ============================================================
+-- REWARDS / LOYALTY POINTS
+-- ============================================================
+create table if not exists public.customer_reward_accounts (
+  id text primary key default gen_random_uuid()::text,
+  customer_id uuid unique not null references public.profiles(id) on delete cascade,
+  points_balance integer not null default 0,
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null
+);
+
+alter table public.customer_reward_accounts enable row level security;
+
+drop policy if exists "Customers view own reward account" on public.customer_reward_accounts;
+create policy "Customers view own reward account"
+  on public.customer_reward_accounts for select
+  using ( auth.uid() = customer_id );
+
+drop policy if exists "Admins manage reward accounts" on public.customer_reward_accounts;
+create policy "Admins manage reward accounts"
+  on public.customer_reward_accounts for all
+  using ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) )
+  with check ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) );
+
+create table if not exists public.reward_transactions (
+  id text primary key default gen_random_uuid()::text,
+  customer_id uuid not null references public.profiles(id) on delete cascade,
+  order_id text,
+  source_key text,
+  type text not null check (type in ('earn', 'redeem', 'refund', 'adjustment')),
+  points integer not null,
+  description text not null,
+  created_at timestamptz default now() not null
+);
+
+alter table public.reward_transactions enable row level security;
+
+drop policy if exists "Customers view own reward transactions" on public.reward_transactions;
+create policy "Customers view own reward transactions"
+  on public.reward_transactions for select
+  using ( auth.uid() = customer_id );
+
+drop policy if exists "Admins manage reward transactions" on public.reward_transactions;
+create policy "Admins manage reward transactions"
+  on public.reward_transactions for all
+  using ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) )
+  with check ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) );
+
+create table if not exists public.instagram_posts (
+  id text primary key default gen_random_uuid()::text,
+  customer_id uuid not null references public.profiles(id) on delete cascade,
+  image_url text not null,
+  preaching boolean not null default false,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  points integer not null default 0,
+  reviewed_by uuid references public.profiles(id),
+  reviewed_at timestamptz,
+  created_at timestamptz default now() not null
+);
+
+alter table public.instagram_posts enable row level security;
+
+drop policy if exists "Customers view own instagram posts" on public.instagram_posts;
+create policy "Customers view own instagram posts"
+  on public.instagram_posts for select
+  using ( auth.uid() = customer_id );
+
+drop policy if exists "Customers insert own instagram posts" on public.instagram_posts;
+create policy "Customers insert own instagram posts"
+  on public.instagram_posts for insert
+  with check ( auth.uid() = customer_id );
+
+drop policy if exists "Admins manage instagram posts" on public.instagram_posts;
+create policy "Admins manage instagram posts"
+  on public.instagram_posts for all
+  using ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) )
+  with check ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) );
+
+create table if not exists public.reward_redemptions (
+  id text primary key default gen_random_uuid()::text,
+  customer_id uuid not null references public.profiles(id) on delete cascade,
+  reward text not null check (reward in ('face_mask', 'spa_day')),
+  points_cost integer not null,
+  source_key text,
+  status text not null default 'pending' check (status in ('pending', 'fulfilled', 'cancelled')),
+  created_at timestamptz default now() not null,
+  fulfilled_at timestamptz
+);
+
+alter table public.reward_redemptions enable row level security;
+
+drop policy if exists "Customers view own reward redemptions" on public.reward_redemptions;
+create policy "Customers view own reward redemptions"
+  on public.reward_redemptions for select
+  using ( auth.uid() = customer_id );
+
+drop policy if exists "Customers insert own reward redemptions" on public.reward_redemptions;
+create policy "Customers insert own reward redemptions"
+  on public.reward_redemptions for insert
+  with check ( auth.uid() = customer_id );
+
+drop policy if exists "Admins manage reward redemptions" on public.reward_redemptions;
+create policy "Admins manage reward redemptions"
+  on public.reward_redemptions for all
+  using ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) )
+  with check ( exists ( select 1 from public.profiles where id = auth.uid() and role = 'admin' ) );
+
+-- Add rewards tables to realtime publication
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'customer_reward_accounts'
+  ) then
+    alter publication supabase_realtime add table public.customer_reward_accounts;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'reward_transactions'
+  ) then
+    alter publication supabase_realtime add table public.reward_transactions;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'instagram_posts'
+  ) then
+    alter publication supabase_realtime add table public.instagram_posts;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and tablename = 'reward_redemptions'
+  ) then
+    alter publication supabase_realtime add table public.reward_redemptions;
+  end if;
+end $$;
 
 -- ============================================================
 -- DASHBOARD METRICS (pre-calculated stats for admin dashboard)

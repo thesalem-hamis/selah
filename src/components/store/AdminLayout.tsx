@@ -8,6 +8,7 @@ import {
   LogOut,
   Package,
   Users,
+  Gift,
   ChevronRight,
   Settings,
   Bell,
@@ -37,6 +38,7 @@ const links = [
   { to: "/admin/products", label: "Products", icon: Boxes, description: "Manage inventory" },
   { to: "/admin/orders", label: "Orders", icon: ClipboardList, description: "Track orders" },
   { to: "/admin/customers", label: "Customers", icon: Users, description: "Customer list" },
+  { to: "/admin/rewards", label: "Rewards", icon: Gift, description: "Review customer rewards" },
   {
     to: "/admin/analytics",
     label: "Analytics",
