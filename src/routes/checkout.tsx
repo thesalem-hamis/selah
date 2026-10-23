@@ -577,7 +577,7 @@ export function CheckoutPage() {
                           To make payment using Espees, send us a direct message to receive our official account wallet address.
                         </p>
                         <a
-                          href="https://wa.me/2340000000000?text=Hello%20Selah%20Girl%20Society,%20I%20would%20like%20to%20get%20your%20Espees%20account%20details%20for%20my%20checkout"
+                          href="https://wa.me/447835941243?text=Hello%20Selah%20Girl%20Society,%20I%20would%20like%20to%20get%20your%20Espees%20account%20details%20for%20my%20checkout"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-xs font-semibold text-purple-700 hover:text-purple-900 underline pt-1"
