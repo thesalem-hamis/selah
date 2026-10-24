@@ -145,7 +145,8 @@
 
 .about-hero__shade {
   z-index: 2;
-  background: linear-gradient(90deg, rgb(24 21 19 / 58%) 0%, rgb(24 21 19 / 20%) 52%, transparent 100%),
+  background:
+    linear-gradient(90deg, rgb(24 21 19 / 58%) 0%, rgb(24 21 19 / 20%) 52%, transparent 100%),
     linear-gradient(0deg, rgb(24 21 19 / 26%), transparent 42%);
 }
 
@@ -204,7 +205,10 @@
   line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
 .about-pill:hover {
@@ -446,13 +450,23 @@
 }
 
 @keyframes about-hero-drift {
-  from { transform: scale(1); }
-  to { transform: scale(1.055); }
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.055);
+  }
 }
 
 @keyframes about-copy-rise {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 760px) {
@@ -500,7 +514,12 @@
   }
 
   .about-hero__shade {
-    background: linear-gradient(0deg, rgb(24 21 19 / 68%) 0%, rgb(24 21 19 / 20%) 60%, transparent 100%);
+    background: linear-gradient(
+      0deg,
+      rgb(24 21 19 / 68%) 0%,
+      rgb(24 21 19 / 20%) 60%,
+      transparent 100%
+    );
   }
 
   .about-hero__copy {
@@ -669,8 +688,14 @@
     radial-gradient(ellipse 50% 30% at 103% 78%, rgb(158 207 231 / 48%), transparent 82%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.16' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, 172px 172px;
-  background-position: center, center, 24px 18px;
+  background-size:
+    auto,
+    auto,
+    172px 172px;
+  background-position:
+    center,
+    center,
+    24px 18px;
 }
 
 .about-founders__text,
@@ -683,8 +708,18 @@
     linear-gradient(135deg, #dceef7 0%, #fff2f8 54%, #e5f3f8 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.18' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
-  background-size: auto, auto, auto, cover, 160px 160px;
-  background-position: center, center, center, center, right 18% top 12%;
+  background-size:
+    auto,
+    auto,
+    auto,
+    cover,
+    160px 160px;
+  background-position:
+    center,
+    center,
+    center,
+    center,
+    right 18% top 12%;
 }
 
 /* Airy cloud layers and transparent heart details around the About content. */
@@ -694,8 +729,14 @@
     radial-gradient(ellipse 48% 30% at 100% 78%, rgb(171 215 235 / 36%), transparent 82%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, repeat;
-  background-size: auto, auto, 190px 190px;
-  background-position: center, center, 24px 32px;
+  background-size:
+    auto,
+    auto,
+    190px 190px;
+  background-position:
+    center,
+    center,
+    24px 32px;
 }
 
 .about-founders__text,
@@ -708,8 +749,18 @@
     linear-gradient(135deg, #eaf5fa 0%, #fff8fb 52%, #eff7fb 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.13' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
-  background-size: auto, auto, auto, cover, 176px 176px;
-  background-position: center, center, center, center, right 18% top 12%;
+  background-size:
+    auto,
+    auto,
+    auto,
+    cover,
+    176px 176px;
+  background-position:
+    center,
+    center,
+    center,
+    center,
+    right 18% top 12%;
 }
 
 .about-founders__text {
@@ -732,7 +783,7 @@
 
 .about-founders__text > p:not(.about-eyebrow, .about-founders__signoff) {
   margin-bottom: 0.75rem;
-  font-size: 1.40rem;
+  font-size: 1.4rem;
   line-height: 1.6;
 }
 
@@ -758,32 +809,200 @@
 .about-founders__text,
 .about-values {
   background-image:
-    linear-gradient(135deg, rgb(247 244 239 / 64%), rgb(255 247 251 / 54%)),
-    url("/cloud.png"),
+    linear-gradient(135deg, rgb(247 244 239 / 64%), rgb(255 247 251 / 54%)), url("/cloud.png"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, repeat;
-  background-size: cover, cover, 176px 176px;
-  background-position: center, 58% 42%, right 18% top 12%;
+  background-size:
+    cover,
+    cover,
+    176px 176px;
+  background-position:
+    center,
+    58% 42%,
+    right 18% top 12%;
 }
 
 /* Let a soft sky wash sit behind the About page content. */
 .about-page {
   background-color: transparent;
   background-image:
-    linear-gradient(180deg, rgb(255 255 255 / 40%), rgb(255 255 255 / 0%)),
-    url("/sky.PNG");
+    linear-gradient(180deg, rgb(255 255 255 / 40%), rgb(255 255 255 / 0%)), url("/sky.PNG");
   background-repeat: no-repeat, no-repeat;
-  background-size: 100% 250px, 100% 250px;
-  background-position: center top, center top;
+  background-size:
+    100% 250px,
+    100% 250px;
+  background-position:
+    center top,
+    center top;
 }
 
 .about-values {
   background-color: white;
   background-image:
-    linear-gradient(135deg, rgb(255 255 255 / 68%), rgb(255 247 251 / 58%)),
-    url("/gradient.PNG"),
+    linear-gradient(135deg, rgb(255 255 255 / 68%), rgb(255 247 251 / 58%)), url("/gradient.PNG"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath d='M60 99C49 88 21 68 21 45c0-24 29-31 39-7 10-24 39-17 39 7 0 23-28 43-39 54Z' fill='none' stroke='%23e5348a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat, repeat;
-  background-size: cover, cover, 176px 176px;
-  background-position: center, center, right 18% top 12%;
+  background-size:
+    cover,
+    cover,
+    176px 176px;
+  background-position:
+    center,
+    center,
+    right 18% top 12%;
+}
+
+/* Editorial introduction and founder's letter. */
+.about-intro {
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+  padding: 0;
+  background: #fceef4;
+  color: var(--about-ink);
+  text-align: left;
+  align-items: stretch;
+}
+.about-intro__content {
+  align-self: center;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+.about-intro h1 {
+  margin: 1.5rem 0;
+  color: var(--about-ink);
+  font-size: clamp(3.25rem, 5.8vw, 6rem);
+  letter-spacing: -0.065em;
+  line-height: 1.02;
+}
+.about-intro__description {
+  max-width: 340px;
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: #66555f;
+}
+.about-intro__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #b15c83;
+  font-size: 0.75rem;
+}
+.about-intro__visual {
+  position: relative;
+  width: 100%;
+  min-height: 620px;
+  overflow: hidden;
+}
+.about-intro__image {
+  animation: none;
+  object-position: center 35%;
+}
+.about-intro__caption {
+  color: white;
+  background: #29272480;
+  padding: 0.7rem 1rem;
+  border-radius: 99px;
+  backdrop-filter: blur(12px);
+}
+.about-intro .about-intro__ornament {
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  right: 0;
+  bottom: 1.75rem;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+.about-founders {
+  max-width: 1240px;
+  min-height: 0;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(2rem, 7vw, 7rem);
+  padding: 0 clamp(0.75rem, 3vw, 3rem);
+  margin: 0 auto;
+  scroll-margin-top: 110px;
+  align-items: center;
+}
+.about-founders__text {
+  background: none;
+  padding: 1.5rem 0;
+  max-width: 510px;
+  border-radius: 0;
+}
+.about-founders__text h2 {
+  font-size: clamp(2.75rem, 4.4vw, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+  margin: 1.25rem 0 1.75rem;
+}
+.about-founders__text > p:not(.about-eyebrow, .about-founders__signoff) {
+  font-size: 0.9rem;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+  color: #665d59;
+}
+.about-founders__signoff {
+  border-left: 2px solid var(--selah-pink);
+  padding-left: 1.1rem;
+  margin: 1rem 0 2rem;
+  font-size: 1.15rem;
+  color: #a82b68;
+}
+.about-founders__portrait {
+  margin: 0;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 10rem 10rem 1rem 1rem;
+}
+.about-photo-note {
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  text-align: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.03em;
+}
+.about-founders .about-pill {
+  color: white;
+}
+@media (max-width: 760px) {
+  .about-intro {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 0;
+  }
+  .about-intro__content {
+    padding: 3rem 1.5rem;
+  }
+  .about-intro h1 {
+    font-size: clamp(3rem, 11vw, 4.5rem);
+  }
+  .about-intro__visual {
+    min-height: 0;
+    height: 105vw;
+    max-height: 560px;
+  }
+  .about-intro .about-intro__ornament {
+    width: 65px;
+    height: 65px;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+  .about-founders {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+    margin: 0;
+  }
+  .about-founders__text {
+    padding: 0;
+  }
+  .about-founders__portrait {
+    height: auto;
+    width: 100%;
+    max-width: 500px;
+    justify-self: center;
+  }
 }

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
 import { ChromeOrnament } from "@/components/store/ChromeOrnament";
@@ -22,22 +22,22 @@ export const Route = createFileRoute("/")({
 
 const collections = [
   {
-    eyebrow: "the everyday edit",
-    title: "white baby tees",
+    eyebrow: "Core basics // the everyday edit",
+    title: "The White Baby Tees",
     description: "A little reminder of what matters, made for every day.",
     image: "/selah15.png",
+    imageAlt: "Selah Girl Society white baby tee outside a fruit shop",
     href: "/shop?collection=white-baby-tees",
-    className: "home-collection-tees",
-    action: "shop the tees",
+    action: "Shop the tees",
   },
   {
-    eyebrow: "Romans 8:28 · limited edition",
-    title: "the 828 collection",
+    eyebrow: "limited edition // Romans 8:28",
+    title: "The 828 Collection Drop",
     description: "Wear the promise. A considered collaboration with Saint Angelo.",
-    image: "/828.png",
+    image: "/828girls.png",
+    imageAlt: "Selah Girl Society café lookbook",
     href: "/shop?collection=828-series",
-    className: "home-collection-828",
-    action: "discover the drop",
+    action: "Discover the drop",
   },
 ];
 
@@ -72,7 +72,10 @@ function HomeHero() {
         {/* <p>Wear the promise. Faith and fashion, beautifully aligned.</p> */}
         <Link to="/shop" className="home-metal-button">
           shop Selah
-          <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
+          <ChromeOrnament
+            variant="star"
+            className="chrome-button-mark chrome-button-mark--top-right"
+          />
         </Link>
       </div>
       <div className="home-hero-controls" aria-label="Hero slides">
@@ -196,38 +199,22 @@ function Home() {
       <AnnouncementSlider />
       <HomeHero />
 
-      <section id="collections" className="home-collections">
-        <ChromeOrnament variant="heart" className="chrome-ornament--collections-drift" />
-        <div className="home-section-heading ">
-          <p className="home-kicker text-2xl ">made for the set-apart girl</p>
-          <h2>pause, reflect, wear.</h2>
-          {/* <p className="text-xs ">
-            your purchase has purpose. A percentage of every sale goes to Inner City Mission:
-            Freedom Mission.
-          </p> */}
-        </div>
-        <div className="home-collection-grid">
+      <section
+        id="collections"
+        className="home-collections collection-feature"
+        aria-label="Shop the Selah collections"
+      >
+        <div className="collection-feature__grid">
           {collections.map((item) => (
-            <article
-              key={item.title}
-              className={`home-collection-card shadow-sm ${item.className}`}
-            >
-              <img src={item.image} alt="Selah Girl Society collection lookbook" />
-              <div className="home-collection-shade" />
-              <div className="home-collection-copy">
-                <span className="home-kicker">{item.eyebrow}</span>
-                <h3>{item.title}</h3>
+            <article key={item.title} className="collection-feature__panel">
+              <img src={item.image} alt={item.imageAlt} loading="lazy" decoding="async" />
+              <div className="collection-feature__shade" />
+              <div className="collection-feature__copy">
+                <span className="collection-feature__eyebrow">{item.eyebrow}</span>
+                <h2>{item.title}</h2>
                 <p>{item.description}</p>
-                <Link to={item.href} className="home-metal-button">
-                  {item.action} <ArrowUpRight aria-hidden="true" className="inline size-4" />
-                  <ChromeOrnament
-                    variant={item.title === "white baby tees" ? "star" : "heart"}
-                    className={
-                      item.title === "white baby tees"
-                        ? "chrome-button-mark chrome-button-mark--bottom-left"
-                        : "chrome-button-mark chrome-button-mark--top-left"
-                    }
-                  />
+                <Link to={item.href} className="collection-feature__link">
+                  {item.action} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </div>
             </article>
@@ -235,7 +222,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="home-editorial-feature">
+      {/* <section className="home-editorial-feature">
         <ChromeOrnament variant="heart" className="chrome-ornament--editorial" />
         <div className="home-editorial-copy">
           <ChromeOrnament variant="star" className="chrome-ornament--editorial-tiny" />
@@ -252,7 +239,7 @@ function Home() {
         <div className="home-editorial-image">
           <img src="/828girls.png" alt="The 828 Edition campaign" />
         </div>
-      </section>
+      </section> */}
 
       <HomeStories />
     </StoreLayout>
