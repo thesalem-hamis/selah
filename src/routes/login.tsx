@@ -4,6 +4,7 @@ import { ArrowLeft, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
+import "@/styles/login.css";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
@@ -12,7 +13,8 @@ type AuthMode = "login" | "register";
 type RegisterStep = "form" | "verify";
 
 function LoginPage() {
-  const { user, login, startRegistration, verifyRegistrationOtp, resendRegistrationOtp, ready } = useAuth();
+  const { user, login, startRegistration, verifyRegistrationOtp, resendRegistrationOtp, ready } =
+    useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>("login");
   const [error, setError] = useState("");
@@ -118,44 +120,37 @@ function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen bg-white">
-      <div className="mx-auto grid min-h-screen w-full lg:grid-cols-2">
-        {/* Left Side - Editorial */}
-        <section className="hidden flex-col justify-between bg-[#f4f4f4] p-12 lg:flex xl:p-20">
-          <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
-            <img
-                src="/selah-girls-logo.png"
-                alt="Selah Girl Society"
-                className={cn(
-                  "absolute h-16 w-auto md:h-24 object-contain transition-opacity duration-300"
-                )}
-              />
+    <main className="auth-page">
+      <div className="auth-layout">
+        <section className="auth-editorial" aria-label="Selah Girl Society">
+          <img
+            className="auth-editorial__image"
+            src="/selahmain.jpeg"
+            alt="Selah Girl Society campaign"
+          />
+          <Link to="/" className="auth-brand">
+            <img src="/selah-girls-logo.png" alt="Selah Girl Society home" />
           </Link>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-xl"
-          >
-            <p className="mb-8 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
-              Selah Girl Society
-            </p>
-            <h1 className="font-light text-6xl leading-[1.1] xl:text-7xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
-              Pause.<br />
-              Reflect.<br />
-              Declare.
+          <div className="auth-editorial__copy">
+            <span>made for the set-apart girl</span>
+            <h1>
+              your faith.
+              <br />
+              your style.
+              <br />
+              your society.
             </h1>
-            <p className="mt-8 max-w-md text-[14px] leading-relaxed text-[#444444]">
-              Faith-led fashion and Christian basics for women choosing to live intentionally,
-              boldly, and unapologetically for Jesus.
+            <p>
+              A little pause. A deeper purpose.
+              <br />
+              Wear what you believe.
             </p>
-          </motion.div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">Wear what you believe.</p>
+          </div>
+          <span className="auth-editorial__footer">Faith & fashion, beautifully aligned.</span>
         </section>
 
         {/* Right Side - Auth Forms */}
-        <section className="relative flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-20 xl:px-32">
+        <section className="auth-form-panel">
           <Link
             to="/"
             className="absolute left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
@@ -163,16 +158,18 @@ function LoginPage() {
             <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO STORE
           </Link>
 
-          <div className="w-full max-w-md pt-12">
+          <div className="auth-card">
             <div className="mb-6 flex text-center relative w-full items-center justify-center lg:hidden">
-              <Link to="/" className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)" }}>
+              <Link
+                to="/"
+                className="font-light tracking-[0.2em] text-2xl text-[#1A1A1A]"
+                style={{ fontFamily: "var(--font-selah)" }}
+              >
                 <img
-                src="/selah-girls-logo.png"
-                alt="Selah Girl Society"
-                className={cn(
-                  "h-16 w-auto object-contain transition-opacity duration-300"
-                )}
-              />
+                  src="/selah-girls-logo.png"
+                  alt="Selah Girl Society"
+                  className={cn("h-16 w-auto object-contain transition-opacity duration-300")}
+                />
               </Link>
             </div>
 
@@ -183,12 +180,16 @@ function LoginPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <h2 className="text-3xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
+                <h2
+                  className="text-3xl text-[#1A1A1A]"
+                  style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                >
                   Check Your Inbox
                 </h2>
                 <p className="mt-4 text-[13px] leading-relaxed text-[#444444]">
-                  We sent an 8-digit code to <span className="font-medium text-[#1A1A1A]">{pendingEmail}</span>. Enter it
-                  below to finish creating your account.
+                  We sent an 8-digit code to{" "}
+                  <span className="font-medium text-[#1A1A1A]">{pendingEmail}</span>. Enter it below
+                  to finish creating your account.
                 </p>
                 <form className="mt-8" onSubmit={handleVerifyOtp}>
                   <div className="flex justify-between gap-2">
@@ -206,13 +207,18 @@ function LoginPage() {
                         autoComplete="one-time-code"
                         maxLength={1}
                         required
-                        className="h-14 w-10 border border-[#E5E5E5] bg-transparent text-center text-xl outline-none transition-colors focus:border-[#1A1A1A]"
+                        aria-label={`Verification code digit ${index + 1}`}
+                        className="auth-otp h-14 w-10 border border-[#E5E5E5] bg-transparent text-center text-xl outline-none transition-colors focus:border-[#1A1A1A]"
                       />
                     ))}
                   </div>
-                  {error && <p className="mt-4 text-[12px] text-red-600">{error}</p>}
+                  {error && (
+                    <p role="alert" className="mt-4 text-[12px] text-red-600">
+                      {error}
+                    </p>
+                  )}
                   {info && <p className="mt-4 text-[12px] text-emerald-600">{info}</p>}
-                  
+
                   <button
                     disabled={busy}
                     className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
@@ -246,7 +252,7 @@ function LoginPage() {
               </motion.div>
             ) : (
               <>
-                <div className="flex border-b border-[#E5E5E5] mb-10">
+                <div className="auth-tabs">
                   {(["login", "register"] as const).map((item) => (
                     <button
                       key={item}
@@ -257,33 +263,34 @@ function LoginPage() {
                         setInfo("");
                       }}
                       className={cn(
-                        "flex-1 pb-4 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors relative",
+                        "flex-1 py-3 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors relative",
                         mode === item ? "text-[#1A1A1A]" : "text-[#777777] hover:text-[#1A1A1A]",
                       )}
                     >
                       {item === "login" ? "SIGN IN" : "CREATE ACCOUNT"}
-                      {mode === item && (
-                        <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#1A1A1A]" />
-                      )}
+                      {mode === item && <span className="auth-tabs__indicator" />}
                     </button>
                   ))}
                 </div>
-                
+
                 <motion.div
                   key={mode}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h2 className="text-3xl text-[#1A1A1A]" style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}>
-                    {mode === "login" ? "Welcome Back." : "Join The Society."}
+                  <h2
+                    className="text-3xl text-[#1A1A1A]"
+                    style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+                  >
+                    {mode === "login" ? "welcome back, girl." : "a place in the society."}
                   </h2>
                   <p className="mt-4 text-[13px] leading-relaxed text-[#444444]">
                     {mode === "login"
                       ? "Your orders, saved details, and Selah world are waiting."
                       : "Create your account and make space for what matters."}
                   </p>
-                  
+
                   <form
                     className="mt-8 space-y-5"
                     onSubmit={async (event) => {
@@ -318,15 +325,13 @@ function LoginPage() {
                       }
                     }}
                   >
+                    {mode === "register" && <AuthField name="name" label="FULL NAME" />}
                     {mode === "register" && (
-                      <AuthField name="name" label="FULL NAME" />
-                    )}
-                    {mode === "register" && (
-                      <AuthField name="phone" label="PHONE NUMBER" />
+                      <AuthField name="phone" label="PHONE NUMBER" type="tel" />
                     )}
                     <AuthField name="email" label="EMAIL ADDRESS" type="email" />
                     <AuthField name="password" label="PASSWORD" type="password" />
-                    
+
                     {mode === "login" && (
                       <div className="pt-2">
                         <button
@@ -337,10 +342,14 @@ function LoginPage() {
                         </button>
                       </div>
                     )}
-                    
-                    {error && <p className="pt-2 text-[12px] text-red-600">{error}</p>}
+
+                    {error && (
+                      <p role="alert" className="pt-2 text-[12px] text-red-600">
+                        {error}
+                      </p>
+                    )}
                     {info && <p className="pt-2 text-[12px] text-emerald-600">{info}</p>}
-                    
+
                     <button
                       disabled={busy}
                       className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
@@ -352,13 +361,15 @@ function LoginPage() {
                           : "CREATE ACCOUNT"}
                     </button>
                   </form>
-                  
+
                   <div className="my-10 flex items-center gap-4">
                     <span className="h-px flex-1 bg-[#E5E5E5]" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">OR</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                      OR
+                    </span>
                     <span className="h-px flex-1 bg-[#E5E5E5]" />
                   </div>
-                  
+
                   <button
                     onClick={handleGoogleSignIn}
                     disabled={busy}
@@ -376,26 +387,31 @@ function LoginPage() {
   );
 }
 
-function AuthField({
-  name,
-  label,
-  type = "text",
-}: {
-  name: string;
-  label: string;
-  type?: string;
-}) {
+function AuthField({ name, label, type = "text" }: { name: string; label: string; type?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
   const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
   return (
     <div>
-      <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
+      <label
+        htmlFor={`auth-${name}`}
+        className="mb-2 block text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]"
+      >
         {label}
       </label>
       <div className="relative">
         <input
+          id={`auth-${name}`}
+          autoComplete={
+            name === "password"
+              ? "current-password"
+              : name === "name"
+                ? "name"
+                : name === "phone"
+                  ? "tel"
+                  : "email"
+          }
           name={name}
           type={inputType}
           required

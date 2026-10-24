@@ -45,41 +45,65 @@ function About() {
     <StoreLayout>
       <main className="about-page">
         <section className="about-intro" aria-labelledby="about-title">
-          <img
-            className="about-intro__image"
-            src="/selahmain.jpeg"
-            alt="Selah Girl Society campaign portrait"
-          />
-          <div className="about-intro__shade" />
           <div className="about-intro__content">
-            <h1 id="about-title">Fashion for the woman who chooses to live set apart.</h1>
+            <p className="about-eyebrow">Faith. Fashion. A little pause.</p>
+            <h1 id="about-title">
+              made for the
+              <br />
+              set-apart girl.
+            </h1>
+            <p className="about-intro__description">
+              Everyday pieces. Eternal purpose. A society of women wearing what they believe.
+            </p>
+            <a href="#founders-note" className="about-intro__link">
+              Get to know Selah <ArrowUpRight size={17} aria-hidden="true" />
+            </a>
+            <ChromeOrnament variant="heart" className="about-intro__ornament" />
           </div>
-          <span className="about-intro__caption">Selah Girl Society</span>
+          <div className="about-intro__visual">
+            <img
+              className="about-intro__image"
+              src="/selah14.png"
+              alt="Selah Girl Society campaign portrait"
+            />
+            <span className="about-intro__caption">Wear what you believe.</span>
+          </div>
         </section>
 
         <section className="about-founders" id="founders-note" aria-labelledby="founders-title">
-          <div className="about-founders__portrait">
-            <img src="/selah14.png" alt="Selah Girl Society campaign imagery" loading="lazy" />
-            <span className="about-photo-note">Selah Girl Society</span>
-          </div>
           <div className="about-founders__text">
-            <ChromeOrnament variant="heart" className="chrome-ornament--founders" />
-            <ChromeOrnament variant="star" className="chrome-ornament--founders-tiny" />
-            <p className="about-eyebrow">Our Story</p>
-            <h2 id="founders-title">Selah, where faith and fashion beautifully align.</h2>
+            <p className="about-eyebrow">01 / Our story</p>
+            <h2 id="founders-title">
+              two women.
+              <br />
+              one shared faith.
+            </h2>
             <p>
-              Selah Girl Society was founded by two women who love Jesus and believe faith and
-              fashion can exist beautifully together. We create trendy Christian basics for women
-              who want to live intentionally, boldly, and unapologetically for Jesus.
+              Selah Girl Society began with two women who love Jesus and a simple belief: faith and
+              fashion can exist beautifully together.
+            </p>
+            <p>
+              We create Christian basics for women choosing to live intentionally, boldly, and
+              unapologetically for Jesus. Pieces to reach for every day, with a message that stays
+              with you.
             </p>
             <blockquote className="about-founders__signoff">
               “Pause. Reflect. Wear. Declare.”
             </blockquote>
             <Link to="/collections" className="about-pill">
-              Explore the collections <ArrowUpRight aria-hidden="true" className="inline size-4" />
-              <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--bottom-left" />
+              Explore the collections <ArrowUpRight aria-hidden="true" size={16} />
             </Link>
           </div>
+          <figure className="about-founders__portrait">
+            <img
+              src="/selah2.jpeg"
+              alt="A look from the Selah Girl Society campaign"
+              loading="lazy"
+            />
+            <figcaption className="about-photo-note">
+              Faith and fashion, beautifully aligned.
+            </figcaption>
+          </figure>
         </section>
 
         <section className="about-values" aria-labelledby="values-title">
@@ -117,7 +141,10 @@ function About() {
           </p>
           <Link to="/shop" className="about-pill about-pill--light">
             Shop new season <ArrowUpRight aria-hidden="true" className="inline size-4" />
-            <ChromeOrnament variant="heart" className="chrome-button-mark chrome-button-mark--top-right" />
+            <ChromeOrnament
+              variant="heart"
+              className="chrome-button-mark chrome-button-mark--top-right"
+            />
           </Link>
         </section>
 
@@ -125,15 +152,31 @@ function About() {
           <ChromeOrnament variant="star" className="chrome-ornament--faq" />
           <ChromeOrnament variant="heart" className="chrome-ornament--faq-drift" />
           <p className="about-eyebrow">A few helpful things</p>
-          <h2 id="faq-title" className="mb-8 text-3xl md:text-5xl">Frequently asked questions</h2>
+          <h2 id="faq-title" className="mb-8 text-3xl md:text-5xl">
+            Frequently asked questions
+          </h2>
           <div className="mx-auto max-w-3xl divide-y divide-[#B9B8B5]/60 border-y border-[#B9B8B5]/60">
             {[
-              ["What is Selah Girl Society?", "A faith-based community and clothing label making soft, premium everyday essentials for the modern believer."],
-              ["Where can I find the 828 collection?", "Explore the limited 828 edition in our shop. It is a separate collection from our white baby tees."],
-              ["How do I get help with an order?", "Visit Support for shipping, order and payment, returns, and direct contact information."],
+              [
+                "What is Selah Girl Society?",
+                "A faith-based community and clothing label making soft, premium everyday essentials for the modern believer.",
+              ],
+              [
+                "Where can I find the 828 collection?",
+                "Explore the limited 828 edition in our shop. It is a separate collection from our white baby tees.",
+              ],
+              [
+                "How do I get help with an order?",
+                "Visit Support for shipping, order and payment, returns, and direct contact information.",
+              ],
             ].map(([question, answer]) => (
               <details key={question} className="group py-5">
-                <summary className="cursor-pointer list-none text-lg font-medium marker:hidden">{question}<span className="float-right text-[#E5348A] transition-transform group-open:rotate-45">+</span></summary>
+                <summary className="cursor-pointer list-none text-lg font-medium marker:hidden">
+                  {question}
+                  <span className="float-right text-[#E5348A] transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-[#635A56]">{answer}</p>
               </details>
             ))}
