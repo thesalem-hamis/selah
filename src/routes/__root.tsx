@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { RealtimeSync } from "@/components/shared/RealtimeSync";
 
@@ -139,12 +140,14 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <WishlistProvider>
-          <CartProvider>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-            <RealtimeSync />
-            <Toaster position="top-center" />
-          </CartProvider>
+          <CurrencyProvider>
+            <CartProvider>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+              <RealtimeSync />
+              <Toaster position="top-center" />
+            </CartProvider>
+          </CurrencyProvider>
         </WishlistProvider>
       </AuthProvider>
     </QueryClientProvider>

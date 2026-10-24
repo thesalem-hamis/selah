@@ -58,7 +58,7 @@ function About() {
 
         <section className="about-founders" id="founders-note" aria-labelledby="founders-title">
           <div className="about-founders__portrait">
-            <img src="/selah-main.jpeg" alt="Selah Girl Society campaign imagery" loading="lazy" />
+            <img src="/selah14.png" alt="Selah Girl Society campaign imagery" loading="lazy" />
             <span className="about-photo-note">Selah Girl Society</span>
           </div>
           <div className="about-founders__text">

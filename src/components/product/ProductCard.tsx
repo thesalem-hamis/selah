@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import type { Product } from "@/types";
-import { formatPrice } from "@/lib/format";
+import { useCart } from "@/context/CartContext";
+import { useCurrency } from "@/context/CurrencyContext";
+import { formatProductPrice, is828Product } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react"; // or your preferred icon import
+import "@/styles/catalog.css";
 
 interface ProductCardProps {
   product: Product;
@@ -10,116 +13,57 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
+  const { currency } = useCurrency();
+  const { add } = useCart();
+
   return (
-    <article className={cn("group flex flex-col gap-3", className)}>
-      {/* IMAGE CONTAINER WITH LIGHT PINK BACKGROUND */}
-      <div className="relative overflow-hidden bg-[#FDF0F5] w-full p-3 md:p-6 aspect-[4/5] flex items-center justify-center">
-        <Link to="/product/$slug" params={{ slug: product.slug }} className="block w-full h-full">
+    <article
+      className={cn(
+        "product-card group flex min-w-0 flex-col gap-2 sm:gap-3",
+        is828Product(product) && "product-card--828",
+        className,
+      )}
+    >
+      <div className="product-card__image relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparent p-[6%] sm:aspect-[4/5] sm:p-[7%]">
+        <Link to="/product/$slug" params={{ slug: product.slug }} className="block h-full w-full">
           <img
             src={product.images[0]}
             alt={product.name}
             loading="lazy"
-            className="w-full h-full object-cove transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500"
           />
         </Link>
-
-        {/* QUICK ADD PLUS BUTTON */}
         <button
           type="button"
           aria-label={`Add ${product.name} to cart`}
-          className="absolute bottom-3 right-3 flex items-center justify-center size-9 md:size-10 bg-white/95 backdrop-blur-sm border border-black/5 text-[#1a1a1a] shadow-sm transition-all duration-300 hover:bg-[#1a1a1a] hover:text-white hover:scale-105 active:scale-95 z-10"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            // Trigger cart function here
+          title={`Quick add ${product.name}`}
+          className="absolute bottom-2 right-2 z-10 flex size-9 items-center justify-center rounded-full bg-white/95 text-[#292724] shadow-[0_2px_12px_rgba(41,39,36,.12)] transition hover:bg-[#e5348a] hover:text-white active:scale-95 sm:bottom-3 sm:right-3"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            add(product, {
+              size: product.sizes[0] ?? "One Size",
+              color: product.colors[0]?.name ?? "Default",
+              quantity: 1,
+            });
           }}
         >
-          <Plus className="size-5 md:size-6 stroke-[1.5]" />
+          <Plus aria-hidden="true" className="size-5" strokeWidth={1.7} />
         </button>
       </div>
 
-      {/* TEXT CONTENT - ALIGNED LEFT */}
-      <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-sans">
+      <div className="flex flex-col items-center gap-1 px-1 text-center text-[#292724] font-sans">
         <Link
           to="/product/$slug"
           params={{ slug: product.slug }}
-          className="uppercase text-sm md:text-base font-medium tracking-widest hover:text-[#777777] transition-colors leading-tight"
+          className="text-[11px] font-medium uppercase leading-snug tracking-[0.06em] transition-colors hover:text-[#777777] sm:text-xs md:text-sm"
         >
           {product.name}
         </Link>
-        <span className="text-sm md:text-base font-normal tracking-wide text-[#555555]">
-          {formatPrice(product.price)}
+        <span className="text-xs font-semibold tracking-wide text-[#4b4742] sm:text-sm">
+          {formatProductPrice(product, currency)}
         </span>
       </div>
     </article>
   );
 }
-
-// import { Link } from "@tanstack/react-router";
-// import type { Product } from "@/types";
-// import { formatPrice } from "@/lib/format";
-// import { cn } from "@/lib/utils";
-// import { Plus } from "lucide-react";
-// import { WishlistButton } from "./WishlistButton";
-
-// interface ProductCardProps {
-//   product: Product;
-//   className?: string;
-// }
-
-// export function ProductCard({ product, className }: ProductCardProps) {
-//   return (
-//     <article className={cn("group flex flex-col gap-3 relative", className)}>
-//       {/* IMAGE CONTAINER WITH LIGHT PINK BACKGROUND */}
-//       <div className="relative overflow-hidden bg-[#FDF0F5] w-full p-3 md:p-6 aspect-[4/5] flex items-center justify-center">
-//         <Link
-//           to="/product/$slug"
-//           params={{ slug: product.slug }}
-//           className="block w-full h-full"
-//         >
-//           <img
-//             src={product.images[0]}
-//             alt={product.name}
-//             loading="lazy"
-//             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-//           />
-//         </Link>
-
-//         {/* WISHLIST BUTTON */}
-//         <WishlistButton
-//           productId={product.id}
-//           productName={product.name}
-//           className="absolute right-3 top-3 z-10"
-//         />
-
-//         {/* QUICK ADD PLUS BUTTON */}
-//         <button
-//           type="button"
-//           aria-label={`Add ${product.name} to cart`}
-//           className="absolute bottom-3 right-3 flex items-center justify-center size-9 md:size-10 bg-white/95 backdrop-blur-sm border border-black/5 text-[#1a1a1a] shadow-sm transition-all duration-300 hover:bg-[#1a1a1a] hover:text-white hover:scale-105 active:scale-95 z-10"
-//           onClick={(e) => {
-//             e.preventDefault();
-//             e.stopPropagation();
-//             // Trigger cart function here
-//           }}
-//         >
-//           <Plus className="size-5 md:size-6 stroke-[1.5]" />
-//         </button>
-//       </div>
-
-//       {/* TEXT CONTENT - ALIGNED LEFT */}
-//       <div className="flex flex-col items-start gap-1 text-[#1A1A1A] font-['Alumni_Sans',sans-serif]">
-//         <Link
-//           to="/product/$slug"
-//           params={{ slug: product.slug }}
-//           className="uppercase text-sm md:text-base font-medium tracking-widest hover:text-[#777777] transition-colors leading-tight"
-//         >
-//           {product.name}
-//         </Link>
-//         <span className="text-sm md:text-base font-normal tracking-wide text-[#555555]">
-//           {formatPrice(product.price)}
-//         </span>
-//       </div>
-//     </article>
-//   );
-// }
