@@ -57,7 +57,7 @@ function NewsletterForm() {
       />
       <button
         type="submit"
-        className="h-12 shrink-0 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+        className="selah-button h-12 shrink-0 rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
       >
         Subscribe
       </button>
@@ -97,6 +97,13 @@ export function SiteFooter() {
           >
             selah
           </Link>
+          <img
+            src="/girls2.png"
+            alt="girls"
+            className="home-footer-wordmark__girls"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">

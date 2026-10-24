@@ -115,7 +115,7 @@ export function CheckoutPage() {
           </h1>
           <Link
             to="/shop"
-            className="inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-8 text-sm font-light text-white transition-all hover:bg-black/80 font-sans tracking-widest uppercase"
+            className="selah-button inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-8 text-sm font-light text-white transition-all hover:bg-black/80 font-sans tracking-widest uppercase"
           >
             Shop the Collection
           </Link>
@@ -232,14 +232,14 @@ export function CheckoutPage() {
               <div className="space-y-3 max-h-60 overflow-y-auto">
                 {cart.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3">
-                    <div className="relative shrink-0 h-14 w-14 rounded border bg-white overflow-hidden">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                    <div className="relative shrink-0 h-24 w-24 rounded border bg-white">
+                      <img src={item.image} alt={item.name} className="h-full w-full rounded-[inherit] object-contain" />
                       <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gray-500 text-[9px] font-bold text-white">
                         {item.quantity}
                       </span>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="text-xs font-medium text-[#1A1A1A] line-clamp-1">{item.name}</h4>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-xs font-medium text-[#1A1A1A] line-clamp-2">{item.name}</h4>
                       <p className="text-[11px] text-gray-500">Size: {item.size}</p>
                     </div>
                     <span className="text-xs font-medium">
@@ -255,7 +255,7 @@ export function CheckoutPage() {
                   placeholder="Discount code"
                   className="h-10 flex-1 rounded border border-gray-300 bg-white px-3 text-xs outline-none"
                 />
-                <button type="button" className="h-10 px-4 rounded border bg-gray-200 text-xs font-medium">
+                <button type="button" className="selah-button h-10 px-4 rounded border bg-gray-200 text-xs font-medium">
                   Apply
                 </button>
               </div>
@@ -725,7 +725,7 @@ export function CheckoutPage() {
               <button
                 type="submit"
                 disabled={busy}
-                className="flex h-14 w-full items-center justify-center rounded-md bg-[#0066CC] text-base font-medium text-white shadow transition-colors hover:bg-[#0055b3] disabled:opacity-50"
+                className="selah-button flex h-14 w-full items-center justify-center rounded-md bg-[#0066CC] text-base font-medium text-white shadow transition-colors hover:bg-[#0055b3] disabled:opacity-50"
               >
                 {busy ? "Processing..." : `Pay now`}
               </button>
@@ -748,14 +748,14 @@ export function CheckoutPage() {
               <div className="max-h-80 overflow-y-auto space-y-4 pr-1">
                 {cart.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-4">
-                    <div className="relative shrink-0 h-16 w-16 rounded-md border bg-white overflow-hidden">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                    <div className="relative shrink-0 h-28 w-28 rounded-md border bg-white">
+                      <img src={item.image} alt={item.name} className="h-full w-full rounded-[inherit] object-contain" />
                       <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-gray-500 text-[10px] font-bold text-white shadow-xs">
                         {item.quantity}
                       </span>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="text-sm font-medium text-[#1A1A1A] line-clamp-1">{item.name}</h4>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-sm font-medium text-[#1A1A1A] line-clamp-2">{item.name}</h4>
                       <p className="text-xs text-gray-500">Size: {item.size}</p>
                     </div>
                     <span className="text-sm font-medium text-[#1A1A1A]">
@@ -774,7 +774,7 @@ export function CheckoutPage() {
                 />
                 <button
                   type="button"
-                  className="h-11 px-5 rounded-md border border-gray-300 bg-gray-200/80 text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors"
+                  className="selah-button h-11 px-5 rounded-md border border-gray-300 bg-gray-200/80 text-sm font-medium text-gray-700 hover:bg-gray-300 transition-colors"
                 >
                   Apply
                 </button>

@@ -49,14 +49,14 @@ export function OrderSummary({
           {actionTo ? (
             <Link
               to={actionTo}
-              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+              className="selah-button flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
             >
               {actionLabel}
             </Link>
           ) : (
             <button
               onClick={onAction}
-              className="flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[15px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+              className="selah-button flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[15px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
             >
               {actionLabel}
             </button>

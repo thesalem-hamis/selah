@@ -200,7 +200,7 @@ export function SearchOverlay({ open, onClose }: SearchOverlayProps) {
               <Link
                 to="/shop"
                 onClick={onClose}
-                className="mt-8 inline-flex h-11 items-center border border-black/20 bg-white/80 px-8 text-base font-semibold tracking-[0.15em] uppercase text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white"
+                className="selah-button mt-8 inline-flex h-11 items-center border border-black/20 bg-white/80 px-8 text-base font-semibold tracking-[0.15em] uppercase text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white"
               >
                 BROWSE EVERYTHING
               </Link>

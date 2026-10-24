@@ -13,11 +13,17 @@ interface ProductGridProps {
   viewMode?: "grid" | "list";
 }
 
-export function ProductGridSkeleton({ count = 8, columns = 4 }: { count?: number; columns?: 3 | 4 }) {
+export function ProductGridSkeleton({
+  count = 8,
+  columns = 4,
+}: {
+  count?: number;
+  columns?: 3 | 4;
+}) {
   return (
     <div
       className={cn(
-        "grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 md:gap-x-6",
+        "grid grid-cols-2 gap-x-2 gap-y-6 sm:gap-x-4 md:gap-x-6",
         columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3",
         "md:grid-cols-3",
       )}
@@ -49,15 +55,12 @@ export function ProductGrid({
       className={cn(
         viewMode === "list"
           ? "grid grid-cols-1 gap-6"
-          : "grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 md:grid-cols-3 md:gap-x-6",
+          : "grid grid-cols-2 gap-x-2 gap-y-6 sm:gap-x-4 md:grid-cols-3 md:gap-x-6",
         viewMode === "grid" && (columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"),
       )}
     >
       {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-        />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );

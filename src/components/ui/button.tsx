@@ -24,6 +24,13 @@ const buttonVariants = cva(
         icon: "h-9 w-9",
       },
     },
+    compoundVariants: [
+      {
+        variant: ["default", "outline", "secondary"],
+        size: ["default", "sm", "lg"],
+        className: "selah-button",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",

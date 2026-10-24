@@ -90,7 +90,7 @@ function About() {
             <blockquote className="about-founders__signoff">
               “Pause. Reflect. Wear. Declare.”
             </blockquote>
-            <Link to="/collections" className="about-pill">
+            <Link to="/collections" className="selah-button about-pill">
               Explore the collections <ArrowUpRight aria-hidden="true" size={16} />
             </Link>
           </div>
@@ -139,7 +139,7 @@ function About() {
             A community for the woman of God who wants to look good, feel good, and keep Christ at
             the centre. Pause, reflect, wear, and declare it with us.
           </p>
-          <Link to="/shop" className="about-pill about-pill--light">
+          <Link to="/shop" className="selah-button about-pill about-pill--light">
             Shop new season <ArrowUpRight aria-hidden="true" className="inline size-4" />
             <ChromeOrnament
               variant="heart"

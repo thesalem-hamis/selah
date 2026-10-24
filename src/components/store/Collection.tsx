@@ -55,7 +55,7 @@ export function Collections() {
 
                 <Link
                   to={item.href}
-                  className="inline-flex h-9 md:h-10 items-center justify-center border border-white bg-transparent px-8 md:px-10 font-sans text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FFF5F7] hover:text-[#1A1A1A] hover:border-[#FFF5F7]"
+                  className="selah-button inline-flex h-9 md:h-10 items-center justify-center border border-white bg-transparent px-8 md:px-10 font-sans text-base md:text-lg font-light uppercase tracking-wider text-white transition-all duration-300 hover:bg-[#FFF5F7] hover:text-[#1A1A1A] hover:border-[#FFF5F7]"
                 >
                   {item.buttonText}
                 </Link>

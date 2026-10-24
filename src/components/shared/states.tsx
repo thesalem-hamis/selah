@@ -32,7 +32,7 @@ export function EmptyState({
       {actionLabel && actionTo && (
         <Link
           to={actionTo}
-          className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          className="selah-button mt-7 inline-flex h-12 items-center justify-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
           {actionLabel}
         </Link>
@@ -40,7 +40,7 @@ export function EmptyState({
       {actionLabel && onAction && !actionTo && (
         <button
           onClick={onAction}
-          className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          className="selah-button mt-7 inline-flex h-12 items-center justify-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
           {actionLabel}
         </button>
@@ -69,7 +69,7 @@ export function ErrorState({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-7 inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface px-7 text-sm font-medium transition-colors hover:bg-muted"
+          className="selah-button mt-7 inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface px-7 text-sm font-medium transition-colors hover:bg-muted"
         >
           Try again
         </button>

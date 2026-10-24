@@ -221,7 +221,7 @@ function LoginPage() {
 
                   <button
                     disabled={busy}
-                    className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
+                    className="selah-button mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                   >
                     {isEmailBusy ? "VERIFYING..." : "VERIFY & ENTER ACCOUNT"}
                   </button>
@@ -352,7 +352,7 @@ function LoginPage() {
 
                     <button
                       disabled={busy}
-                      className="mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
+                      className="selah-button mt-8 flex h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80 disabled:opacity-50"
                     >
                       {isEmailBusy
                         ? "PLEASE WAIT..."
@@ -373,7 +373,7 @@ function LoginPage() {
                   <button
                     onClick={handleGoogleSignIn}
                     disabled={busy}
-                    className="flex h-14 w-full items-center justify-center border border-[#1A1A1A] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white disabled:opacity-50"
+                    className="selah-button flex h-14 w-full items-center justify-center border border-[#1A1A1A] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:bg-[#1A1A1A] hover:text-white disabled:opacity-50"
                   >
                     {isGoogleBusy ? "PLEASE WAIT..." : "CONTINUE WITH GOOGLE"}
                   </button>

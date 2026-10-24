@@ -175,7 +175,7 @@ function SearchResults() {
               </p>
               <Link
                 to="/shop"
-                className="mt-6 inline-flex h-11 items-center justify-center bg-gray-800 px-8 text-base font-semibold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-gray-700"
+                className="selah-button mt-6 inline-flex h-11 items-center justify-center bg-gray-800 px-8 text-base font-semibold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-gray-700"
               >
                 Browse Everything
               </Link>
@@ -193,7 +193,7 @@ function SearchResults() {
               </p>
               <Link
                 to="/shop"
-                className="mt-6 inline-flex h-11 items-center justify-center bg-gray-800 px-8 text-base font-semibold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-gray-700"
+                className="selah-button mt-6 inline-flex h-11 items-center justify-center bg-gray-800 px-8 text-base font-semibold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-gray-700"
               >
                 Shop All
               </Link>
