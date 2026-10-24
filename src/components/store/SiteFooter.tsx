@@ -3,12 +3,14 @@ import { Instagram, Facebook, Twitter, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { categories } from "@/data/catalog";
+import { useCurrency } from "@/context/CurrencyContext";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import "@/styles/footer.css";
 
 const customerService = [
   { label: "Shipping", to: "/support#shipping" },
@@ -64,6 +66,7 @@ function NewsletterForm() {
 }
 
 export function SiteFooter() {
+  const { currency, setCurrency } = useCurrency();
   const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
   const lastScrollY = useRef(0);
 
@@ -235,12 +238,14 @@ export function SiteFooter() {
             <select
               id="footer-currency"
               aria-label="Choose country and currency"
-              defaultValue="GBP"
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value as typeof currency)}
               className="max-w-full bg-transparent font-semibold text-foreground outline-none"
             >
               <option value="GBP">United Kingdom (GBP £)</option>
               <option value="USD">United States (USD $)</option>
               <option value="NGN">Nigeria (NGN ₦)</option>
+              <option value="ESPEES">Espees</option>
             </select>
           </div>
           <div className="flex flex-wrap justify-center gap-5 sm:justify-end">

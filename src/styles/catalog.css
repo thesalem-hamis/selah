@@ -1,0 +1,43 @@
+/* Shop collection tabs and product tile image surfaces. */
+.catalog-page--828 .product-card__image,
+.product-card--828 .product-card__image {
+  background-color: transparent;
+}
+.catalog-tabs {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.catalog-tabs::-webkit-scrollbar {
+  display: none;
+}
+.catalog-tabs__tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.85rem 0 1rem;
+  color: #807a73;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+.catalog-tabs__tab:hover,
+.catalog-tabs__tab.is-active {
+  color: #292724;
+}
+.catalog-tabs__tab.is-active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: #292724;
+  content: "";
+}
+.product-card__image {
+  background-color: transparent;
+}

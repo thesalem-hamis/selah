@@ -1,0 +1,78 @@
+/* Footer wordmark and shared footer surface. */
+.home-footer-wordmark {
+  position: relative;
+  display: block;
+  overflow: visible;
+  margin: 8px 0 16px;
+  border-bottom: 1px solid var(--selah-silver);
+  color: var(--selah-charcoal);
+  font-family: var(--font-sans);
+  font-size: clamp(100px, 28vw, 420px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.82;
+  text-align: center;
+  text-decoration: none;
+  padding-bottom: 66px;
+}
+
+.home-footer-wordmark::after {
+  position: absolute;
+  bottom: 12px;
+  right: 15%;
+  transform: translateX(50%);
+  color: var(--selah-pink);
+  font-family: "Monsieur La Doulaise", cursive;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  content: "girls";
+  pointer-events: none;
+  white-space: nowrap;
+}
+.home-footer-wordmark__text {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transform-origin: center;
+  transition: transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.home-footer-wordmark__text.is-scroll-down {
+  transform: scale(0.94);
+}
+.home-footer-wordmark__text.is-scroll-up {
+  transform: scale(1.06);
+}
+.home-footer-wordmark + .grid {
+  padding-top: 28px;
+}
+footer {
+  border-color: var(--selah-silver) !important;
+  background: var(--selah-ivory) !important;
+  color: var(--selah-charcoal);
+}
+
+@media (max-width: 767px) {
+  .home-footer-wordmark {
+    font-size: clamp(74px, 19vw, 130px);
+    margin-bottom: 15px;
+    padding-top: 0;
+    padding-bottom: 48px;
+  }
+  .home-footer-wordmark::after {
+    bottom: 24px;
+    right: 13vw;
+    transform: none;
+    font-size: clamp(42px, 11vw, 64px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-footer-wordmark__text {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}

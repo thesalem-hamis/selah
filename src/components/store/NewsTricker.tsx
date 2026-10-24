@@ -1,3 +1,5 @@
+import { Sparkles } from "lucide-react";
+
 const MESSAGES = [
   "the drop is here",
   "wear the promise · romans 8:28",
@@ -13,7 +15,7 @@ function TickerRow({ hidden = false }: { hidden?: boolean }) {
             <span className="whitespace-nowrap px-6 text-[10px] font-medium tracking-[0.18em] md:px-10 md:text-[11px]">
             {message}
           </span>
-          <span className="text-[10px] opacity-80">✦</span>
+          <Sparkles aria-hidden="true" className="h-3 w-3 shrink-0 opacity-80" />
         </div>
       ))}
     </div>

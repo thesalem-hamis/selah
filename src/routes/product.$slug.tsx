@@ -13,10 +13,12 @@ import { StoreLayout } from "@/components/store/StoreLayout";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { productService } from "@/services/productService";
 import { useCart } from "@/context/CartContext";
-import { formatPrice } from "@/lib/format";
+import { formatProductPrice, is828Product } from "@/lib/format";
 import type { Product, Review } from "@/types";
 import { cn } from "@/lib/utils";
 import { useWishlist } from "@/context/WishlistContext";
+import { useCurrency } from "@/context/CurrencyContext";
+import "@/styles/product.css";
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductPage
@@ -53,6 +55,7 @@ function ProductPage() {
   });
 
   const product = productQuery.data;
+  const { currency } = useCurrency();
   const { add } = useCart();
   const { has, toggle } = useWishlist();
 
@@ -114,7 +117,7 @@ function ProductPage() {
           <div className="lg:col-span-3 order-2 lg:order-1 space-y-12 pt-4">
             <div>
               <h1 className="text-[13px] text-[#1A1A1A] mb-1">{product.name}</h1>
-              <p className="text-[13px] text-[#1A1A1A]">{formatPrice(product.price)}</p>
+              <p className="text-[13px] text-[#1A1A1A]">{formatProductPrice(product, currency)}</p>
             </div>
 
             <div className="border-t border-[#E5E5E5]">
@@ -146,11 +149,11 @@ function ProductPage() {
 
           {/* Center Column - Main Image */}
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
-            <div className="bg-[#f4f4f4] w-full relative flex items-center justify-center p-4 md:p-8 aspect-[4/5] group overflow-hidden">
+            <div className={`product-detail__image w-full relative flex items-center justify-center overflow-hidden aspect-[4/5] group ${is828Product(product) ? "bg-[#f1ece3]" : "bg-[#f7f5f2]"}`}>
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
                 alt={product.name}
-                className="w-full h-full object-cover md:object-contain transition-opacity duration-300"
+                className="h-full w-full object-contain mix-blend-multiply transition-opacity duration-300"
               />
               
               {product.images.length > 1 && (

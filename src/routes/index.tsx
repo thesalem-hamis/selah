@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
 import { ChromeOrnament } from "@/components/store/ChromeOrnament";
+import "@/styles/home.css";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +24,7 @@ const collections = [
     eyebrow: "the everyday edit",
     title: "white baby tees",
     description: "A little reminder of what matters, made for every day.",
-    image: "/selah3.jpeg",
+    image: "/selah15.png",
     href: "/shop?collection=white-baby-tees",
     className: "home-collection-tees",
     action: "shop the tees",
@@ -39,7 +40,7 @@ const collections = [
   },
 ];
 
-const heroImages = ["/selah11.png", "/selah10.png", "/selah7.jpeg"];
+const heroImages = ["/selah11.png", "/selah12.png", "/selah10.png"];
 
 function HomeHero() {
   const [activeImage, setActiveImage] = useState(0);
@@ -66,7 +67,7 @@ function HomeHero() {
       <div className="home-hero-shade" />
       <div className="home-hero-copy">
         {/* <span className="home-kicker">Selah Girl Society · Romans 8:28</span> */}
-        <h1>the drop is here</h1>
+        {/* <h1>the drop is here</h1> */}
         {/* <p>Wear the promise. Faith and fashion, beautifully aligned.</p> */}
         <Link to="/shop" className="home-metal-button">
           shop Selah
@@ -104,7 +105,7 @@ const homeStories = [
     title: "A future shaped by freedom and dignity.",
     description:
       "A percentage of every Selah purchase supports Christian families trapped in debt bondage through our partnership with InnerCity Mission: Freedom Pakistan. Thank you for being part of this work when you shop.",
-    image: "/selah-main.jpeg",
+    image: "/selah13.png",
     imageAlt: "Selah Girl Society campaign portrait",
     href: "/pakistan-journey",
     action: "our Pakistan journey",
@@ -248,7 +249,7 @@ function Home() {
           </Link>
         </div>
         <div className="home-editorial-image">
-          <img src="/sg1.jpeg" alt="The 828 Edition campaign" />
+          <img src="/828girls.png" alt="The 828 Edition campaign" />
         </div>
       </section>
 

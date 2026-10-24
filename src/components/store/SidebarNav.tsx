@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { CloseIcon } from "./Icons";
 import { productService } from "@/services/productService";
-import { formatPrice } from "@/lib/format";
+import { formatProductPrice } from "@/lib/format";
 import type { Product } from "@/types";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface SidebarNavProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ function belongsToCollection(product: Product, collectionId: (typeof shopTabs)[n
 }
 
 export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
+  const { currency, setCurrency } = useCurrency();
   const [activeTab, setActiveTab] = useState<(typeof shopTabs)[number]["id"]>("828");
   useEffect(() => {
     if (!isOpen) return;
@@ -122,7 +124,7 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
                   <img src={product.images[0]} alt="" loading="lazy" />
                   <span className="selah-mobile-product__copy">
                     <strong>{product.name}</strong>
-                    <span>{formatPrice(product.price)}</span>
+                    <span>{formatProductPrice(product, currency)}</span>
                   </span>
                   {product.newArrival && <span className="selah-mobile-product__badge">new</span>}
                 </Link>
@@ -152,10 +154,15 @@ export function SidebarNav({ isOpen, onClose }: SidebarNavProps) {
         <div className="selah-mobile-menu__footer">
           <div className="selah-mobile-menu__currency">
             <label htmlFor="mobile-currency">Currency</label>
-            <select id="mobile-currency" defaultValue="GBP">
+            <select
+              id="mobile-currency"
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value as typeof currency)}
+            >
               <option value="GBP">United Kingdom (GBP £)</option>
               <option value="USD">United States (USD $)</option>
               <option value="NGN">Nigeria (NGN ₦)</option>
+              <option value="ESPEES">Espees</option>
             </select>
           </div>
         </div>

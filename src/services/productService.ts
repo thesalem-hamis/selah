@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { Product, ProductFilters, Review, SortKey, Testimonial } from "@/types";
 import { ApiError } from "./http";
+import { isTeeProduct } from "@/lib/format";
 
 function sortKeyToSupabase(sort: SortKey) {
   switch (sort) {
@@ -20,7 +21,7 @@ function sortKeyToSupabase(sort: SortKey) {
 }
 
 function mapSupabaseProduct(row: Record<string, unknown>): Product {
-  return {
+  const product: Product = {
     id: String(row["id"]),
     slug: String(row["slug"]),
     name: String(row["name"]),
@@ -43,6 +44,9 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     newArrival: Boolean(row["new_arrival"]),
     status: String(row["status"]) as Product["status"],
   };
+
+  // Selah tees are £15 in the store; normalize legacy catalogue values such as 5000.
+  return isTeeProduct(product) ? { ...product, price: 15 } : product;
 }
 
 export function applyFilters(list: Product[], filters: ProductFilters = {}) {
