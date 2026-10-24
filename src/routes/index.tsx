@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
 import { ChromeOrnament } from "@/components/store/ChromeOrnament";
@@ -143,7 +144,7 @@ function HomeStories() {
               <h2>{story.title}</h2>
               <p>{story.description}</p>
               <Link to={story.href} className="home-outline-button">
-                {story.action} <span>↗</span>
+                {story.action} <ArrowUpRight aria-hidden="true" className="inline size-4" />
                 <ChromeOrnament
                   variant={index === 0 ? "heart" : "star"}
                   className="chrome-button-mark chrome-button-mark--bottom-right"
@@ -218,7 +219,7 @@ function Home() {
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <Link to={item.href} className="home-metal-button">
-                  {item.action} <span>↗</span>
+                  {item.action} <ArrowUpRight aria-hidden="true" className="inline size-4" />
                   <ChromeOrnament
                     variant={item.title === "white baby tees" ? "star" : "heart"}
                     className={
@@ -244,7 +245,7 @@ function Home() {
             This season, limited edition in collaboration with Saint Angelo.
           </p>
           <Link to="/shop?collection=828-series" className="home-outline-button">
-            explore the 828 edition <span>↗</span>
+            explore the 828 edition <ArrowUpRight aria-hidden="true" className="inline size-4" />
             <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--top-right" />
           </Link>
         </div>

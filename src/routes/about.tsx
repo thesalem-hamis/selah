@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { ChromeOrnament } from "@/components/store/ChromeOrnament";
 import "@/styles/about.css";
@@ -75,7 +76,7 @@ function About() {
               “Pause. Reflect. Wear. Declare.”
             </blockquote>
             <Link to="/collections" className="about-pill">
-              Explore the collections <span aria-hidden="true">↗</span>
+              Explore the collections <ArrowUpRight aria-hidden="true" className="inline size-4" />
               <ChromeOrnament variant="star" className="chrome-button-mark chrome-button-mark--bottom-left" />
             </Link>
           </div>
@@ -115,7 +116,7 @@ function About() {
             the centre. Pause, reflect, wear, and declare it with us.
           </p>
           <Link to="/shop" className="about-pill about-pill--light">
-            Shop new season <span aria-hidden="true">↗</span>
+            Shop new season <ArrowUpRight aria-hidden="true" className="inline size-4" />
             <ChromeOrnament variant="heart" className="chrome-button-mark chrome-button-mark--top-right" />
           </Link>
         </section>
