@@ -93,7 +93,7 @@ function ProductPage() {
           </h1>
           <Link
             to="/shop"
-            className="inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
+            className="selah-button inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
           >
             Browse the collection
           </Link>
@@ -211,7 +211,7 @@ function ProductPage() {
 
               <button
                 onClick={handleAddToCart}
-                className="w-full h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
+                className="selah-button w-full h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
               >
                 ADD TO BAG
               </button>

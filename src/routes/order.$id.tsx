@@ -71,7 +71,7 @@ function OrderPage() {
             {order.paymentStatus === "unpaid" && order.paymentMethod.toLowerCase().includes("flutterwave") ? (
               <div className="mb-8 border border-[#E5E5E5] bg-white p-5">
                 <p className="text-sm">Complete payment to confirm this order.</p>
-                <button type="button" onClick={() => void retryPayment()} disabled={paymentBusy} className="mt-4 inline-flex h-11 items-center justify-center gap-2 bg-[#1A1A1A] px-5 text-[11px] font-bold uppercase tracking-[0.1em] text-white disabled:opacity-50">
+                <button type="button" onClick={() => void retryPayment()} disabled={paymentBusy} className="selah-button mt-4 inline-flex h-11 items-center justify-center gap-2 bg-[#1A1A1A] px-5 text-[11px] font-bold uppercase tracking-[0.1em] text-white disabled:opacity-50">
                   <CreditCard className="size-4" /> {paymentBusy ? "Opening payment..." : "Pay with Flutterwave"}
                 </button>
                 {paymentError ? <p role="alert" className="mt-3 text-sm text-red-700">{paymentError}</p> : null}
@@ -103,13 +103,13 @@ function OrderPage() {
             <div className="mt-10 flex flex-col sm:flex-row justify-between gap-4 border-t border-[#E5E5E5] pt-10">
               <Link
                 to="/shop"
-                className="flex-1 flex items-center justify-center h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
+                className="selah-button flex-1 flex items-center justify-center h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
               >
                 CONTINUE SHOPPING
               </Link>
               <Link
                 to="/account"
-                className="flex-1 flex items-center justify-center h-12 border border-[#E5E5E5] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:border-[#1A1A1A]"
+                className="selah-button flex-1 flex items-center justify-center h-12 border border-[#E5E5E5] bg-transparent text-[11px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A] transition-colors hover:border-[#1A1A1A]"
               >
                 VIEW ACCOUNT
               </Link>

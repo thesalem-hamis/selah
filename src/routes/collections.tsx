@@ -91,7 +91,7 @@ function Collections() {
             </p>
             <Link
               to="/shop"
-              className="mt-7 inline-flex h-12 items-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              className="selah-button mt-7 inline-flex h-12 items-center rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Shop the collection
             </Link>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { AnnouncementSlider } from "@/components/store/AnnouncementSlider";
@@ -45,6 +45,7 @@ const heroImages = ["/selah11.png", "/selah12.png", "/selah10.png"];
 
 function HomeHero() {
   const [activeImage, setActiveImage] = useState(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -55,7 +56,37 @@ function HomeHero() {
   }, []);
 
   return (
-    <section className="home-hero">
+    <section
+      className="home-hero"
+      onTouchStart={(event) => {
+        const touch = event.touches[0];
+        // Leave the shop link and slide buttons to handle their own taps.
+        if (event.touches.length !== 1 || (event.target as HTMLElement).closest("a, button")) {
+          touchStart.current = null;
+          return;
+        }
+        touchStart.current = touch ? { x: touch.clientX, y: touch.clientY } : null;
+      }}
+      onTouchMove={(event) => {
+        if (event.touches.length !== 1) touchStart.current = null;
+      }}
+      onTouchCancel={() => {
+        touchStart.current = null;
+      }}
+      onTouchEnd={(event) => {
+        const start = touchStart.current;
+        const touch = event.changedTouches[0];
+        touchStart.current = null;
+        if (!start || !touch) return;
+        const deltaX = touch.clientX - start.x;
+        const deltaY = touch.clientY - start.y;
+        // Ignore taps and vertical scrolling; wrap in either direction.
+        if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        setActiveImage(
+          (current) => (current + (deltaX < 0 ? 1 : -1) + heroImages.length) % heroImages.length,
+        );
+      }}
+    >
       {heroImages.map((src, index) => (
         <div
           key={src}
@@ -146,7 +177,7 @@ function HomeStories() {
               <span className="home-kicker">{story.eyebrow}</span>
               <h2>{story.title}</h2>
               <p>{story.description}</p>
-              <Link to={story.href} className="home-outline-button">
+              <Link to={story.href} className="selah-button home-outline-button">
                 {story.action} <ArrowUpRight aria-hidden="true" className="inline size-4" />
                 <ChromeOrnament
                   variant={index === 0 ? "heart" : "star"}

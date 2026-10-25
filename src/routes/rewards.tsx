@@ -120,8 +120,15 @@ function RewardsPage() {
         {!user ? (
           <section className="mx-auto mt-12 max-w-xl border-y border-border py-10 text-center">
             <h2 className="font-display text-3xl">Your points are waiting</h2>
-            <p className="mt-3 text-sm text-muted-foreground">Sign in to see your balance and manage your rewards.</p>
-            <Link to="/login" className="mt-6 inline-flex bg-primary px-6 py-3 text-sm text-primary-foreground">Sign in</Link>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Sign in to see your balance and manage your rewards.
+            </p>
+            <Link
+              to="/login"
+              className="mt-6 inline-flex bg-primary px-6 selah-button py-3 text-sm text-primary-foreground"
+            >
+              Sign in
+            </Link>
           </section>
         ) : (
           <>
@@ -151,8 +158,8 @@ function RewardsPage() {
                 <form onSubmit={saveBirthday} className="mt-7 border-b border-border pb-7">
                   <label htmlFor="birthday" className="block text-sm font-medium">Your birthday</label>
                   <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-                    <input id="birthday" type="date" value={birthday} onChange={(event) => setBirthday(event.target.value)} required className="h-11 min-w-0 flex-1 border border-border bg-background px-3 text-sm" />
-                    <button type="submit" disabled={busy || !birthday} className="h-11 bg-primary px-5 text-sm text-primary-foreground disabled:opacity-50">Save birthday</button>
+                    <input id="birthday" name="birthday" autoComplete="bday" type="date" value={birthday} onChange={(event) => setBirthday(event.target.value)} required className="h-12 min-w-0 w-full flex-1 rounded-[0.65rem] border border-[#e3d8df] bg-white/70 px-4 text-[13px] text-[#292724] outline-none transition-colors focus:border-[#e5348a] focus:shadow-[0_0_0_3px_#e5348a12]" />
+                    <button type="submit" disabled={busy || !birthday} className="selah-button h-11 bg-primary px-5 text-sm text-primary-foreground disabled:opacity-50">Save birthday</button>
                   </div>
                   <p className="mt-2 text-xs text-muted-foreground">On your birthday, we’ll add 5 points and arrange a free face mask.</p>
                 </form>
@@ -179,7 +186,7 @@ function RewardsPage() {
                     <input type="checkbox" checked={preaching} onChange={(event) => setPreaching(event.target.checked)} className="mt-1 size-4 accent-primary" />
                     <span>My post shows me wearing Selah clothes while preaching or evangelising.</span>
                   </label>
-                  <button type="submit" disabled={busy || !image} className="h-11 bg-primary px-5 text-sm text-primary-foreground disabled:opacity-50">Send for review</button>
+                  <button type="submit" disabled={busy || !image} className="selah-button h-11 bg-primary px-5 text-sm text-primary-foreground disabled:opacity-50">Send for review</button>
                   {postFeedback ? (
                     <p role={postFeedback.type === "error" ? "alert" : "status"} aria-live="polite" className={`text-sm ${postFeedback.type === "success" ? "text-emerald-700" : "text-red-700"}`}>
                       {postFeedback.text}
@@ -198,7 +205,7 @@ function RewardsPage() {
                   ] as const).map(([reward, label, cost]) => (
                     <div key={reward} className="flex items-center justify-between gap-4 py-5">
                       <div><p className="text-sm font-medium">{label}</p><p className="mt-1 text-xs text-muted-foreground">{cost} points</p></div>
-                      <button type="button" disabled={busy || balance < cost} onClick={() => void runAction(() => rewardService.redeem(reward), `Your ${label.toLowerCase()} has been requested.`)} className="h-10 border border-foreground px-4 text-sm disabled:cursor-not-allowed disabled:opacity-40">Redeem</button>
+                      <button type="button" disabled={busy || balance < cost} onClick={() => void runAction(() => rewardService.redeem(reward), `Your ${label.toLowerCase()} has been requested.`)} className="selah-button h-10 border border-foreground px-4 text-sm disabled:cursor-not-allowed disabled:opacity-40">Redeem</button>
                     </div>
                   ))}
                 </div>

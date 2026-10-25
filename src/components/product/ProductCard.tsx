@@ -24,7 +24,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         className,
       )}
     >
-      <div className="product-card__image relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparent p-[6%] sm:aspect-[4/5] sm:p-[7%]">
+      <div className="product-card__image relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparent p-0 sm:aspect-[4/5] sm:p-[7%]">
         <Link to="/product/$slug" params={{ slug: product.slug }} className="block h-full w-full">
           <img
             src={product.images[0]}
@@ -56,11 +56,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <Link
           to="/product/$slug"
           params={{ slug: product.slug }}
-          className="text-[11px] font-medium uppercase leading-snug tracking-[0.06em] transition-colors hover:text-[#777777] sm:text-xs md:text-sm"
+          className="text-xs font-medium uppercase leading-snug tracking-[0.06em] transition-colors hover:text-[#777777] sm:text-xs md:text-sm"
         >
           {product.name}
         </Link>
-        <span className="text-xs font-semibold tracking-wide text-[#4b4742] sm:text-sm">
+        <span className="text-sm font-semibold tracking-wide text-[#4b4742] sm:text-sm">
           {formatProductPrice(product, currency)}
         </span>
       </div>

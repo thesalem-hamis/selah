@@ -58,7 +58,7 @@ export function CartSidebar() {
               </p>
               <button
                 onClick={closeCart}
-                className="inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
+                className="selah-button inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
               >
                 Continue Shopping
               </button>
@@ -68,11 +68,11 @@ export function CartSidebar() {
               {items.map((item) => (
                 <div key={item.id} className="flex gap-4">
                   {/* Clean Product Image Frame */}
-                  <div className="h-32 w-24 shrink-0 bg-[#FDF0F5] flex items-center justify-center">
+                  <div className="h-36 w-28 shrink-0 bg-[#FDF0F5 flex items-center justify-center">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contai"
                     />
                   </div>
 
@@ -146,7 +146,7 @@ export function CartSidebar() {
             <Link
               to="/cart"
               onClick={closeCart}
-              className="flex h-12 md:h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
+              className="selah-button flex h-12 md:h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
             >
               Checkout
             </Link>

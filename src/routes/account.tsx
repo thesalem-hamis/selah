@@ -213,7 +213,7 @@ function ProfileDashboard() {
                             <button 
                               onClick={handleSaveProfile}
                               disabled={isSaving}
-                              className="h-12 bg-[#1A1A1A] text-white px-8 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors hover:bg-black/80 flex items-center justify-center min-w-[120px]"
+                              className="selah-button h-12 bg-[#1A1A1A] text-white px-8 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors hover:bg-black/80 flex items-center justify-center min-w-[120px]"
                             >
                               {isSaving ? "SAVING..." : "SAVE"}
                             </button>
@@ -222,7 +222,7 @@ function ProfileDashboard() {
                                 setEditing(false);
                                 setName(user?.name ?? "");
                               }}
-                              className="h-12 border border-[#E5E5E5] px-8 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:border-[#1A1A1A] transition-colors"
+                              className="selah-button h-12 border border-[#E5E5E5] px-8 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:border-[#1A1A1A] transition-colors"
                             >
                               CANCEL
                             </button>
