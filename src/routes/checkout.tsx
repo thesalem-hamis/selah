@@ -800,7 +800,7 @@ export function CheckoutPage() {
               <div className="flex justify-between items-center pt-4 border-t border-gray-300">
                 <span className="text-base font-medium text-[#1A1A1A]">Total</span>
                 <div className="text-right">
-                  <span className="text-xs text-gray-500 mr-1.5">NGN</span>
+                  <span className="text-xs text-gray-500 mr-1.5">GBP</span>
                   <span className="text-xl font-semibold text-[#1A1A1A]">
                     {formatPrice(finalTotal)}
                   </span>

@@ -1,5 +1,8 @@
 import type { Product } from "@/types";
 import type { StoreCurrency } from "@/context/CurrencyContext";
+import { isTeeProduct } from "../../supabase/functions/_shared/productPricing";
+
+export { isTeeProduct };
 
 export const CURRENCY = "GBP";
 export const BASE_UNITS_PER_GBP = 2000;
@@ -12,14 +15,6 @@ const nf = new Intl.NumberFormat("en-GB", {
 
 export function formatPrice(value: number) {
   return nf.format(value);
-}
-
-export function isTeeProduct(product: Pick<Product, "name" | "category" | "subcategory" | "tags">) {
-  const productText = [product.name, product.category, product.subcategory, ...product.tags]
-    .join(" ")
-    .toLowerCase();
-  return /\b(tees?|t-?shirts?|828)\b/.test(productText) ||
-    /selah girls|pretty and prayed up|babe,? i love jesus|ask me about jesus/i.test(product.name);
 }
 
 export function is828Product(product: Pick<Product, "name" | "category" | "subcategory" | "tags">) {

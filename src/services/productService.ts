@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { Product, ProductFilters, Review, SortKey, Testimonial } from "@/types";
 import { ApiError } from "./http";
-import { isTeeProduct } from "@/lib/format";
+import { getStorefrontProductPrice } from "../../supabase/functions/_shared/productPricing";
 
 function sortKeyToSupabase(sort: SortKey) {
   switch (sort) {
@@ -45,8 +45,7 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     status: String(row["status"]) as Product["status"],
   };
 
-  // Selah tees are £15 in the store; normalize legacy catalogue values such as 5000.
-  return isTeeProduct(product) ? { ...product, price: 15 } : product;
+  return { ...product, price: getStorefrontProductPrice(product) };
 }
 
 export function applyFilters(list: Product[], filters: ProductFilters = {}) {

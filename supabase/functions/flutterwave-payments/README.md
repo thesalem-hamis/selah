@@ -11,3 +11,5 @@ In the Flutterwave dashboard, register this webhook URL:
 `https://<project-ref>.supabase.co/functions/v1/flutterwave-payments`
 
 The function verifies each callback and webhook against Flutterwave before marking an order paid. A successful database update then awards purchase points. Apply the rewards migration before enabling checkout so the order and reward tables are ready.
+
+Checkout payments are charged and verified in GBP, matching the storefront totals.
