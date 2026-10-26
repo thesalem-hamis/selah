@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getStorefrontProductPrice } from "../_shared/productPricing.ts";
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -23,6 +24,10 @@ type OrderItem = {
 
 type ProductForPayment = {
   id: string;
+  name: string;
+  category: string;
+  subcategory: string;
+  tags: string[];
   price: number;
   stock: number;
   status: string;
@@ -82,7 +87,7 @@ async function verifyTransaction(transactionId: string, expectedReference: strin
     payload?.status !== "success" ||
     transaction?.status !== "successful" ||
     transaction?.tx_ref !== expectedReference ||
-    transaction?.currency !== "NGN" ||
+    transaction?.currency !== "GBP" ||
     Number(transaction?.amount) !== expectedAmount
   ) return null;
   return transaction;
@@ -144,7 +149,7 @@ Deno.serve(async (request) => {
   const productIds = [...new Set(items.map((item) => item.product_id))];
   const { data: productRows, error: productError } = await admin
     .from("products")
-    .select("id,price,stock,status,sizes,colors")
+    .select("id,name,category,subcategory,tags,price,stock,status,sizes,colors")
     .in("id", productIds);
   if (productError || !productRows || productRows.length !== productIds.length) return response({ error: "Some items are unavailable" }, 400);
   const products = productRows as ProductForPayment[];
@@ -173,10 +178,11 @@ Deno.serve(async (request) => {
     if (!colorIsValid) {
       return response({ error: `The selected color for ${itemName} is no longer available. Update your bag and try again.` }, 409);
     }
-    if (Number(item.price) !== Number(product.price)) {
+    const currentPrice = getStorefrontProductPrice(product);
+    if (Number(item.price) !== currentPrice) {
       return response({ error: `The price for ${itemName} has changed. Refresh your bag and check the new total.` }, 409);
     }
-    subtotal += Number(product.price) * item.quantity;
+    subtotal += currentPrice * item.quantity;
   }
 
   const discount = calculateDiscount(order.coupon_code ?? null, subtotal);
@@ -202,7 +208,7 @@ Deno.serve(async (request) => {
     body: JSON.stringify({
       tx_ref: order.reference,
       amount: Number(order.total),
-      currency: "NGN",
+      currency: "GBP",
       redirect_url: callback,
       customer: { email: profile?.email ?? order.customer_email, name: profile?.name ?? order.customer_name },
       meta: { order_id: order.id },

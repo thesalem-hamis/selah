@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { Product, ProductFilters, Review, SortKey, Testimonial } from "@/types";
 import { ApiError } from "./http";
-import { productPriceNgn } from "@/lib/format";
+import { productPriceNgn } from "@/lib/pricing";
 
 function sortKeyToSupabase(sort: SortKey) {
   switch (sort) {
@@ -45,7 +45,6 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     status: String(row["status"]) as Product["status"],
   };
 
-  // Normalize legacy tee prices to the shared NGN selling price.
   return { ...product, price: productPriceNgn(product) };
 }
 

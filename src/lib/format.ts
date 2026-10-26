@@ -1,12 +1,10 @@
 import type { Product } from "@/types";
 import type { StoreCurrency } from "@/context/CurrencyContext";
 
-import {
-  NGN_PER_UNIT,
-  isStoreTee,
-  productPriceNgn,
-  roundMoney,
-} from "./pricing";
+import { NGN_PER_UNIT, isStoreTee, productPriceNgn, roundMoney } from "./pricing";
+export const isTeeProduct = isStoreTee;
+export { productPriceNgn };
+
 export const CURRENCY = "GBP";
 export const BASE_UNITS_PER_GBP = NGN_PER_UNIT.GBP;
 
@@ -37,9 +35,6 @@ export function formatTotal(
   );
   return formatPrice(total * rate, currency);
 }
-
-export const isTeeProduct = isStoreTee;
-export { productPriceNgn };
 
 export function is828Product(product: Pick<Product, "name" | "category" | "subcategory" | "tags">) {
   return /\b828\b/i.test(
