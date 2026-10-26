@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 
 export function CartSidebar() {
   const { formatPrice } = useCurrency();
-  const { isCartOpen, closeCart, items, subtotal, remove, setQuantity } = useCart();
+  const { isCartOpen, closeCart, items, remove, setQuantity } = useCart();
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <>
