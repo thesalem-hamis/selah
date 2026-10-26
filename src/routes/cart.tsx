@@ -3,11 +3,12 @@ import { Trash2, Minus, Plus } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { OrderSummary } from "@/components/shared/OrderSummary";
 import { useCart } from "@/context/CartContext";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 
 export const Route = createFileRoute("/cart")({ component: CartPage });
 
 function CartPage() {
+  const { formatPrice } = useCurrency();
   const cart = useCart();
 
   return (

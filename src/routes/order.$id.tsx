@@ -5,11 +5,12 @@ import { Check, CreditCard } from "lucide-react";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { orderService } from "@/services/orderService";
 import { paymentService } from "@/services/paymentService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 
 export const Route = createFileRoute("/order/$id")({ component: OrderPage });
 
 function OrderPage() {
+  const { formatPrice } = useCurrency();
   const { id } = Route.useParams();
   const [paymentBusy, setPaymentBusy] = useState(false);
   const [paymentError, setPaymentError] = useState("");

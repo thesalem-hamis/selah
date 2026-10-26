@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,8 @@ export const Route = createFileRoute("/admin/analytics")({ component: AnalyticsA
 
 type TimeRange = '7d' | '30d' | '90d' | '12m';
 
-function AnalyticsAdmin() { 
+function AnalyticsAdmin() {
+  const { formatPrice } = useCurrency();
   const [timeRange, setTimeRange] = useState<TimeRange>('12m');
   const [chartType, setChartType] = useState<'bar' | 'line' | 'area'>('bar');
   const [showDetailedStats, setShowDetailedStats] = useState(false);

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AdminLayout, AdminLogin } from "@/components/store/AdminLayout";
 import { useAuth } from "@/context/AuthContext";
 import { orderService } from "@/services/orderService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import {
@@ -91,6 +91,7 @@ function AdminHome() {
 }
 
 function Overview() {
+  const { formatPrice } = useCurrency();
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("30d");
   const [isRefreshing, setIsRefreshing] = useState(false);
 

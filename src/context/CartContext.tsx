@@ -1,10 +1,12 @@
+import { productPriceNgn } from "@/lib/format";
+import { cartTotals, type DeliveryMethod } from "@/lib/pricing";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import type { CartItem, Product } from "@/types";
 
 const STORAGE_KEY = "selah.cart";
-export const SHIPPING_FLAT = 3500;
+export const SHIPPING_FLAT = 5000;
 export const FREE_SHIPPING_THRESHOLD = 100000;
 
 interface AppliedCoupon {
@@ -13,6 +15,8 @@ interface AppliedCoupon {
 }
 
 interface CartContextValue {
+  deliveryMethod: DeliveryMethod;
+  setDeliveryMethod: (method: DeliveryMethod) => void;
   items: CartItem[];
   count: number;
   subtotal: number;
@@ -33,6 +37,7 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("London Standard Delivery");
   const [items, setItems] = useState<CartItem[]>([]);
   const [coupon, setCoupon] = useState<AppliedCoupon | null>(null);
   const [hydrated, setHydrated] = useState(false);
@@ -41,7 +46,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setItems(JSON.parse(raw) as CartItem[]);
+      if (raw)
+        setItems(
+          (JSON.parse(raw) as CartItem[]).map((item) => ({
+            ...item,
+            price: productPriceNgn(item),
+          })),
+        );
     } catch {
       /* ignore */
     }
@@ -60,7 +71,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const add = useCallback<CartContextValue["add"]>((product, options) => {
     const size = options?.size ?? product.sizes[0] ?? "One Size";
     const color = options?.color ?? product.colors[0]?.name ?? "Default";
-    const quantity = options?.quantity ?? 1;
+    const quantity = Math.max(
+      1,
+      Math.min(Math.floor(options?.quantity ?? 1) || 1, product.stock || 99),
+    );
     const id = `${product.id}-${size}-${color}`;
 
     setItems((current) => {
@@ -78,7 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         slug: product.slug,
         name: product.name,
         image: product.images[0] ?? "",
-        price: product.price,
+        price: productPriceNgn(product),
         ...(product.oldPrice !== undefined ? { oldPrice: product.oldPrice } : {}),
         size,
         color,
@@ -98,7 +112,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const setQuantity = useCallback((id: string, quantity: number) => {
     setItems((current) =>
       current
-        .map((item) => (item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item))
+        .map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity: Math.max(1, Math.min(Math.floor(quantity) || 1, item.stock || 99)),
+              }
+            : item,
+        )
         .filter((item) => item.quantity > 0),
     );
   }, []);
@@ -112,17 +133,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = useCallback(() => setIsCartOpen(false), []);
 
   const value = useMemo<CartContextValue>(() => {
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const discount = coupon?.discount ?? 0;
-    const shipping =
-      items.length === 0 || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FLAT;
+    const { subtotal, discount, shipping, total } = cartTotals(
+      items,
+      coupon?.discount ?? 0,
+      deliveryMethod,
+    );
     return {
+      deliveryMethod,
+      setDeliveryMethod,
       items,
       count: items.reduce((sum, item) => sum + item.quantity, 0),
       subtotal,
       discount,
       shipping,
-      total: Math.max(0, subtotal - discount) + shipping,
+      total,
       coupon,
       add,
       remove,
@@ -133,7 +157,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
       openCart,
       closeCart,
     };
-  }, [items, coupon, add, remove, setQuantity, clear, isCartOpen, openCart, closeCart]);
+  }, [
+    deliveryMethod,
+    items,
+    coupon,
+    add,
+    remove,
+    setQuantity,
+    clear,
+    isCartOpen,
+    openCart,
+    closeCart,
+  ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

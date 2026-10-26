@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 
 export function OrderSummary({
   subtotal,
@@ -18,6 +18,7 @@ export function OrderSummary({
   actionTo?: string;
   onAction?: () => void;
 }) {
+  const { formatPrice, formatTotal } = useCurrency();
   return (
     <aside className="border border-[#E5E5E5] bg-white p-8">
       <h2 className="mb-8 text-[18px] font-semibold uppercase tracking-[0.2em] text-[#1A1A1A]">
@@ -40,7 +41,7 @@ export function OrderSummary({
         </div>
         <div className="mt-6 flex justify-between border-t border-[#E5E5E5] pt-6 text-[14px]">
           <dt className="font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">Total</dt>
-          <dd className="font-bold text-[#1A1A1A]">{formatPrice(total)}</dd>
+          <dd className="font-bold text-[#1A1A1A]">{formatTotal(subtotal, discount, shipping)}</dd>
         </div>
       </dl>
       

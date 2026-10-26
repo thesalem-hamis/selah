@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import type { Product, ProductFilters, Review, SortKey, Testimonial } from "@/types";
 import { ApiError } from "./http";
-import { getStorefrontProductPrice } from "../../supabase/functions/_shared/productPricing";
+import { productPriceNgn } from "@/lib/pricing";
 
 function sortKeyToSupabase(sort: SortKey) {
   switch (sort) {
@@ -45,7 +45,7 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     status: String(row["status"]) as Product["status"],
   };
 
-  return { ...product, price: getStorefrontProductPrice(product) };
+  return { ...product, price: productPriceNgn(product) };
 }
 
 export function applyFilters(list: Product[], filters: ProductFilters = {}) {
@@ -108,8 +108,7 @@ export const productService = {
     if (filters.inStockOnly) query = query.gt("stock", 0);
     if (filters.onSaleOnly) query = query.not("old_price", "is", null);
     if (filters.minRating !== undefined) query = query.gte("rating", filters.minRating);
-    if (filters.minPrice !== undefined) query = query.gte("price", filters.minPrice);
-    if (filters.maxPrice !== undefined) query = query.lte("price", filters.maxPrice);
+    // Apply price bounds below, after legacy prices have been normalized.
     if (filters.search) {
       query = query.or(
         `name.ilike.%${filters.search}%,slug.ilike.%${filters.search}%,sku.ilike.%${filters.search}%`,

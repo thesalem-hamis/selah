@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import type { ProductFilters } from "@/types";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 
@@ -37,6 +37,7 @@ function toggle(list: string[] | undefined, value: string) {
 }
 
 export function FilterPanel({ filters, onChange, onReset }: FilterPanelProps) {
+  const { formatPrice } = useCurrency();
   return (
     <div className="space-y-10">
       {/* Collections / Categories */}

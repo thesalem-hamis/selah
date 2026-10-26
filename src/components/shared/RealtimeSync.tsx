@@ -1,3 +1,4 @@
+import { productPriceNgn } from "@/lib/format";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
@@ -131,7 +132,7 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     details: Array.isArray(row.details) ? (row.details as string[]) : [],
     category: String(row.category),
     subcategory: String(row.subcategory ?? ""),
-    price: Number(row.price),
+    price: productPriceNgn({ name: String(row.name), category: String(row.category), subcategory: String(row.subcategory ?? ""), tags: Array.isArray(row.tags) ? row.tags as string[] : [], price: Number(row.price) }),
     oldPrice: row.old_price == null ? undefined : Number(row.old_price),
     sku: String(row.sku),
     stock: Number(row.stock),

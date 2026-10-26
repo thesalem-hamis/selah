@@ -1,3 +1,4 @@
+import { NGN_PER_UNIT, roundMoney } from "@/lib/pricing";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -31,7 +32,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { productService } from "@/services/productService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,7 @@ import { supabase } from "@/lib/supabase";
 export const Route = createFileRoute("/admin/products")({ component: ProductsAdmin });
 
 function ProductsAdmin() {
+  const { formatPrice } = useCurrency();
   const client = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "draft" | "archived">("all");
@@ -705,6 +707,7 @@ function ProductsAdmin() {
 
 // Add Product Modal Component
 function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { currency } = useCurrency();
   const client = useQueryClient();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -881,7 +884,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         details: ["Designed for everyday wear"],
         category,
         subcategory: String(formData.get("subcategory") ?? ""),
-        price: priceRaw,
+        price: roundMoney(priceRaw * NGN_PER_UNIT[currency]),
         oldPrice: undefined,
         sku: SKU,
         stock: Number(formData.get("stock") ?? 0),
@@ -986,7 +989,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               {/* Price */}
               <div>
                 <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Price (£) <span className="text-red-500">*</span>
+                  Price ({currency}) <span className="text-red-500">*</span>
                 </label>
                 <input
                   name="price"

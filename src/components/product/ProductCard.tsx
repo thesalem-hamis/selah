@@ -33,7 +33,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500"
           />
         </Link>
-        <button
+        {/* <button
           type="button"
           aria-label={`Add ${product.name} to cart`}
           title={`Quick add ${product.name}`}
@@ -49,7 +49,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           }}
         >
           <Plus aria-hidden="true" className="size-5" strokeWidth={1.7} />
-        </button>
+        </button> */}
       </div>
 
       <div className="flex flex-col items-center gap-1 px-1 text-center text-[#292724] font-sans">
