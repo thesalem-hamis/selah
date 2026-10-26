@@ -22,7 +22,7 @@ function PakistanJourney() {
       <main className="bg-[#f7f3e7] text-[#123e32]">
         <section className="relative isolate overflow-hidden bg-[#123e32] px-6 py-16 md:py-24">
           <img
-            src="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?q=80&w=2940&auto=format&fit=crop"
+            src="/paki.png"
             alt=""
             aria-hidden="true"
             className="absolute inset-0 z-0 h-full w-full object-cover object-center"

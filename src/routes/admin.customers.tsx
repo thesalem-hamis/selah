@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { customerService } from "@/services/customerService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -40,7 +40,8 @@ import type { Customer } from "@/types";
 
 export const Route = createFileRoute("/admin/customers")({ component: CustomersAdmin });
 
-function CustomersAdmin() { 
+function CustomersAdmin() {
+  const { formatPrice } = useCurrency();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'blocked'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'orders' | 'spent'>('orders');

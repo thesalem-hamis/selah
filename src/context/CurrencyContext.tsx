@@ -1,10 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { formatPrice as formatMoney, formatTotal as formatMoneyTotal } from "@/lib/format";
 import type { ReactNode } from "react";
 
 export type StoreCurrency = "GBP" | "USD" | "NGN" | "ESPEES";
 
 interface CurrencyContextValue {
   currency: StoreCurrency;
+  formatPrice: (value: number) => string;
+  formatTotal: (subtotal: number, discount: number, shipping: number) => string;
   setCurrency: (currency: StoreCurrency) => void;
 }
 
@@ -25,7 +28,15 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   }, [currency]);
 
   return (
-    <CurrencyContext.Provider value={{ currency, setCurrency }}>
+    <CurrencyContext.Provider
+      value={{
+        currency,
+        setCurrency,
+        formatPrice: (value) => formatMoney(value, currency),
+        formatTotal: (subtotal, discount, shipping) =>
+          formatMoneyTotal(subtotal, discount, shipping, currency),
+      }}
+    >
       {children}
     </CurrencyContext.Provider>
   );

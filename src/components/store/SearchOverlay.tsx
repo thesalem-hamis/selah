@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Icon } from "@iconify/react";
 import { categories } from "@/data/catalog";
 import { productService } from "@/services/productService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import type { Product } from "@/types";
 
 const RECENT_KEY = "selah.recent-searches";
@@ -14,6 +14,7 @@ interface SearchOverlayProps {
 }
 
 export function SearchOverlay({ open, onClose }: SearchOverlayProps) {
+  const { formatPrice } = useCurrency();
   const navigate = useNavigate();
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<Product[]>([]);

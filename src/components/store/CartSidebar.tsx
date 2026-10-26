@@ -1,11 +1,12 @@
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useCart } from "@/context/CartContext";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { cn } from "@/lib/utils";
 
 export function CartSidebar() {
-  const { isCartOpen, closeCart, items, total, subtotal, remove, setQuantity } = useCart();
+  const { formatPrice } = useCurrency();
+  const { isCartOpen, closeCart, items, subtotal, remove, setQuantity } = useCart();
 
   return (
     <>
@@ -138,7 +139,7 @@ export function CartSidebar() {
           <div className="border-t border-[#E5E5E5] bg-[#FDFDFD] p-6">
             <div className="mb-6 flex items-center justify-between">
               <span className="text-[13px] font-bold tracking-[0.1em] text-[#1A1A1A]">SUBTOTAL</span>
-              <span className="text-[14px] font-medium text-[#1A1A1A]">{formatPrice(total)}</span>
+              <span className="text-[14px] font-medium text-[#1A1A1A]">{formatPrice(subtotal)}</span>
             </div>
             <p className="mb-6 text-[11px] text-gray-500">
               Shipping, taxes, and discounts calculated at checkout.

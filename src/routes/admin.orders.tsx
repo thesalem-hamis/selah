@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { orderService } from "@/services/orderService";
 import type { OrderStatus, PaymentStatus } from "@/types";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,8 @@ import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/orders")({ component: OrdersAdmin });
 
-function OrdersAdmin() { 
+function OrdersAdmin() {
+  const { formatPrice } = useCurrency();
   const client = useQueryClient(); 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<'all' | OrderStatus>('all');

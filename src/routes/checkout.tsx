@@ -1,3 +1,4 @@
+import { deliveryCost } from "@/lib/pricing";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
@@ -6,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { orderService } from "@/services/orderService";
 import { paymentService } from "@/services/paymentService";
 import { customerService } from "@/services/customerService";
-import { formatPrice } from "@/lib/format";
+import { useCurrency } from "@/context/CurrencyContext";
 import { HelpCircle, ChevronDown, ChevronUp, MessageCircle, ShoppingBag } from "lucide-react";
 import { ShipIcon, PickupIcon } from "@/components/store/Icons";
 import { cn } from "@/lib/utils";
@@ -45,12 +46,15 @@ const COUNTRIES = [
 ];
 
 export function CheckoutPage() {
+  const { formatPrice, formatTotal, currency } = useCurrency();
   const cart = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
-  const [deliveryType, setDeliveryType] = useState<"ship" | "pickup">("ship");
-  const [shippingMethod, setShippingMethod] = useState<string>("london");
+  const deliveryType = cart.deliveryMethod === "London Boutique Pickup" ? "pickup" : "ship";
+  const shippingMethod = cart.deliveryMethod === "Lekki Phase 1 / Island Axis" ? "lekki" : cart.deliveryMethod === "Lagos Mainland" ? "mainland" : "london";
+  const setDeliveryType = (type: "ship" | "pickup") => cart.setDeliveryMethod(type === "pickup" ? "London Boutique Pickup" : "London Standard Delivery");
+  const setShippingMethod = (method: string) => cart.setDeliveryMethod(method === "lekki" ? "Lekki Phase 1 / Island Axis" : method === "mainland" ? "Lagos Mainland" : "London Standard Delivery");
   const [paymentMethod, setPaymentMethod] = useState<"flutterwave" | "espees">("flutterwave");
   const [billingOption, setBillingOption] = useState<"same" | "different">("same");
   const [mobileSummaryOpen, setMobileSummaryOpen] = useState(false);
@@ -124,16 +128,8 @@ export function CheckoutPage() {
     );
   }
 
-  const shippingCost =
-    deliveryType === "pickup"
-      ? 0
-      : shippingMethod === "london"
-      ? 5000
-      : shippingMethod === "lekki"
-      ? 7000
-      : 9000;
-
-  const finalTotal = Math.max(0, cart.subtotal - cart.discount) + shippingCost;
+  const shippingCost = cart.shipping;
+  const finalTotal = cart.total;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -223,7 +219,7 @@ export function CheckoutPage() {
               {mobileSummaryOpen ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
             </div>
             <span className="text-base font-medium">
-              {formatPrice(finalTotal)}
+              {formatTotal(cart.subtotal, cart.discount, shippingCost)}
             </span>
           </button>
 
@@ -265,6 +261,7 @@ export function CheckoutPage() {
                   <span>Subtotal</span>
                   <span>{formatPrice(cart.subtotal)}</span>
                 </div>
+                {cart.discount > 0 && <div className="flex justify-between"><span>Discount</span><span>−{formatPrice(cart.discount)}</span></div>}
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span>{shippingCost === 0 ? "Free" : formatPrice(shippingCost)}</span>
@@ -460,7 +457,7 @@ export function CheckoutPage() {
                           <p className="text-xs text-gray-500">42 Carnaby Street Hub • 2–3 Days</p>
                         </div>
                       </div>
-                      <span className="text-sm font-semibold">₦5,000.00</span>
+                      <span className="text-sm font-semibold">{formatPrice(deliveryCost("London Standard Delivery", cart.subtotal)) }</span>
                     </label>
 
                     <label
@@ -482,7 +479,7 @@ export function CheckoutPage() {
                           <p className="text-xs text-gray-500">Same Day Express Delivery</p>
                         </div>
                       </div>
-                      <span className="text-sm font-semibold">₦7,000.00</span>
+                      <span className="text-sm font-semibold">{formatPrice(deliveryCost("Lekki Phase 1 / Island Axis", cart.subtotal)) }</span>
                     </label>
 
                     <label
@@ -504,7 +501,7 @@ export function CheckoutPage() {
                           <p className="text-xs text-gray-500">Same Day Express Delivery</p>
                         </div>
                       </div>
-                      <span className="text-sm font-semibold">₦9,000.00</span>
+                      <span className="text-sm font-semibold">{formatPrice(deliveryCost("Lagos Mainland", cart.subtotal)) }</span>
                     </label>
                   </div>
                 </div>
@@ -796,13 +793,15 @@ export function CheckoutPage() {
                 </div>
               </div>
 
+              {cart.discount > 0 && <div className="flex justify-between text-sm"><span>Discount</span><span>−{formatPrice(cart.discount)}</span></div>}
+              {paymentMethod === "flutterwave" && currency !== "NGN" && <p className="text-xs text-gray-500">Flutterwave processes payment in NGN. Your selected currency is used to display prices.</p>}
               {/* Total Summary */}
               <div className="flex justify-between items-center pt-4 border-t border-gray-300">
                 <span className="text-base font-medium text-[#1A1A1A]">Total</span>
                 <div className="text-right">
-                  <span className="text-xs text-gray-500 mr-1.5">NGN</span>
+                  <span className="text-xs text-gray-500 mr-1.5">{currency}</span>
                   <span className="text-xl font-semibold text-[#1A1A1A]">
-                    {formatPrice(finalTotal)}
+                    {formatTotal(cart.subtotal, cart.discount, shippingCost)}
                   </span>
                 </div>
               </div>
