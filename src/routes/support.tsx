@@ -5,7 +5,7 @@ export const Route = createFileRoute("/support")({ component: SupportPage });
 
 const topics = [
   ["Shipping", "Shipping options and delivery estimates are shown at checkout for your delivery address. We will send an order confirmation once your purchase is placed."],
-  ["Orders and payments", "Review your order details in your account. Checkout currently offers Flutterwave and Espees transfer; Espees instructions are provided during checkout."],
+  ["Orders and payments", "Review your order details in your account. Checkout offers Flutterwave and Espees transfer. For Espees, account details appear on the order page after checkout; after transferring, report your payment and attach your receipt in WhatsApp. Your payment remains pending until we verify it."],
   ["Refunds and returns", "For help with a return or refund, contact our team with your order number so we can guide you through the next steps."],
 ];
 

@@ -8,7 +8,7 @@ import { orderService } from "@/services/orderService";
 import { paymentService } from "@/services/paymentService";
 import { customerService } from "@/services/customerService";
 import { useCurrency } from "@/context/CurrencyContext";
-import { HelpCircle, ChevronDown, ChevronUp, MessageCircle, ShoppingBag } from "lucide-react";
+import { HelpCircle, ChevronDown, ChevronUp, ShoppingBag } from "lucide-react";
 import { ShipIcon, PickupIcon } from "@/components/store/Icons";
 import { cn } from "@/lib/utils";
 
@@ -167,7 +167,7 @@ export function CheckoutPage() {
             : shippingMethod === "lekki"
             ? "Lekki Phase 1 / Island Axis"
             : "Lagos Mainland",
-        paymentMethod: paymentMethod === "flutterwave" ? "Flutterwave" : "Espees Transfer",
+        paymentMethod: paymentMethod,
         items: cart.items,
         subtotal: cart.subtotal,
         discount: cart.discount,
@@ -568,22 +568,6 @@ export function CheckoutPage() {
                       <img src="/espees.png" alt="Espees" className="h-7 w-auto object-contain" />
                     </label>
 
-                    {paymentMethod === "espees" && (
-                      <div className="mt-4 p-4 bg-purple-50/60 rounded-md border border-purple-100 text-center space-y-2">
-                        <p className="text-xs text-purple-900">
-                          To make payment using Espees, send us a direct message to receive our official account wallet address.
-                        </p>
-                        <a
-                          href="https://wa.me/447835941243?text=Hello%20Selah%20Girl%20Society,%20I%20would%20like%20to%20get%20your%20Espees%20account%20details%20for%20my%20checkout"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-xs font-semibold text-purple-700 hover:text-purple-900 underline pt-1"
-                        >
-                          <MessageCircle className="size-4" />
-                          Send a chat to get account details
-                        </a>
-                      </div>
-                    )}
                   </div>
 
                 </div>
@@ -724,7 +708,11 @@ export function CheckoutPage() {
                 disabled={busy}
                 className="selah-button flex h-14 w-full items-center justify-center rounded-md bg-[#0066CC] text-base font-medium text-white shadow transition-colors hover:bg-[#0055b3] disabled:opacity-50"
               >
-                {busy ? "Processing..." : `Pay now`}
+                {busy
+                  ? "Processing..."
+                  : paymentMethod === "espees"
+                    ? "Continue to Espees payment"
+                    : "Pay now"}
               </button>
 
               <div className="flex flex-wrap gap-4 text-xs text-blue-600 pt-2">
