@@ -30,7 +30,7 @@ function CartPage() {
             </p>
             <Link
               to="/shop"
-              className="selah-button inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-base font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#E5348A]"
+              className="selah-button selah-button--outline inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-base font-semibold uppercase tracking-[0.2em] text-white transition-colors hover:bg-[#E5348A]"
             >
               Continue Shopping
             </Link>
@@ -50,7 +50,7 @@ function CartPage() {
                     </div>
                   </Link>
 
-                  <div className="flex min-w-0 flex-1 flex-col justify-between">
+                  <div className="cart-page__details">
                     <div>
                       <div className="flex justify-between items-start gap-4">
                         <Link
@@ -113,6 +113,9 @@ function CartPage() {
                 actionLabel="PROCEED TO CHECKOUT"
                 actionTo="/checkout"
               />
+              <Link to="/shop" className="cart-page__continue selah-button selah-button--outline">
+                Continue Shopping
+              </Link>
             </div>
           </div>
         )}

@@ -48,7 +48,7 @@ export function CartSidebar() {
                 </p>
                 <button
                   onClick={closeCart}
-                  className="selah-button inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
+                  className="selah-button selah-button--outline inline-flex h-12 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
                 >
                   Continue Shopping
                 </button>
@@ -67,14 +67,14 @@ export function CartSidebar() {
                     </div>
 
                     {/* Item Details */}
-                    <div className="flex min-w-0 flex-1 flex-col justify-between">
+                    <div className="cart-drawer__details">
                       <div>
                         <div className="flex justify-between items-start gap-3">
                           <Link
                             to="/product/$slug"
                             params={{ slug: item.slug }}
                             onClick={closeCart}
-                            className="text-[13px] font-medium uppercase text-[#1A1A1A] hover:text-[#E5348A] transition-colors"
+                            className="cart-drawer__name font-medium uppercase text-[#1A1A1A] hover:text-[#E5348A] transition-colors"
                           >
                             {item.name}
                           </Link>
@@ -86,13 +86,13 @@ export function CartSidebar() {
                             <Trash2 className="size-4" strokeWidth={1.5} />
                           </button>
                         </div>
-                        <p className="mt-1 text-[11px] text-gray-500 uppercase">
+                        <p className="cart-drawer__size text-gray-500 uppercase">
                           Size: <span className="text-[#1A1A1A] font-semibold">{item.size}</span>
                         </p>
                       </div>
 
                       {/* Quantity Controls & Price */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 mt-4">
+                      <div className="cart-drawer__item-bottom">
                         <div className="cart-drawer__quantity">
                           <button
                             className="flex h-full w-8 items-center justify-center text-[#1A1A1A] hover:bg-black/5 transition-colors"
@@ -114,7 +114,7 @@ export function CartSidebar() {
                             <Plus className="size-3" strokeWidth={1.5} />
                           </button>
                         </div>
-                        <p className="text-[13px] font-medium text-[#1A1A1A]">
+                        <p className="cart-drawer__price font-medium text-[#1A1A1A]">
                           {formatPrice(item.price * item.quantity)}
                         </p>
                       </div>
@@ -128,7 +128,7 @@ export function CartSidebar() {
           {/* Footer / Checkout Section */}
           {items.length > 0 && (
             <div className="cart-drawer__footer">
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-3 flex items-center justify-between">
                 <span className="text-[13px] font-bold tracking-[0.1em] text-[#1A1A1A]">
                   SUBTOTAL
                 </span>
@@ -142,10 +142,17 @@ export function CartSidebar() {
               <Link
                 to="/cart"
                 onClick={closeCart}
-                className="selah-button flex h-12 md:h-14 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
+                className="selah-button flex h-8 md:h-12 w-full items-center justify-center bg-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#E5348A]"
               >
                 Checkout
               </Link>
+              <button
+                type="button"
+                onClick={closeCart}
+                className="cart-drawer__continue selah-button selah-button--outline"
+              >
+                Continue Shopping
+              </button>
             </div>
           )}
         </Dialog.Content>
