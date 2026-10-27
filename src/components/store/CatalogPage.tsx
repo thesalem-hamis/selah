@@ -102,7 +102,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
   return (
     <div className={`catalog-page mx-auto w-full max-w-[1600px] px-3 py-10 sm:px-6 md:py-16 lg:px-10${is828Selection ? " catalog-page--828" : ""}`}>
       {!baseFilters?.category && (
-        <nav className="catalog-tabs mb-7 -mx-3 overflow-x-auto border-b border-[#d8d2ca] px-3 sm:mx-0 sm:px-0" role="tablist" aria-label="Shop categories">
+        <nav className="catalog-tabs mb-3 -mx-3 overflow-x-auto border-b border-[#d8d2ca] px-3 sm:mx-0 sm:px-0" role="tablist" aria-label="Shop categories">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -166,7 +166,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
             products={visibleProducts}
             reviews={reviewsQuery.data ?? {}}
             loading={query.isLoading || reviewsQuery.isLoading}
-            columns={4}
+            columns={3}
             viewMode={viewMode}
           />
         )}

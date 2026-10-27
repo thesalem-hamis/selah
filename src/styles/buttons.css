@@ -34,6 +34,13 @@
   border-color: #c91d72 !important;
   color: white !important;
 }
+/* Outline variant keeps the shared button sizing and typography. */
+.selah-button.selah-button--outline,
+.selah-button.selah-button--outline:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: transparent !important;
+  border-color: var(--selah-pink, #e5348a) !important;
+  color: var(--selah-pink, #e5348a) !important;
+}
 .selah-button:focus-visible {
   outline: 2px solid var(--selah-pink, #e5348a) !important;
   outline-offset: 4px !important;
