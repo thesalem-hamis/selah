@@ -41,7 +41,7 @@
   height: 145px;
   border-radius: 16px;
   padding: 2px;
-  background: #f9eef3;
+  /* background: #f9eef3; */
   overflow: hidden;
 }
 .cart-page__name {
