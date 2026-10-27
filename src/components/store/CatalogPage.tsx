@@ -73,10 +73,6 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
     { id: "all", label: "All" },
     { id: "828", label: "828" },
     { id: "white-tees", label: "White baby tees" },
-    ...categories.map((category) => ({
-      id: `category:${category}`,
-      label: category.replace(/[-_]+/g, " "),
-    })),
   ];
   const visibleProducts = (query.data ?? []).filter((product) => {
     if (activeTab === "828") return is828Product(product);
