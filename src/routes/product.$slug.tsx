@@ -1,69 +1,81 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  ArrowLeft,
-  Heart,
-  Star,
-  ChevronRight,
-  ChevronLeft,
-  ChevronDown
-} from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, ChevronRight, ChevronLeft, Plus, Minus } from "lucide-react";
 import { useState } from "react";
 import { StoreLayout } from "@/components/store/StoreLayout";
-import { ProductGrid } from "@/components/product/ProductGrid";
+
 import { productService } from "@/services/productService";
 import { useCart } from "@/context/CartContext";
-import { formatProductPrice, is828Product } from "@/lib/format";
-import type { Product, Review } from "@/types";
+import { formatProductPrice, formatPrice, productPriceNgn, is828Product } from "@/lib/format";
+import type { Product } from "@/types";
 import { cn } from "@/lib/utils";
-import { useWishlist } from "@/context/WishlistContext";
 import { useCurrency } from "@/context/CurrencyContext";
 import "@/styles/product.css";
 
 export const Route = createFileRoute("/product/$slug")({
-  component: ProductPage
+  component: ProductRoute,
 });
 
-function AccordionItem({ title, children, defaultOpen = false }: { title: string, children: React.ReactNode, defaultOpen?: boolean }) {
+function AccordionItem({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-[#E5E5E5]">
+    <div className="product-detail__accordion">
       <button
-        className="w-full py-5 flex justify-between items-center text-[13px] text-[#1A1A1A] hover:text-[#777777] transition-colors"
+        className="w-full py-6 flex justify-between items-center gap-4 text-left text-[11px] uppercase tracking-[0.14em] transition-colors hover:text-[#e5348a]"
+        aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{title}</span>
-        <ChevronDown className={cn("size-4 transition-transform", isOpen && "rotate-180")} strokeWidth={1.5} />
+        {isOpen ? (
+          <Minus className="size-4 shrink-0" strokeWidth={1.5} />
+        ) : (
+          <Plus className="size-4 shrink-0" strokeWidth={1.5} />
+        )}
       </button>
-      {isOpen && (
-        <div className="pb-5 text-[13px] text-[#444444] leading-relaxed">
-          {children}
-        </div>
-      )}
+      {isOpen && <div className="pb-5 text-[13px] text-[#444444] leading-relaxed">{children}</div>}
     </div>
-  )
+  );
+}
+
+function ProductRoute() {
+  const { slug } = Route.useParams();
+  return <ProductPage key={slug} />;
 }
 
 function ProductPage() {
   const { slug } = Route.useParams();
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const productQuery = useQuery({
     queryKey: ["product", slug],
-    queryFn: () => productService.bySlug(slug)
+    queryFn: () => productService.bySlug(slug),
   });
 
   const product = productQuery.data;
+  console.log(product);
   const { currency } = useCurrency();
   const { add } = useCart();
-  const { has, toggle } = useWishlist();
 
   const handleAddToCart = () => {
-    if (!product) return;
+    if (
+      !product ||
+      product.stock <= 0 ||
+      (product.sizes.length > 0 && !product.sizes.includes(selectedSize))
+    )
+      return;
     add(product, {
       size: selectedSize || (product.sizes && product.sizes[0]) || "",
-      color: "Default",
+      color: product.colors[0]?.name ?? "Default",
       quantity: 1,
     });
   };
@@ -87,7 +99,7 @@ function ProductPage() {
           </p>
           <h1
             className="mb-8 text-4xl text-[#1A1A1A] md:text-5xl"
-            style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 500 }}
           >
             We couldn't find that piece.
           </h1>
@@ -104,75 +116,72 @@ function ProductPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-12 md:py-20">
-        <Link
-          to="/shop"
-          className="left-6 top-8 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777] transition-colors hover:text-[#1A1A1A] lg:left-12 lg:top-12"
-        >
-          <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
-        </Link>
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
-
-          {/* Left Column - Product Info & Accordion */}
-          <div className="lg:col-span-3 order-2 lg:order-1 space-y-12 pt-4">
-            <div>
-              <h1 className="text-[13px] text-[#1A1A1A] mb-1">{product.name}</h1>
-              <p className="text-[13px] text-[#1A1A1A]">{formatProductPrice(product, currency)}</p>
-            </div>
-
-            <div className="border-t border-[#E5E5E5]">
-              <AccordionItem title="Product Details" defaultOpen>
-                <ul className="space-y-2">
+      <div className="product-page" key={product.id}>
+        <div className="product-detail">
+          <aside className="product-detail__story">
+            <Link to="/shop" className="product-detail__back">
+              <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
+            </Link>
+            <div className="product-detail__description">
+              <p className="product-detail__eyebrow">{product.category}</p>
+              <p className="product-detail__intro">{product.description}</p>
+              {product.details.length > 0 && (
+                <ul className="product-detail__features">
                   {product.details.map((detail, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="mr-3 block mt-1.5 h-[3px] w-[3px] bg-[#1A1A1A]" />
-                      {detail}
-                    </li>
+                    <li key={index}>{detail}</li>
                   ))}
-                  {product.details.length === 0 && (
-                    <li className="flex items-start">{product.description}</li>
-                  )}
                 </ul>
-              </AccordionItem>
+              )}
+            </div>
+            <div className="product-detail__accordions">
               <AccordionItem title="Sizing">
-                <p>
-                  True to size. We recommend sizing up for a more relaxed fit.
-                </p>
+                <p>True to size. We recommend sizing up for a more relaxed fit.</p>
               </AccordionItem>
               <AccordionItem title="Delivery and Returns">
                 <p>
-                  Complimentary standard shipping on all orders. Returns are accepted within 30 days of delivery.
+                  Complimentary standard shipping on all orders. Returns are accepted within 30 days
+                  of delivery.
                 </p>
               </AccordionItem>
             </div>
-          </div>
+          </aside>
 
           {/* Center Column - Main Image */}
-          <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col gap-4">
-            <div className={`product-detail__image w-full relative flex items-center justify-center overflow-hidden aspect-[4/5] group ${is828Product(product) ? "bg-[#f1ece3]" : "bg-[#f7f5f2]"}`}>
+          <div className="product-detail__gallery">
+            <div
+              className={`product-detail__image w-full relative flex items-center justify-center overflow-hidden aspect-[4/5] group ${is828Product(product) ? "bg-[#f1ece3]" : "bg-[#f7f5f2]"}`}
+            >
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
                 alt={product.name}
                 className="h-full w-full object-contain mix-blend-multiply transition-opacity duration-300"
               />
-              
+
               {product.images.length > 1 && (
                 <>
                   <button
-                    onClick={() => setActiveImageIndex((prev) => (prev === 0 ? product.images.length - 1 : prev - 1))}
+                    onClick={() =>
+                      setActiveImageIndex((prev) =>
+                        prev === 0 ? product.images.length - 1 : prev - 1,
+                      )
+                    }
                     className="absolute left-4 top-1/2 -translate-y-1/2 flex size-10 items-center justify-center rounded-full bg-white/80 text-[#1A1A1A] opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="size-5" strokeWidth={1.5} />
                   </button>
                   <button
-                    onClick={() => setActiveImageIndex((prev) => (prev === product.images.length - 1 ? 0 : prev + 1))}
+                    onClick={() =>
+                      setActiveImageIndex((prev) =>
+                        prev === product.images.length - 1 ? 0 : prev + 1,
+                      )
+                    }
                     className="absolute right-4 top-1/2 -translate-y-1/2 flex size-10 items-center justify-center rounded-full bg-white/80 text-[#1A1A1A] opacity-0 transition-opacity hover:bg-white group-hover:opacity-100"
                     aria-label="Next image"
                   >
                     <ChevronRight className="size-5" strokeWidth={1.5} />
                   </button>
-                  
+
                   {/* Indicator dots */}
                   <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 opacity-0 transition-opacity group-hover:opacity-100">
                     {product.images.map((_, i) => (
@@ -180,7 +189,7 @@ function ProductPage() {
                         key={i}
                         className={cn(
                           "block size-1.5 rounded-full transition-colors",
-                          i === activeImageIndex ? "bg-[#1A1A1A]" : "bg-[#1A1A1A]/30"
+                          i === activeImageIndex ? "bg-[#1A1A1A]" : "bg-[#1A1A1A]/30",
                         )}
                       />
                     ))}
@@ -190,33 +199,69 @@ function ProductPage() {
             </div>
           </div>
 
-          {/* Right Column - Size & Add to Bag */}
-          <div className="lg:col-span-3 order-3 lg:order-3 pt-4">
-            <div className="space-y-6">
-              {product.sizes && product.sizes.length > 0 && (
-                <div className="border border-[#E5E5E5] relative h-12">
-                  <select
-                    className="w-full h-full px-4 appearance-none text-[12px] text-[#1A1A1A] bg-transparent outline-none cursor-pointer"
-                    value={selectedSize}
-                    onChange={(e) => setSelectedSize(e.target.value)}
-                  >
-                    <option value="" disabled>Select Size</option>
-                    {product.sizes.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <div className="absolute right-4 top-0 h-full flex items-center pointer-events-none text-[#1A1A1A]">
-                    <ChevronDown className="size-4" strokeWidth={1.5} />
-                  </div>
-                </div>
-              )}
-
-              <button
-                onClick={handleAddToCart}
-                className="selah-button w-full h-12 bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-black/80"
-              >
-                ADD TO BAG
-              </button>
+          <section className="product-detail__purchase" aria-label="Product options">
+            <div>
+              <h1>{product.name}</h1>
+              <p className="product-detail__eyebrow">{product.subcategory || product.category}</p>
             </div>
-          </div>
+            <div className="product-detail__pricing">
+              <div className="product-detail__prices">
+                <span className="product-detail__price">
+                  {formatProductPrice(product, currency)}
+                </span>
+                {/* {currency !== "ESPEES" && (
+                  <span className="product-detail__conversion">
+                    ≈ {formatProductPrice(product, "ESPEES")}
+                  </span>
+                )} */}
+                {product.oldPrice && product.oldPrice > productPriceNgn(product) ? (
+                  <del>{formatPrice(product.oldPrice, currency)}</del>
+                ) : null}
+              </div>
+            </div>
+            {product.sizes.length > 0 && (
+              <div>
+                <div className="product-detail__size-heading">
+                  <span>Select size</span>
+                  <button
+                    type="button"
+                    onClick={() => setSizeGuideOpen(!sizeGuideOpen)}
+                    aria-expanded={sizeGuideOpen}
+                  >
+                    Sizing
+                  </button>
+                </div>
+                <div className="product-detail__sizes" role="group" aria-label="Select size">
+                  {product.sizes.map((size) => (
+                    <button
+                      type="button"
+                      key={size}
+                      aria-pressed={selectedSize === size}
+                      onClick={() => setSelectedSize(size)}
+                      className={cn(selectedSize === size && "is-selected")}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                {sizeGuideOpen && (
+                  <p className="product-detail__fit-note">
+                    True to size. We recommend sizing up for a more relaxed fit.
+                  </p>
+                )}
+              </div>
+            )}
+            <button
+              onClick={handleAddToCart}
+              disabled={
+                product.stock <= 0 ||
+                (product.sizes.length > 0 && !product.sizes.includes(selectedSize))
+              }
+              className="selah-button product-detail__add"
+            >
+              ADD TO BAG
+            </button>
+          </section>
         </div>
 
         {/* Related Products */}
@@ -229,18 +274,20 @@ function ProductPage() {
 function Related({ product }: { product: Product }) {
   const query = useQuery({
     queryKey: ["related", product.id],
-    queryFn: () => productService.related(product)
+    queryFn: () => productService.related(product),
   });
 
   return (
-    <div className="mt-32 border-t border-[#E5E5E5] pt-20">
-      <div className="mb-12 flex items-end justify-between">
-        <h2
-          className="text-3xl text-[#1A1A1A] md:text-4xl"
-          style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
-        >
-          You May Also Like
-        </h2>
+    <section className="product-related">
+      <div className="product-related__heading">
+        <div>
+          <h2
+            className="product-related__title"
+            style={{ fontFamily: "var(--font-selah)", fontWeight: 500 }}
+          >
+            You May Also Like
+          </h2>
+        </div>
         <Link
           to="/shop"
           className="hidden items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:opacity-60 transition-opacity md:flex"
@@ -249,7 +296,52 @@ function Related({ product }: { product: Product }) {
           <ChevronRight className="size-4" strokeWidth={1.5} />
         </Link>
       </div>
-      <ProductGrid products={query.data ?? []} columns={4} />
-    </div>
+      <div className="product-related__grid">
+        {(query.data ?? []).slice(0, 4).map((item) => (
+          <RelatedCard key={item.id} product={item} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RelatedCard({ product }: { product: Product }) {
+  const { currency } = useCurrency();
+  const { add } = useCart();
+  return (
+    <article className="product-related__card">
+      <div className="product-related__image">
+        <Link to="/product/$slug" params={{ slug: product.slug }}>
+          <img src={product.images[0]} alt={product.name} loading="lazy" />
+        </Link>
+        {product.stock > 0 && (
+          <div className="product-related__quick">
+            <span>Quick add</span>
+            {(product.sizes.length ? product.sizes : ["One Size"]).map((size) => (
+              <button
+                key={size}
+                type="button"
+                aria-label={`Add ${product.name}, size ${size} to bag`}
+                onClick={() =>
+                  add(product, { size, color: product.colors[0]?.name ?? "Default", quantity: 1 })
+                }
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="product-related__caption">
+        <Link to="/product/$slug" params={{ slug: product.slug }}>
+          {product.name}
+        </Link>
+        <span>{formatProductPrice(product, currency)}</span>
+        <p>{product.subcategory || product.category}</p>
+        {product.oldPrice && product.oldPrice > productPriceNgn(product) ? (
+          <del>{formatPrice(product.oldPrice, currency)}</del>
+        ) : null}
+      </div>
+    </article>
   );
 }
