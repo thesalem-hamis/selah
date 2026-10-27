@@ -20,7 +20,7 @@ export function OrderSummary({
 }) {
   const { formatPrice, formatTotal } = useCurrency();
   return (
-    <aside className="border border-[#E5E5E5] bg-white p-8">
+    <aside className="order-summary border border-[#E5E5E5] bg-white p-8 font-sans">
       <h2 className="mb-8 text-[18px] font-semibold uppercase tracking-[0.2em] text-[#1A1A1A]">
         Order Summary
       </h2>
@@ -37,14 +37,16 @@ export function OrderSummary({
         )}
         <div className="flex justify-between">
           <dt className="text-[#777777]">SHIPPING</dt>
-          <dd className="font-medium text-[#1A1A1A]">{shipping ? formatPrice(shipping) : "FREE"}</dd>
+          <dd className="font-medium text-[#1A1A1A]">
+            {shipping ? formatPrice(shipping) : "FREE"}
+          </dd>
         </div>
         <div className="mt-6 flex justify-between border-t border-[#E5E5E5] pt-6 text-[14px]">
           <dt className="font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">Total</dt>
           <dd className="font-bold text-[#1A1A1A]">{formatTotal(subtotal, discount, shipping)}</dd>
         </div>
       </dl>
-      
+
       {actionLabel && (
         <div className="mt-8">
           {actionTo ? (

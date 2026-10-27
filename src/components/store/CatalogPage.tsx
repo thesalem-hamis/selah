@@ -121,7 +121,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
           ))}
         </nav>
       )}
-      <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-4 mb-8 text-[12px]">
+      {/* <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-4 mb-8 text-[12px]">
         <div className="font-medium text-[#1A1A1A]">
           {title} {!baseFilters?.category && "+"}
         </div>
@@ -152,7 +152,7 @@ export function CatalogPage({ eyebrow, title, description, baseFilters, viewMode
             </SheetContent>
           </Sheet>
         </div>
-      </div>
+      </div> */}
 
       <div>
         {query.isError ? (

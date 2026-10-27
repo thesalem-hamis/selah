@@ -379,11 +379,7 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
         <div className="selah-header__inner">
           <div className="selah-header__row">
             <div className="selah-header__mobile-menu">
-              <details
-                ref={mobileMenuRef}
-                className="selah-menu-details"
-                onToggle={syncMobileMenu}
-              >
+              <details ref={mobileMenuRef} className="selah-menu-details" onToggle={syncMobileMenu}>
                 <summary
                   aria-label={menuOpen ? "Close menu" : "Open menu"}
                   aria-controls="store-menu"
@@ -443,17 +439,21 @@ export function SiteHeader({ onSearch }: SiteHeaderProps) {
                 aria-label={`Bag, ${count} items`}
                 className="selah-header__action  selah-header__cart"
               >
-                <BagIcon className={`selah-header__icon${bump ? " is-bumping" : ""} sm:hidden`} />
-                <span>Cart ({count})</span>
+                <BagIcon className={`selah-header__icon${bump ? " is-bumping" : ""} md:hidden`} />
+                <span className="selah-header__cart-label">Cart</span>
                 {count > 0 && (
-                  <span className={`selah-header__count${bump ? " is-bumping" : ""}`}>{count}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`selah-header__count${bump ? " is-bumping" : ""}`}
+                  >
+                    {count}
+                  </span>
                 )}
               </button>
             </div>
           </div>
         </div>
       </header>
-
     </>
   );
 }

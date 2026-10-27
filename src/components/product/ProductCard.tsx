@@ -24,7 +24,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         className,
       )}
     >
-      <div className="product-card__image relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparent p-0 sm:aspect-[4/5] sm:p-[7%]">
+      <div className="  relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparet p-0 sm:aspect-4/5 sm:p-[7%]">
         <Link to="/product/$slug" params={{ slug: product.slug }} className="block h-full w-full">
           <img
             src={product.images[0]}
