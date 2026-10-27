@@ -26,6 +26,7 @@ function AccordionItem({
   defaultOpen?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+
   return (
     <div className="product-detail__accordion">
       <button
@@ -52,7 +53,9 @@ function ProductRoute() {
 
 function ProductPage() {
   const { slug } = Route.useParams();
-  const [selectedSize, setSelectedSize] = useState<string>("");
+
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
@@ -65,6 +68,11 @@ function ProductPage() {
   console.log(product);
   const { currency } = useCurrency();
   const { add } = useCart();
+
+  const colors = (product?.colors ?? []).filter(
+    (color): color is NonNullable<typeof color> =>
+      Boolean(color && typeof color.name === "string" && color.name.trim()),
+  );
 
   const handleAddToCart = () => {
     if (
@@ -97,12 +105,14 @@ function ProductPage() {
           <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
             Piece unavailable
           </p>
+
           <h1
             className="mb-8 text-4xl text-[#1A1A1A] md:text-5xl"
             style={{ fontFamily: "var(--font-selah)", fontWeight: 500 }}
           >
             We couldn't find that piece.
           </h1>
+
           <Link
             to="/shop"
             className="selah-button inline-flex h-14 items-center justify-center bg-[#1A1A1A] px-10 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-black/80"
@@ -137,6 +147,7 @@ function ProductPage() {
               <AccordionItem title="Sizing">
                 <p>True to size. We recommend sizing up for a more relaxed fit.</p>
               </AccordionItem>
+
               <AccordionItem title="Delivery and Returns">
                 <p>
                   Complimentary standard shipping on all orders. Returns are accepted within 30 days
@@ -170,6 +181,7 @@ function ProductPage() {
                   >
                     <ChevronLeft className="size-5" strokeWidth={1.5} />
                   </button>
+
                   <button
                     onClick={() =>
                       setActiveImageIndex((prev) =>
@@ -184,12 +196,15 @@ function ProductPage() {
 
                   {/* Indicator dots */}
                   <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 opacity-0 transition-opacity group-hover:opacity-100">
-                    {product.images.map((_, i) => (
-                      <span
-                        key={i}
+                    {product.images.map((_, index) => (
+                      <button
+                        type="button"
+                        key={index}
+                        onClick={() => setActiveImageIndex(index)}
+                        aria-label={`View image ${index + 1}`}
                         className={cn(
                           "block size-1.5 rounded-full transition-colors",
-                          i === activeImageIndex ? "bg-[#1A1A1A]" : "bg-[#1A1A1A]/30",
+                          index === activeImageIndex ? "bg-[#1A1A1A]" : "bg-[#1A1A1A]/30",
                         )}
                       />
                     ))}

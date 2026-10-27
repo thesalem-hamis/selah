@@ -6,6 +6,9 @@ export type ProductPriceFields = {
   tags: readonly string[];
 };
 
+export const NGN_PER_GBP = 1400;
+export const TEE_PRICE_NGN = 21_000;
+
 export function isTeeProduct(product: ProductPriceFields) {
   const productText = [
     product.name,
@@ -27,5 +30,9 @@ export function isTeeProduct(product: ProductPriceFields) {
 export function getStorefrontProductPrice(
   product: ProductPriceFields & { price: number },
 ) {
-  return isTeeProduct(product) ? 15 : product.price;
+  return isTeeProduct(product) ? TEE_PRICE_NGN : product.price;
+}
+
+export function toGbpAmount(amountNgn: number) {
+  return Math.round((amountNgn / NGN_PER_GBP + Number.EPSILON) * 100) / 100;
 }
