@@ -127,9 +127,12 @@ function ProductPage() {
   return (
     <StoreLayout>
       <div className="product-page" key={product.id}>
+        <Link to="/shop" className="product-detail__back product-detail__back--mobile">
+          <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
+        </Link>
         <div className="product-detail">
           <aside className="product-detail__story">
-            <Link to="/shop" className="product-detail__back">
+            <Link to="/shop" className="product-detail__back product-detail__back--desktop">
               <ArrowLeft className="size-4" strokeWidth={1.5} /> BACK TO SHOP
             </Link>
             <div className="product-detail__description">

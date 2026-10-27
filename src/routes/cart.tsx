@@ -5,6 +5,8 @@ import { OrderSummary } from "@/components/shared/OrderSummary";
 import { useCart } from "@/context/CartContext";
 import { useCurrency } from "@/context/CurrencyContext";
 
+import "@/styles/cart-page.css";
+
 export const Route = createFileRoute("/cart")({ component: CartPage });
 
 function CartPage() {
@@ -13,14 +15,12 @@ function CartPage() {
 
   return (
     <StoreLayout>
-      <div className="container-page py-12 md:py-20 font-sans">
-        <header className="mb-12 flex flex-col items-center text-center">
+      <div className="container-page cart-page">
+        <header className="cart-page__heading">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#E5348A]">
             Your Selection
           </p>
-          <h1 className="text-3xl md:text-5xl font-light uppercase tracking-wide text-[#1A1A1A]">
-            Shopping Bag
-          </h1>
+          <h1 className="cart-page__title">Shopping Bag</h1>
         </header>
 
         {cart.items.length === 0 ? (
@@ -36,65 +36,66 @@ function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-12 lg:grid-cols-[1fr_380px] lg:gap-20">
+          <div className="cart-page__layout">
             <div className="border-t border-black/10">
               {cart.items.map((item) => (
-                <article
-                  key={item.id}
-                  className="flex gap-6 border-b border-black/10 py-8"
-                >
+                <article key={item.id} className="cart-page__item">
                   <Link to="/product/$slug" params={{ slug: item.slug }} className="shrink-0">
-                    <div className="h-40 w-32 bg-[#FDF0F5] p-1 flex items-center justify-center">
+                    <div className="cart-page__image">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full bg-transparent object-contain mix-blend-multiply"
                       />
                     </div>
                   </Link>
-                  
-                  <div className="flex flex-1 flex-col justify-between">
+
+                  <div className="flex min-w-0 flex-1 flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start gap-4">
                         <Link
                           to="/product/$slug"
                           params={{ slug: item.slug }}
-                          className="text-lg md:text-xl font-medium uppercase tracking-wide text-[#1A1A1A] hover:text-[#E5348A] transition-colors"
+                          className="cart-page__name"
                         >
                           {item.name}
                         </Link>
                         <button
                           aria-label={`Remove ${item.name}`}
                           onClick={() => cart.remove(item.id)}
-                          className="text-gray-400 transition-colors hover:text-[#E5348A]"
+                          className="cart-page__remove"
                         >
                           <Trash2 className="size-4" strokeWidth={1.5} />
                         </button>
                       </div>
-                      <p className="mt-2 text-sm md:text-base text-gray-500 uppercase tracking-wide">
+                      <p className="cart-page__size">
                         Size: <span className="text-[#1A1A1A] font-semibold">{item.size}</span>
                       </p>
                     </div>
 
-                    <div className="flex items-end justify-between mt-4">
-                      <div className="flex h-10 w-28 items-center border border-black/10 bg-white">
+                    <div className="cart-page__item-bottom">
+                      <div className="cart-page__quantity">
                         <button
                           className="flex h-full w-9 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-black/5"
+                          aria-label={`Decrease quantity of ${item.name}`}
+                          disabled={item.quantity <= 1}
                           onClick={() => cart.setQuantity(item.id, Math.max(1, item.quantity - 1))}
                         >
                           <Minus className="size-3" strokeWidth={1.5} />
                         </button>
-                        <span className="flex-1 text-center text-base font-semibold text-[#1A1A1A]">
+                        <span className="flex-1 text-center text-xs font-medium text-[#292724]">
                           {item.quantity}
                         </span>
                         <button
                           className="flex h-full w-9 items-center justify-center text-[#1A1A1A] transition-colors hover:bg-black/5"
+                          aria-label={`Increase quantity of ${item.name}`}
+                          disabled={item.quantity >= (item.stock || 99)}
                           onClick={() => cart.setQuantity(item.id, item.quantity + 1)}
                         >
                           <Plus className="size-3" strokeWidth={1.5} />
                         </button>
                       </div>
-                      <span className="text-base md:text-lg font-semibold tracking-wide text-[#1A1A1A]">
+                      <span className="cart-page__price">
                         {formatPrice(item.price * item.quantity)}
                       </span>
                     </div>

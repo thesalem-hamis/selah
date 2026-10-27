@@ -55,7 +55,7 @@ export function ProductGrid({
       className={cn(
         viewMode === "list"
           ? "grid grid-cols-1 gap-6"
-          : "grid grid-cols-2 gap-x-2 gap-y-6 sm:gap-x-4 md:grid-cols-3 md:gap-x-6",
+          : "grid grid-cols-2 gap-x-1.5 gap-y-6 sm:gap-x-4 md:grid-cols-3 md:gap-x-6",
         viewMode === "grid" && (columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"),
       )}
     >

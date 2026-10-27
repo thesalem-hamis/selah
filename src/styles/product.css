@@ -420,3 +420,17 @@
     aspect-ratio: 4 / 5;
   }
 }
+
+.product-detail__back--mobile {
+  display: none;
+}
+@media (max-width: 600px) {
+  .product-detail__back--mobile {
+    display: flex;
+    width: fit-content;
+    margin: 20px 24px;
+  }
+  .product-detail__back--desktop {
+    display: none;
+  }
+}
