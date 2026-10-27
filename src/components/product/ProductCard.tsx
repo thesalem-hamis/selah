@@ -19,12 +19,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
   return (
     <article
       className={cn(
-        "product-card group flex min-w-0 flex-col gap-2 sm:gap-3",
+        "product-card group flex min-w-0 flex-col gap-2 sm:gap-1",
         is828Product(product) && "product-card--828",
         className,
       )}
     >
-      <div className="  relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparet p-0 sm:aspect-4/5 sm:p-[7%]">
+      <div className=" bg-red-40 relative flex aspect-[1/1.12] w-full items-center justify-center overflow-hidden bg-transparet p-0 sm:aspect-4/5 ">
         <Link to="/product/$slug" params={{ slug: product.slug }} className="block h-full w-full">
           <img
             src={product.images[0]}
