@@ -249,39 +249,34 @@ function OrderPage() {
                   reference.
                 </p>
 
-                <dl className="mt-4 grid gap-3 rounded-md border border-purple-200 bg-white p-4 text-sm sm:grid-cols-2">
-                  <div>
-                    <dt className="text-xs text-gray-500">Account name</dt>
-                    <dd className="font-medium text-[#1A1A1A]">
-                      Selah Girl Society
-                    </dd>
-                  </div>
+               <dl className="mt-4 grid min-w-0 gap-3 rounded-md border border-purple-200 bg-white p-4 text-sm sm:grid-cols-2">
+  <div className="min-w-0">
+    <dt className="text-xs text-gray-500">Account name</dt>
+    <dd className="font-medium text-[#1A1A1A]">
+      Selah Girl Society
+    </dd>
+  </div>
 
-                  <div>
-                    <dt className="text-xs text-gray-500">
-                      Espees account / wallet
-                    </dt>
-                    <dd className="break-words font-medium text-[#1A1A1A]">
-                      ESPEES-WALLET-XXXX-XXXX
-                    </dd>
-                  </div>
+  <div className="min-w-0">
+    <dt className="text-xs text-gray-500">
+      Espees account / wallet
+    </dt>
+    <dd className="min-w-0 break-all font-medium text-[#1A1A1A]">
+      0xdca7767011b0cbeebb6e952da2d5a75384866ab7
+    </dd>
+  </div>
 
-                  <div className="sm:col-span-2">
-                    <dt className="text-xs text-gray-500">
-                      Payment reference
-                    </dt>
-                    <dd className="font-medium text-[#1A1A1A]">
-                      {order.reference}
-                    </dd>
-                  </div>
-                </dl>
+  <div className="min-w-0 sm:col-span-2">
+    <dt className="text-xs text-gray-500">
+      Payment reference
+    </dt>
+    <dd className="min-w-0 break-all font-medium text-[#1A1A1A]">
+      {order.reference}
+    </dd>
+  </div>
+</dl>
 
-                <p className="mt-3 text-xs text-amber-800">
-                  The wallet shown above is a placeholder. Replace it with
-                  Selah's official Espees account before accepting real
-                  payments. Your payment remains pending until the store
-                  verifies your transfer.
-                </p>
+             
 
                 {!espeesTransferReported ? (
                   <button
@@ -308,14 +303,14 @@ function OrderPage() {
                       <MessageCircle className="size-4" />
                       Send Cart with Receipt via WhatsApp
                     </a>
-
+{/* 
                     <p className="mt-3 text-xs leading-5 text-purple-900">
                       The message includes the customer's name, phone number,
                       email, delivery method, delivery address, every order
                       item, quantities, sizes, colors, and payment totals.
                       Attach the receipt manually in WhatsApp. Sending the
                       message does not automatically confirm payment.
-                    </p>
+                    </p> */}
                   </div>
                 )}
               </div>
