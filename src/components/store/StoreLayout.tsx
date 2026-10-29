@@ -20,7 +20,7 @@ export function StoreLayout({ children }: { children: ReactNode }) {
   const is828Selection = locationHref.includes("collection=828-series") || /\/product\/[^/?]*828/i.test(locationHref);
 
   return (
-      <div className={`storefront-shell flex min-h-screen flex-col bg-background${cleanProductChrome ? " storefront-shell--clean" : ""}${is828Selection ? " storefront-shell--828" : ""}`}>
+      <div className={`storefront-shell flex min-h-screen flex-col bg-background${pathname === "/about" ? " storefront-shell--about" : ""}${cleanProductChrome ? " storefront-shell--clean" : ""}${is828Selection ? " storefront-shell--828" : ""}`}>
         <SiteHeader onSearch={() => setSearchOpen(true)} />
         <main className={`storefront-main flex-1 ${pathname !== "/" ? "pt-16 md:pt-20" : ""}`}>
           {children}

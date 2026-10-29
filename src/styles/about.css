@@ -1006,3 +1006,30 @@
     justify-self: center;
   }
 }
+
+/* Place the story star in the section gap, clear of the copy. */
+.storefront-shell.storefront-shell--about {
+  background-size: 0, 55px, 28px;
+}
+
+.about-founders {
+  position: relative;
+}
+
+/* Shared floating stars use page-height offsets and can land on the story.
+   Use the section's star above instead. */
+.storefront-shell--about .storefront-heart--2,
+.storefront-shell--about .storefront-heart--3 {
+  display: none;
+}
+
+.about-founders::before {
+  content: "";
+  position: absolute;
+  top: -3rem;
+  right: 1rem;
+  width: 38px;
+  height: 38px;
+  background: url("/chrome2.png") center / contain no-repeat;
+  pointer-events: none;
+}
