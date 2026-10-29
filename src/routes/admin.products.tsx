@@ -1,3 +1,4 @@
+import { productDetails } from "@/lib/productDetails";
 import { NGN_PER_UNIT, roundMoney } from "@/lib/pricing";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -54,6 +55,7 @@ function ProductsAdmin() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -334,7 +336,9 @@ function ProductsAdmin() {
             <div className="p-6 border border-[#E5E5E5] bg-[#F9F9F9]">
               <div className="flex flex-wrap gap-4">
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">Status</label>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] block mb-3">
+                    Status
+                  </label>
                   <div className="flex gap-2 flex-wrap">
                     {(["all", "active", "draft", "archived"] as const).map((status) => (
                       <button
@@ -446,12 +450,18 @@ function ProductsAdmin() {
                       className="size-16 object-cover border border-[#E5E5E5]"
                     />
                     <div>
-                      <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">{product.name}</p>
-                      <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-[#777777]">{product.slug}</p>
+                      <p className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]">
+                        {product.name}
+                      </p>
+                      <p className="mt-1 text-[10px] uppercase tracking-[0.1em] text-[#777777]">
+                        {product.slug}
+                      </p>
                     </div>
                   </div>
                 </td>
-                <td className="p-4 text-[12px] font-bold text-[#1A1A1A]">{formatPrice(product.price)}</td>
+                <td className="p-4 text-[12px] font-bold text-[#1A1A1A]">
+                  {formatPrice(product.price)}
+                </td>
                 <td className="p-4">
                   <div className="flex items-center gap-2">
                     <span
@@ -494,6 +504,14 @@ function ProductsAdmin() {
                     </button>
                     <button
                       className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
+                      onClick={() => setEditingProduct(product)}
+                      title="Edit product"
+                      aria-label={`Edit ${product.name}`}
+                    >
+                      <Edit className="size-4" />
+                    </button>
+                    <button
+                      className="p-2 border border-transparent text-[#777777] hover:border-[#E5E5E5] hover:bg-[#F9F9F9] hover:text-[#1A1A1A] transition-all"
                       onClick={() => handleDuplicate(product.id)}
                       title="Duplicate product"
                     >
@@ -516,7 +534,9 @@ function ProductsAdmin() {
         {paginatedProducts.length === 0 && (
           <div className="p-12 text-center">
             <Package className="size-8 mx-auto mb-4 text-[#E5E5E5]" />
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">No products found</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+              No products found
+            </p>
           </div>
         )}
       </motion.div>
@@ -545,7 +565,7 @@ function ProductsAdmin() {
                   "size-8 flex items-center justify-center border text-[11px] font-bold transition-colors",
                   currentPage === page
                     ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
-                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:bg-[#F9F9F9]"
+                    : "border-[#E5E5E5] bg-white text-[#1A1A1A] hover:bg-[#F9F9F9]",
                 )}
               >
                 {page}
@@ -605,15 +625,25 @@ function ProductsAdmin() {
               </div>
               <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-3">
                 <div className="border border-[#E5E5E5] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Price</p>
-                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{formatPrice(selectedProduct.price)}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                    Price
+                  </p>
+                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">
+                    {formatPrice(selectedProduct.price)}
+                  </p>
                 </div>
                 <div className="border border-[#E5E5E5] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">Stock</p>
-                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{selectedProduct.stock}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                    Stock
+                  </p>
+                  <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">
+                    {selectedProduct.stock}
+                  </p>
                 </div>
                 <div className="border border-[#E5E5E5] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">SKU</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#777777]">
+                    SKU
+                  </p>
                   <p className="mt-2 text-[14px] font-bold text-[#1A1A1A]">{selectedProduct.sku}</p>
                 </div>
               </div>
@@ -631,7 +661,16 @@ function ProductsAdmin() {
       </AnimatePresence>
 
       {/* Add Product Modal */}
-      <AddProductModal isOpen={showAddProduct} onClose={() => setShowAddProduct(false)} />
+      {(showAddProduct || editingProduct) && (
+        <ProductFormModal
+          key={editingProduct?.id ?? "new"}
+          product={editingProduct ?? undefined}
+          onClose={() => {
+            setShowAddProduct(false);
+            setEditingProduct(null);
+          }}
+        />
+      )}
 
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
@@ -706,15 +745,21 @@ function ProductsAdmin() {
 }
 
 // Add Product Modal Component
-function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function ProductFormModal({ product, onClose }: { product?: Product; onClose: () => void }) {
+  const isOpen = true;
+  const [existingImages, setExistingImages] = useState(product?.images ?? []);
   const { currency } = useCurrency();
   const client = useQueryClient();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Array<{id: string, slug: string, name: string}>>([]);
+  const [categories, setCategories] = useState<Array<{ id: string; slug: string; name: string }>>(
+    [],
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewUrls = useRef<string[]>([]);
+  useEffect(() => () => previewUrls.current.forEach((url) => URL.revokeObjectURL(url)), []);
 
   // Use predefined collections instead of fetching old categories from the database
   useEffect(() => {
@@ -724,7 +769,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         { id: "ask-me-about-jesus", slug: "ask-me-about-jesus", name: "Ask Me About Jesus" },
         { id: "babe-i-love-jesus", slug: "babe-i-love-jesus", name: "Babe, I Love Jesus" },
         { id: "pretty-and-prayed-up", slug: "pretty-and-prayed-up", name: "Pretty And Prayed Up" },
-        { id: "selah-girl-society", slug: "selah-girl-society", name: "Selah Girl Society" }
+        { id: "selah-girl-society", slug: "selah-girl-society", name: "Selah Girl Society" },
       ];
       setCategories(definedCategories);
 
@@ -732,16 +777,16 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       const ensureCategoriesInDb = async () => {
         try {
           const { data: existing } = await supabase.from("categories").select("slug");
-          const existingSlugs = new Set(existing?.map(c => c.slug) || []);
-          
+          const existingSlugs = new Set(existing?.map((c) => c.slug) || []);
+
           const missingCategories = definedCategories
-            .filter(c => !existingSlugs.has(c.slug))
-            .map(c => ({
+            .filter((c) => !existingSlugs.has(c.slug))
+            .map((c) => ({
               name: c.name,
               slug: c.slug,
-              active: true
+              active: true,
             }));
-            
+
           if (missingCategories.length > 0) {
             await supabase.from("categories").insert(missingCategories);
           }
@@ -757,11 +802,12 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    const remainingSlots = 5 - imageFiles.length;
+    const remainingSlots = Math.max(0, 5 - existingImages.length - imageFiles.length);
     const filesToAdd = files.slice(0, remainingSlots);
 
     setImageFiles((prev) => [...prev, ...filesToAdd]);
     const newPreviews = filesToAdd.map((file) => URL.createObjectURL(file));
+    previewUrls.current.push(...newPreviews);
     setImagePreviews((prev) => [...prev, ...newPreviews]);
   };
 
@@ -776,37 +822,19 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
   const uploadImages = async (productId: string): Promise<string[]> => {
     if (imageFiles.length === 0) return [];
-    
+
     const uploaded: string[] = [];
-    try {
-      for (const file of imageFiles) {
-        const ext = file.name.split(".").pop() || "jpg";
-        const path = `products/${productId}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        
-        try {
-          const { error: uploadError } = await supabase.storage
-            .from("product-images")
-            .upload(path, file, { 
-              upsert: true,
-              contentType: file.type
-            });
-            
-          if (uploadError) {
-            console.error("Image upload failed:", uploadError);
-            continue;
-          }
-          
-          const { data } = supabase.storage.from("product-images").getPublicUrl(path);
-          if (data?.publicUrl) uploaded.push(data.publicUrl);
-        } catch (uploadError) {
-          console.error("Upload error:", uploadError);
-          continue;
-        }
-      }
-    } catch (error) {
-      console.error("Upload process error:", error);
+    for (const file of imageFiles) {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `products/${productId}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage.from("product-images").upload(path, file, {
+        contentType: file.type,
+      });
+      if (error) throw new Error(`Image upload failed: ${error.message}`);
+      const { data } = supabase.storage.from("product-images").getPublicUrl(path);
+      uploaded.push(data.publicUrl);
     }
-    
+
     return uploaded;
   };
 
@@ -822,19 +850,19 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       const name = String(formData.get("name")).trim();
       const priceRaw = Number(formData.get("price"));
       const category = String(formData.get("category") || "").trim();
-      
+
       if (!name) {
         setSubmitError("Product name is required.");
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!category) {
         setSubmitError("Please select a category.");
         setIsSubmitting(false);
         return;
       }
-      
+
       if (Number.isNaN(priceRaw) || priceRaw < 0) {
         setSubmitError("Enter a valid price.");
         setIsSubmitting(false);
@@ -845,7 +873,7 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
-      const id = `prd-${Date.now()}`;
+      const id = product?.id ?? `prd-${Date.now()}`;
       const SKU = String(formData.get("sku") || `SLH-${Date.now().toString(36).toUpperCase()}`);
 
       const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -856,63 +884,78 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           const [from, to] = sizeRangeRaw.split("-").map((s) => s.trim().toUpperCase());
           const fromIdx = sizeOrder.indexOf(from);
           const toIdx = sizeOrder.indexOf(to);
-          sizes = fromIdx >= 0 && toIdx >= 0 && fromIdx <= toIdx
-            ? sizeOrder.slice(fromIdx, toIdx + 1)
-            : sizeOrder;
+          sizes =
+            fromIdx >= 0 && toIdx >= 0 && fromIdx <= toIdx
+              ? sizeOrder.slice(fromIdx, toIdx + 1)
+              : sizeOrder;
         } else {
-          sizes = sizeRangeRaw.split(",").map((s) => s.trim().toUpperCase()).filter(Boolean);
+          sizes = sizeRangeRaw
+            .split(",")
+            .map((s) => s.trim().toUpperCase())
+            .filter(Boolean);
         }
       } else {
         sizes = ["XS", "S", "M", "L", "XL", "XXL"];
       }
 
-      let imageUrls: string[] = [];
-      try {
-        imageUrls = await uploadImages(id);
-      } catch (error) {
-        console.error("Image upload failed, using placeholder:", error);
-      }
-      
+      const imageUrls = [...existingImages, ...(await uploadImages(id))];
       if (imageUrls.length === 0) {
-        imageUrls = ["https://placehold.co/600x800?text=Selah"];
+        imageUrls.push("https://placehold.co/600x800?text=Selah");
       }
 
-      const created = await productService.create({
+      const input = {
         name,
-        slug,
+        slug: product?.slug ?? slug,
         description: String(formData.get("description") ?? ""),
-        details: ["Designed for everyday wear"],
+        details: productDetails({
+          name,
+          category,
+          subcategory: String(formData.get("subcategory") ?? ""),
+          colors: product?.colors ?? [],
+          details: product?.details ?? [],
+        }),
         category,
         subcategory: String(formData.get("subcategory") ?? ""),
-        price: roundMoney(priceRaw * NGN_PER_UNIT[currency]),
-        oldPrice: undefined,
+        price:
+          product && priceRaw === roundMoney(product.price / NGN_PER_UNIT[currency])
+            ? product.price
+            : roundMoney(priceRaw * NGN_PER_UNIT[currency]),
+        oldPrice: product?.oldPrice,
         sku: SKU,
         stock: Number(formData.get("stock") ?? 0),
         sizes: sizes,
-        colors: [],
+        colors: product?.colors ?? [],
         images: imageUrls,
-        tags: [],
-        rating: 0,
-        reviewsCount: 0,
-        featured: false,
-        bestSeller: false,
-        newArrival: true,
-        status: "active",
-      });
+        tags: product?.tags ?? [],
+        rating: product?.rating ?? 0,
+        reviewsCount: product?.reviewsCount ?? 0,
+        featured: product?.featured ?? false,
+        bestSeller: product?.bestSeller ?? false,
+        newArrival: product?.newArrival ?? true,
+        status: String(formData.get("status") ?? "active") as Product["status"],
+      };
+      const created = product
+        ? await productService.update(product.id, input)
+        : await productService.create(input);
 
       client.setQueryData<Product[]>(["admin-products"], (prev) =>
-        prev ? [created, ...prev] : [created],
+        prev
+          ? product
+            ? prev.map((item) => (item.id === created.id ? created : item))
+            : [created, ...prev]
+          : [created],
       );
       client.setQueryData(["product", created.slug], created);
 
+      await client.invalidateQueries();
       onClose();
       setImageFiles([]);
       setImagePreviews([]);
       form.reset();
     } catch (error) {
-      console.error("Failed to create product:", error);
+      console.error("Failed to save product:", error);
       setSubmitError(
-        error instanceof Error ? error.message : "Failed to create product. Please try again.",
+        error instanceof Error ? error.message : "Failed to save product. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
@@ -929,7 +972,8 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           exit={{ opacity: 0 }}
         >
           <button
-            aria-label="Close add product"
+            aria-label="Close product form"
+            disabled={isSubmitting}
             className="absolute inset-0 bg-[#1A1A1A]/80 backdrop-blur-sm"
             onClick={onClose}
           />
@@ -944,20 +988,25 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             {/* Header */}
             <div className="flex items-start justify-between mb-8 border-b border-[#E5E5E5] pb-6">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">Catalogue</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1A1A1A]">
+                  Catalogue
+                </p>
                 <h2
                   className="mt-4 text-3xl md:text-4xl text-[#1A1A1A]"
                   style={{ fontFamily: "var(--font-selah)", fontWeight: 300 }}
                 >
-                  Add New Product
+                  {product ? "Edit Product" : "Add New Product"}
                 </h2>
                 <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#777777]">
-                  Fill in the details below to create a new product
+                  {product
+                    ? "Update the details below and save your changes"
+                    : "Fill in the details below to create a new product"}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onClose}
+                disabled={isSubmitting}
                 className="p-3 border border-transparent hover:border-[#E5E5E5] hover:bg-[#F9F9F9] transition-colors"
               >
                 <X className="size-5 text-[#1A1A1A]" />
@@ -972,188 +1021,262 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             )}
 
             {/* Form Fields */}
-            <div className="grid gap-6 sm:grid-cols-2">
-              {/* Product Name */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Product Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  name="name"
-                  required
-                  placeholder="ENTER PRODUCT NAME"
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
-                />
-              </div>
+            <fieldset disabled={isSubmitting}>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {/* Product Name */}
+                <div className="sm:col-span-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Product Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    name="name"
+                    defaultValue={product?.name}
+                    required
+                    placeholder="ENTER PRODUCT NAME"
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+                  />
+                </div>
 
-              {/* Price */}
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Price ({currency}) <span className="text-red-500">*</span>
-                </label>
-                <input
-                  name="price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  required
-                  placeholder="0.00"
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
-                />
-              </div>
+                {/* Price */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Price ({currency}) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    name="price"
+                    defaultValue={
+                      product ? roundMoney(product.price / NGN_PER_UNIT[currency]) : undefined
+                    }
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    required
+                    placeholder="0.00"
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+                  />
+                </div>
 
-              {/* Stock */}
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Stock <span className="text-red-500">*</span>
-                </label>
-                <input
-                  name="stock"
-                  type="number"
-                  min="0"
-                  required
-                  placeholder="0"
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
-                />
-              </div>
+                {/* Stock */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Stock <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    name="stock"
+                    defaultValue={product?.stock}
+                    type="number"
+                    min="0"
+                    required
+                    placeholder="0"
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+                  />
+                </div>
 
-              {/* Size Range */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Size Range
-                </label>
-                <input
-                  name="sizeRange"
-                  type="text"
-                  placeholder="E.G. XS-XL OR XS, S, M, L, XL"
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
-                />
-                <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
-                  Enter a range (XS-XL) or comma-separated sizes. Defaults to XS-XXL if left empty.
-                </p>
-              </div>
+                {/* Size Range */}
+                <div className="sm:col-span-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Size Range
+                  </label>
+                  <input
+                    name="sizeRange"
+                    defaultValue={product?.sizes.join(", ")}
+                    type="text"
+                    placeholder="E.G. XS-XL OR XS, S, M, L, XL"
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+                  />
+                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                    Enter a range (XS-XL) or comma-separated sizes. Defaults to XS-XXL if left
+                    empty.
+                  </p>
+                </div>
 
-              {/* Category - Dynamic Dropdown */}
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Collection <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="category"
-                  required
-                  defaultValue=""
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
-                >
-                  <option value="" disabled>SELECT A COLLECTION</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.slug}>
-                      {cat.name.toUpperCase()}
+                {/* Category - Dynamic Dropdown */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Collection <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="category"
+                    required
+                    defaultValue={product?.category ?? ""}
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
+                  >
+                    <option value="" disabled>
+                      SELECT A COLLECTION
                     </option>
-                  ))}
-                </select>
-              </div>
+                    {product?.category &&
+                      !categories.some((cat) => cat.slug === product.category) && (
+                        <option value={product.category}>{product.category}</option>
+                      )}
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.slug}>
+                        {cat.name.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Subcategory - General Category */}
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Category <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="subcategory"
-                  required
-                  defaultValue=""
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
-                >
-                  <option value="" disabled>SELECT A CATEGORY</option>
-                  <option value="tops">TOPS</option>
-                  <option value="bottoms">BOTTOMS</option>
-                  <option value="dresses">DRESSES</option>
-                  <option value="outerwear">OUTERWEAR</option>
-                  <option value="accessories">ACCESSORIES</option>
-                  <option value="jewelry">JEWELRY</option>
-                  <option value="bags">BAGS</option>
-                </select>
-              </div>
+                {/* Subcategory - General Category */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Category <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="subcategory"
+                    required
+                    defaultValue={product?.subcategory ?? ""}
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] focus:border-[#1A1A1A] focus:outline-none transition-colors appearance-none"
+                  >
+                    <option value="" disabled>
+                      SELECT A CATEGORY
+                    </option>
+                    {product?.subcategory &&
+                      ![
+                        "tops",
+                        "bottoms",
+                        "dresses",
+                        "outerwear",
+                        "accessories",
+                        "jewelry",
+                        "bags",
+                      ].includes(product.subcategory) && (
+                        <option value={product.subcategory}>{product.subcategory}</option>
+                      )}
+                    <option value="tops">TOPS</option>
+                    <option value="bottoms">BOTTOMS</option>
+                    <option value="dresses">DRESSES</option>
+                    <option value="outerwear">OUTERWEAR</option>
+                    <option value="accessories">ACCESSORIES</option>
+                    <option value="jewelry">JEWELRY</option>
+                    <option value="bags">BAGS</option>
+                  </select>
+                </div>
 
-              {/* SKU */}
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">SKU</label>
-                <input
-                  name="sku"
-                  placeholder="AUTO-GENERATED IF EMPTY"
-                  className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
-                />
-              </div>
+                {/* SKU */}
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    SKU
+                  </label>
+                  <input
+                    name="sku"
+                    defaultValue={product?.sku}
+                    placeholder="AUTO-GENERATED IF EMPTY"
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-[12px] uppercase tracking-[0.1em] text-[#1A1A1A] placeholder:text-[#BBBBBB] focus:border-[#1A1A1A] focus:outline-none transition-colors"
+                  />
+                </div>
 
-              {/* Description */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  name="description"
-                  required
-                  placeholder="ENTER PRODUCT DESCRIPTION"
-                  className="w-full min-h-32 px-4 py-4 border border-[#E5E5E5] bg-white text-[12px] tracking-[0.05em] text-[#1A1A1A] placeholder:text-[#BBBBBB] placeholder:uppercase placeholder:tracking-[0.1em] focus:border-[#1A1A1A] focus:outline-none transition-colors resize-none"
-                />
-              </div>
+                <div>
+                  <label
+                    className="text-[11px] font-bold uppercase tracking-[0.1em] mb-3 block"
+                    htmlFor="product-status"
+                  >
+                    Status
+                  </label>
+                  <select
+                    id="product-status"
+                    name="status"
+                    defaultValue={product?.status ?? "active"}
+                    className="w-full h-12 px-4 border border-[#E5E5E5] bg-white text-sm"
+                  >
+                    <option value="active">Active</option>
+                    <option value="draft">Draft</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+                {/* Description */}
+                <div className="sm:col-span-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-3 block">
+                    Description <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    name="description"
+                    defaultValue={product?.description}
+                    required
+                    placeholder="ENTER PRODUCT DESCRIPTION"
+                    className="w-full min-h-32 px-4 py-4 border border-[#E5E5E5] bg-white text-[12px] tracking-[0.05em] text-[#1A1A1A] placeholder:text-[#BBBBBB] placeholder:uppercase placeholder:tracking-[0.1em] focus:border-[#1A1A1A] focus:outline-none transition-colors resize-none"
+                  />
+                </div>
 
-              {/* Image Upload */}
-              <div className="sm:col-span-2">
-                <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-4 block">Product Images</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {imagePreviews.map((preview, index) => (
-                    <div key={index} className="relative group border border-[#E5E5E5]">
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-32 object-cover"
-                      />
+                {/* Image Upload */}
+                <div className="sm:col-span-2">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] mb-4 block">
+                    Product Images
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {existingImages.map((url, index) => (
+                      <div key={`${url}-${index}`} className="relative border border-[#E5E5E5]">
+                        <img
+                          src={url}
+                          alt={`Product image ${index + 1}`}
+                          className="w-full h-32 object-cover"
+                        />
+                        <button
+                          type="button"
+                          aria-label={`Remove image ${index + 1}`}
+                          onClick={() =>
+                            setExistingImages((images) => images.filter((_, i) => i !== index))
+                          }
+                          className="absolute top-2 right-2 p-2 bg-red-600 text-white"
+                        >
+                          <X className="size-4" />
+                        </button>
+                      </div>
+                    ))}
+                    {imagePreviews.map((preview, index) => (
+                      <div key={index} className="relative group border border-[#E5E5E5]">
+                        <img
+                          src={preview}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-32 object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="absolute top-2 right-2 p-2 bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="size-4" />
+                        </button>
+                        {index === 0 && (
+                          <span className="absolute bottom-2 left-2 px-3 py-1 bg-[#1A1A1A] text-white text-[9px] font-bold uppercase tracking-[0.2em]">
+                            Main
+                          </span>
+                        )}
+                      </div>
+                    ))}
+
+                    {existingImages.length + imageFiles.length < 5 && (
                       <button
                         type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 p-2 bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="h-32 border border-dashed border-[#BBBBBB] flex flex-col items-center justify-center gap-3 hover:border-[#1A1A1A] hover:bg-[#F9F9F9] transition-all"
                       >
-                        <X className="size-4" />
-                      </button>
-                      {index === 0 && (
-                        <span className="absolute bottom-2 left-2 px-3 py-1 bg-[#1A1A1A] text-white text-[9px] font-bold uppercase tracking-[0.2em]">
-                          Main
+                        <ImagePlus className="size-6 text-[#777777]" />
+                        <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                          Add Image
                         </span>
-                      )}
-                    </div>
-                  ))}
-
-                  {imageFiles.length < 5 && (
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="h-32 border border-dashed border-[#BBBBBB] flex flex-col items-center justify-center gap-3 hover:border-[#1A1A1A] hover:bg-[#F9F9F9] transition-all"
-                    >
-                      <ImagePlus className="size-6 text-[#777777]" />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">Add Image</span>
-                    </button>
-                  )}
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
+                    Upload up to 5 images. First image will be used as the main product image.
+                  </p>
                 </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-                <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-[#777777]">
-                  Upload up to 5 images. First image will be used as the main product image.
-                </p>
               </div>
-            </div>
-
+            </fieldset>
             {/* Actions */}
             <div className="mt-10 pt-6 border-t border-[#E5E5E5] flex flex-col sm:flex-row gap-4 justify-end">
               <button
                 type="button"
                 onClick={onClose}
+                disabled={isSubmitting}
                 className="w-full sm:w-auto px-8 h-12 border border-[#E5E5E5] bg-white text-[11px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A] hover:bg-[#F9F9F9] transition-colors"
               >
                 Cancel
@@ -1166,12 +1289,12 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 {isSubmitting ? (
                   <>
                     <Loader2 className="size-4 animate-spin" />
-                    Creating...
+                    {product ? "Saving..." : "Creating..."}
                   </>
                 ) : (
                   <>
                     <Plus className="size-4" />
-                    Create Product
+                    {product ? "Save Changes" : "Create Product"}
                   </>
                 )}
               </button>
@@ -1182,4 +1305,3 @@ function AddProductModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     </AnimatePresence>
   );
 }
-

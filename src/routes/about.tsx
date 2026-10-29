@@ -52,9 +52,9 @@ function About() {
               <br />
               set-apart girl.
             </h1>
-            <p className="about-intro__description">
+            {/* <p className="about-intro__description">
               Everyday pieces. Eternal purpose. A society of women wearing what they believe.
-            </p>
+            </p> */}
             <a href="#founders-note" className="about-intro__link">
               Get to know Selah <ArrowUpRight size={17} aria-hidden="true" />
             </a>

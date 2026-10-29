@@ -1,3 +1,4 @@
+import { productDetails } from "@/lib/productDetails";
 import { supabase } from "@/lib/supabase";
 import type { Product, ProductFilters, Review, SortKey, Testimonial } from "@/types";
 import { ApiError } from "./http";
@@ -45,7 +46,7 @@ function mapSupabaseProduct(row: Record<string, unknown>): Product {
     status: String(row["status"]) as Product["status"],
   };
 
-  return { ...product, price: productPriceNgn(product) };
+  return { ...product, details: productDetails(product), price: productPriceNgn(product) };
 }
 
 export function applyFilters(list: Product[], filters: ProductFilters = {}) {
@@ -181,14 +182,28 @@ export const productService = {
   async related(product: Product) {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");
-    const { data, error } = await client
-      .from("products")
-      .select("*")
-      .eq("category", product.category)
-      .neq("id", product.id)
-      .limit(4);
-    if (error) throw new ApiError(error.message, 400);
-    return (data ?? []).map(mapSupabaseProduct);
+    const related: Product[] = [];
+    // Collections can contain a single tee. Fill remaining slots from other
+    // collections in the same clothing category, then the active catalogue.
+    const scopes = ["collection", "subcategory", "catalogue"] as const;
+    for (const scope of scopes) {
+      if (related.length === 4) break;
+      if (scope === "subcategory" && !product.subcategory) continue;
+
+      let query = client.from("products").select("*").eq("status", "active").neq("id", product.id);
+      for (const item of related) query = query.neq("id", item.id);
+      if (scope === "collection") query = query.eq("category", product.category);
+      if (scope === "subcategory") query = query.eq("subcategory", product.subcategory);
+
+      const { data, error } = await query
+        .order("featured", { ascending: false })
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: true })
+        .limit(4 - related.length);
+      if (error) throw new ApiError(error.message, 400);
+      related.push(...(data ?? []).map(mapSupabaseProduct));
+    }
+    return related;
   },
 
   async reviews(productId: string) {
@@ -226,11 +241,7 @@ export const productService = {
       body: payload.body,
       date: new Date().toISOString().split("T")[0],
     };
-    const { data, error } = await client
-      .from("reviews")
-      .insert(review)
-      .select("*")
-      .single();
+    const { data, error } = await client.from("reviews").insert(review).select("*").single();
     if (error) throw new ApiError(error.message, 400);
     return {
       id: String(data["id"]),
@@ -269,7 +280,7 @@ export const productService = {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");
     const id = `prd-${Date.now()}`;
-    
+
     // Explicitly map all fields to snake_case for Supabase
     const payload = {
       id,
@@ -294,7 +305,7 @@ export const productService = {
       new_arrival: input.newArrival,
       status: input.status,
     };
-    
+
     const { data, error } = await client.from("products").insert(payload).select("*").single();
     if (error) throw new ApiError(error.message, 400);
     return mapSupabaseProduct(data);
@@ -303,10 +314,10 @@ export const productService = {
   async update(id: string, patch: Partial<Product>) {
     const client = supabase;
     if (!client) throw new Error("Supabase is not configured");
-    
+
     // Explicitly map all fields to snake_case for Supabase
     const payload: Record<string, unknown> = {};
-    
+
     if (patch.slug !== undefined) payload["slug"] = patch.slug;
     if (patch.name !== undefined) payload["name"] = patch.name;
     if (patch.description !== undefined) payload["description"] = patch.description;
@@ -327,7 +338,7 @@ export const productService = {
     if (patch.bestSeller !== undefined) payload["best_seller"] = patch.bestSeller;
     if (patch.newArrival !== undefined) payload["new_arrival"] = patch.newArrival;
     if (patch.status !== undefined) payload["status"] = patch.status;
-    
+
     const { data, error } = await client
       .from("products")
       .update(payload)
@@ -355,7 +366,7 @@ export const productService = {
       .eq("id", id)
       .single();
     if (sourceError || !source) throw new ApiError("Product not found", 404);
-    
+
     // Create a clean copy with only snake_case fields
     const copy = {
       id: `prd-${Date.now()}`,
@@ -380,7 +391,7 @@ export const productService = {
       new_arrival: source["new_arrival"],
       status: "draft",
     };
-    
+
     const { data, error } = await client.from("products").insert(copy).select("*").single();
     if (error) throw new ApiError(error.message, 400);
     return mapSupabaseProduct(data);
